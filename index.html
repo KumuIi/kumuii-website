@@ -3,91 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Developer Portfolio</title>
+    <meta name="description" content="Christopher Perov (kumuii) - Game Developer, Embedded Systems Engineer & 3D Artist Portfolio">
+    <title>kumuii | Christopher Perov</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav class="navbar">
-    <div class="nav-container">
-        <h1 class="logo">YourName</h1>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+<!-- Header -->
+<header>
+    <div class="header-content">
+        <div class="logo">kumuii.dev</div>
+        <a href="mailto:contact@kumuii.dev" class="contact-link">Contact</a>
     </div>
-</nav>
+</header>
 
-<section id="hero">
+<!-- Animated Flowers -->
+<div class="flower left">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="30" r="12" fill="#FF6584"/>
+        <circle cx="35" cy="45" r="12" fill="#FF6584"/>
+        <circle cx="65" cy="45" r="12" fill="#FF6584"/>
+        <circle cx="50" cy="60" r="12" fill="#FF6584"/>
+        <circle cx="50" cy="45" r="10" fill="#FFD93D"/>
+        <rect x="48" y="60" width="4" height="40" fill="#4ECDC4"/>
+    </svg>
+</div>
+<div class="flower left-2">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="30" r="12" fill="#6C63FF"/>
+        <circle cx="35" cy="45" r="12" fill="#6C63FF"/>
+        <circle cx="65" cy="45" r="12" fill="#6C63FF"/>
+        <circle cx="50" cy="60" r="12" fill="#6C63FF"/>
+        <circle cx="50" cy="45" r="10" fill="#FFD93D"/>
+        <rect x="48" y="60" width="4" height="40" fill="#4ECDC4"/>
+    </svg>
+</div>
+<div class="flower right">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="30" r="12" fill="#4ECDC4"/>
+        <circle cx="35" cy="45" r="12" fill="#4ECDC4"/>
+        <circle cx="65" cy="45" r="12" fill="#4ECDC4"/>
+        <circle cx="50" cy="60" r="12" fill="#4ECDC4"/>
+        <circle cx="50" cy="45" r="10" fill="#FFD93D"/>
+        <rect x="48" y="60" width="4" height="40" fill="#4ECDC4"/>
+    </svg>
+</div>
+<div class="flower right-2">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="30" r="12" fill="#FF6584"/>
+        <circle cx="35" cy="45" r="12" fill="#FF6584"/>
+        <circle cx="65" cy="45" r="12" fill="#FF6584"/>
+        <circle cx="50" cy="60" r="12" fill="#FF6584"/>
+        <circle cx="50" cy="45" r="10" fill="#FFD93D"/>
+        <rect x="48" y="60" width="4" height="40" fill="#4ECDC4"/>
+    </svg>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <!-- 3D Canvas Placeholder (Three.js will render here) -->
+    <div class="canvas-container">
+        <canvas id="three-canvas"></canvas>
+    </div>
+
+    <!-- Hero Content -->
     <div class="hero-content">
-        <h1>Developer & Creator</h1>
-        <p>Game Development | Embedded Systems | Automation</p>
-        <a href="#projects" class="cta-button">View My Work</a>
-    </div>
-</section>
+        <p class="greeting">Hi, I'm</p>
+        <h1>Christopher Perov<br><span class="highlight">kumuii</span></h1>
+        <p class="subtitle">Game Developer • Embedded Systems Engineer • 3D Artist</p>
 
-<section id="about">
-    <div class="container">
-        <h2>About Me</h2>
-        <p>I'm a developer specializing in game development with Unity, embedded systems programming, and automation. Currently pursuing vocational training in application development while working on various technical projects.</p>
-    </div>
-</section>
+        <div class="skills">
+            <span class="skill-tag">Unity & C#</span>
+            <span class="skill-tag">Arduino/ESP32</span>
+            <span class="skill-tag">Blender 3D</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Game Design</span>
+        </div>
 
-<section id="skills">
-    <div class="container">
-        <h2>Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>Game Development</h3>
-                <p>Unity, C#, Blender</p>
-            </div>
-            <div class="skill-card">
-                <h3>Programming</h3>
-                <p>Python, C++, PHP, HTML/CSS</p>
-            </div>
-            <div class="skill-card">
-                <h3>Embedded Systems</h3>
-                <p>Arduino, ESP32, Raspberry Pi</p>
-            </div>
-            <div class="skill-card">
-                <h3>Tools</h3>
-                <p>Git, JetBrains IDEs, VS Code</p>
-            </div>
+        <div class="nav-buttons">
+            <a href="/resume" class="btn btn-primary">View Resume</a>
+            <a href="/projects" class="btn btn-secondary">My Projects</a>
+        </div>
+
+        <div class="social-links">
+            <a href="https://github.com/kumuii" class="social-link" target="_blank" rel="noopener" title="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="mailto:contact@kumuii.dev" class="social-link" title="Email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+            </a>
         </div>
     </div>
+
+    <div class="scroll-indicator"></div>
 </section>
 
-<section id="projects">
-    <div class="container">
-        <h2>Projects</h2>
-        <div class="project-grid">
-            <div class="project-card">
-                <h3>Unity Game Project</h3>
-                <p>2D/3D game with dialogue systems and player movement mechanics</p>
-            </div>
-            <div class="project-card">
-                <h3>Arduino Automation</h3>
-                <p>Motor control and sensor integration</p>
-            </div>
-            <div class="project-card">
-                <h3>Python Scripts</h3>
-                <p>Automation tools for mouse control and screen analysis</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="contact">
-    <div class="container">
-        <h2>Contact</h2>
-        <p>Email: chripers08@gmail.com</p>
-        <p>GitHub: github.com/kumuii</p>
-    </div>
-</section>
-
-<footer>
-    <p>&copy; 2026 KumuIi. All rights reserved.</p>
-</footer>
+<!-- Three.js will be added here in next steps -->
+<script>
+    // Placeholder for Three.js initialization
+    console.log('Ready for Three.js integration');
+</script>
 </body>
 </html>

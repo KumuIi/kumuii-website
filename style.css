@@ -28,10 +28,56 @@ header {
     top: 0;
     width: 100%;
     padding: 1rem;
-    background: rgba(26, 26, 46, 0.9);
+    background: rgba(26, 26, 46, 0.95);
     backdrop-filter: blur(10px);
     z-index: 1000;
-    border-bottom: 1px solid rgba(108, 99, 255, 0.2);
+    border-bottom: 1px solid rgba(74, 144, 226, 0.2);
+}
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.nav-link {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--accent);
+}
+
+.nav-link.active {
+    color: var(--primary);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+}
+
+.contact-link {
+    font-size: 0.9rem;
+    color: var(--text);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
 }
 
 .header-content {

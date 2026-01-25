@@ -1,4 +1,7 @@
-import { animate as animeAnimate, stagger } from 'animejs'
+// main.js
+import anime, { stagger } from 'https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.es.js'
+
+const animeAnimate = anime
 import { initScene } from './scene.js'
 
 // Initialize 3D scene

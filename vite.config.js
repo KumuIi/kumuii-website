@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 
 export default defineConfig({
-    base: '/', // Change to '/repository-name/' if not using custom domain
+    base: '/kumuii-website/', // Change to '/repository-name/' if not using custom domain
     build: {
         rollupOptions: {
             input: {

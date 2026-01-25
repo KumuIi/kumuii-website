@@ -1,0 +1,108 @@
+/* === COLOR PALETTE - MATCHING YOUR DESIGN === */
+:root {
+  /* Purple gradient theme from your design */
+  --primary: #c77dff;
+  --secondary: #e0aaff;
+  --accent: #ff6ec7;
+  --dark: #240046;
+  --dark-purple: #3c096c;
+  --mid-purple: #5a189a;
+  --light-purple: #7209b7;
+  --text: #f0f0f0;
+  --text-muted: #d0d0ff;
+  
+  /* Fonts */
+  --font-display: 'Freckle Face', cursive;
+  --font-body: 'Instrument Serif', serif;
+}
+
+/* === RESET === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(180deg, #240046 0%, #3c096c 50%, #5a189a 100%);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-body);
+  line-height: 1.2;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #c77dff, #e0aaff, #ff6ec7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === LAYOUT === */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+.section-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  text-align: center;
+  margin-bottom: 4rem;
+  font-weight: 400;
+}
+
+/* === BUTTONS === */
+.btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #c77dff, #e0aaff);
+  color: #240046;
+  text-decoration: none;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(199, 125, 255, 0.4);
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 25px rgba(199, 125, 255, 0.6);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  section {
+    padding: 4rem 0;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .section-title {
+    margin-bottom: 2rem;
+  }
+}

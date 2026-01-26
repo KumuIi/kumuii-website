@@ -62,7 +62,7 @@ export function initScene() {
   let model = null
   
   loader.load(
-  './models/your-model.glb',
+  '/kumuii-website/models/your-model.glb',
   (gltf) => {
     model = gltf.scene
     

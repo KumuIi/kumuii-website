@@ -443,8 +443,8 @@
   gap: 6rem;
   align-items: center;
   margin-bottom: 10rem;
-  opacity: 0;
-  transform: translateY(50px);
+  opacity: translateY(50px);
+  transform: translateY(0);
   position: relative;
 }
 

@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-    base: '/kumuii-website/',
+    base: '/',
     build: {
         rollupOptions: {
             output: {

@@ -1,4 +1,4 @@
-import * as anime from 'animejs';
+import anime from 'https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.es.js';
 import { initScene } from './scene.js';
 
 // Initialize 3D scene

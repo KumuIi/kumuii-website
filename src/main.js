@@ -1,15 +1,14 @@
+import * as anime from 'animejs';
 import { initScene } from './scene.js';
-import * as animeModule from 'animejs';
-const anime = animeModule.default;
-const stagger = anime.stagger; 
 
 // Initialize 3D scene
 initScene();
 
 document.addEventListener('DOMContentLoaded', () => {
-  
+
   // === HERO ANIMATIONS ===
-  anime('.hero-title', {
+  anime.default({
+    targets: '.hero-title',
     scale: [0.5, 1],
     opacity: [0, 1],
     rotate: [-10, 0],
@@ -17,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     easing: 'spring(1, 80, 10, 0)'
   })
 
-  anime('.hero-quote', {
+  anime.default({
+    targets: '.hero-quote',
     translateY: [-50, 0],
     opacity: [0, 1],
     duration: 1000,
@@ -26,11 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   // === HEXAGON ANIMATIONS ===
-  anime('.hex-item', {
+  anime.default({
+    targets: '.hex-item',
     scale: [0, 1],
     opacity: [0, 1],
     rotate: [180, 0],
-    delay: stagger(60, { grid: [3, 3], from: 'center' }),
+    delay: anime.stagger(60, { grid: [3, 3], from: 'center' }),
     duration: 800,
     easing: 'spring(1, 80, 10, 0)'
   })
@@ -39,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.hex-item').forEach(item => {
     item.addEventListener('mouseenter', function() {
       const hex = this.querySelector('.hexagon')
-      anime(hex, {
+      anime.default({
+        targets: hex,
         rotate: [0, 360],
         duration: 600,
         easing: 'spring(1, 80, 10, 0)'
@@ -49,42 +51,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // === WORK CARDS SCROLL ANIMATION ===
   const workCards = document.querySelectorAll('.work-card')
-  
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const isLeft = entry.target.classList.contains('left')
-        
-        anime(entry.target, {
+
+        anime.default({
+          targets: entry.target,
           translateX: [isLeft ? -100 : 100, 0],
           opacity: [0, 1],
           duration: 1000,
           easing: 'out(3)'
         })
-        
+
         observer.unobserve(entry.target)
       }
     })
   }, { threshold: 0.2 })
-  
+
   workCards.forEach(card => observer.observe(card))
 
   // === SOCIAL ICONS ANIMATION ===
-  anime('.social-icon', {
+  anime.default({
+    targets: '.social-icon',
     scale: [0, 1],
     rotate: [0, 360],
     opacity: [0, 1],
-    delay: stagger(100, { start: 1200 }),
+    delay: anime.stagger(100, { start: 1200 }),
     duration: 800,
     easing: 'spring(1, 80, 10, 0)'
   })
 
   // === FORM ANIMATION ===
   const formInputs = document.querySelectorAll('.contact-form input, .contact-form textarea')
-  
+
   formInputs.forEach(input => {
     input.addEventListener('focus', () => {
-      anime(input, {
+      anime.default({
+        targets: input,
         scale: [1, 1.02, 1],
         duration: 400,
         easing: 'out(2)'
@@ -94,32 +99,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // === FORM SUBMISSION ===
   const contactForm = document.getElementById('contact-form')
-  
+
   contactForm?.addEventListener('submit', async (e) => {
     e.preventDefault()
-    
+
     const button = contactForm.querySelector('button')
     const originalText = button.textContent
-    
-    anime(button, {
+
+    anime.default({
+      targets: button,
       scale: [1, 0.95, 1],
       duration: 400
     })
-    
+
     button.textContent = 'Sending...'
     button.disabled = true
-    
+
     // Simulate sending
     setTimeout(() => {
       button.textContent = '✓ Sent!'
       button.style.background = 'linear-gradient(135deg, #a5d5d8, #9b9eff)'
-      
-      anime(button, {
+
+      anime.default({
+        targets: button,
         scale: [1, 1.1, 1],
         duration: 600,
         easing: 'spring(1, 80, 10, 0)'
       })
-      
+
       setTimeout(() => {
         contactForm.reset()
         button.textContent = originalText
@@ -128,14 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 2000)
     }, 1500)
   })
+
   // === 3D MODEL FADE ON SCROLL ===
   const threeContainer = document.getElementById('three-container')
   const heroSection = document.getElementById('hero')
-  
+
   window.addEventListener('scroll', () => {
     const heroHeight = heroSection.offsetHeight
     const scrollPosition = window.scrollY
-    
+
     // Start fading after hero section
     if (scrollPosition > heroHeight * 0.5) {
       // Calculate opacity (1 to 0)
@@ -144,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const fadeRange = fadeEnd - fadeStart
       const fadeProgress = (scrollPosition - fadeStart) / fadeRange
       const opacity = Math.max(0, 1 - fadeProgress)
-      
+
       threeContainer.style.opacity = opacity
     } else {
       threeContainer.style.opacity = 1

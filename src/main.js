@@ -1,16 +1,14 @@
-// main.js
-import anime, { stagger } from 'https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.es.js'
-
-const animeAnimate = anime
-import { initScene } from './scene.js'
+import anime from 'https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.es.js';
+import { initScene } from './scene.js';
+const stagger = anime.stagger; 
 
 // Initialize 3D scene
-initScene()
+initScene();
 
 document.addEventListener('DOMContentLoaded', () => {
   
   // === HERO ANIMATIONS ===
-  animeAnimate('.hero-title', {
+  anime('.hero-title', {
     scale: [0.5, 1],
     opacity: [0, 1],
     rotate: [-10, 0],
@@ -18,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     easing: 'spring(1, 80, 10, 0)'
   })
 
-  animeAnimate('.hero-quote', {
+  anime('.hero-quote', {
     translateY: [-50, 0],
     opacity: [0, 1],
     duration: 1000,
@@ -27,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   // === HEXAGON ANIMATIONS ===
-  animeAnimate('.hex-item', {
+  anime('.hex-item', {
     scale: [0, 1],
     opacity: [0, 1],
     rotate: [180, 0],
@@ -40,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.hex-item').forEach(item => {
     item.addEventListener('mouseenter', function() {
       const hex = this.querySelector('.hexagon')
-      animeAnimate(hex, {
+      anime(hex, {
         rotate: [0, 360],
         duration: 600,
         easing: 'spring(1, 80, 10, 0)'
@@ -56,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entry.isIntersecting) {
         const isLeft = entry.target.classList.contains('left')
         
-        animeAnimate(entry.target, {
+        anime(entry.target, {
           translateX: [isLeft ? -100 : 100, 0],
           opacity: [0, 1],
           duration: 1000,
@@ -71,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
   workCards.forEach(card => observer.observe(card))
 
   // === SOCIAL ICONS ANIMATION ===
-  animeAnimate('.social-icon', {
+  anime('.social-icon', {
     scale: [0, 1],
     rotate: [0, 360],
     opacity: [0, 1],
@@ -85,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   formInputs.forEach(input => {
     input.addEventListener('focus', () => {
-      animeAnimate(input, {
+      anime(input, {
         scale: [1, 1.02, 1],
         duration: 400,
         easing: 'out(2)'
@@ -102,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const button = contactForm.querySelector('button')
     const originalText = button.textContent
     
-    animeAnimate(button, {
+    anime(button, {
       scale: [1, 0.95, 1],
       duration: 400
     })
@@ -115,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
       button.textContent = '✓ Sent!'
       button.style.background = 'linear-gradient(135deg, #a5d5d8, #9b9eff)'
       
-      animeAnimate(button, {
+      anime(button, {
         scale: [1, 1.1, 1],
         duration: 600,
         easing: 'spring(1, 80, 10, 0)'

@@ -1,13 +1,7 @@
+import * as anime from 'animejs';
 import { initScene } from './scene.js';
-import * as animeModule from 'animejs';
-const animeLib = animeModule.default;  // Access .default from the namespace import
-const anime = {
-  default: animeLib,
-  stagger: animeLib.stagger
-};
 
-
-// Initialize 3D scene BEFORE DOMContentLoaded ← moved up
+// Initialize 3D scene
 initScene();
 
 document.addEventListener('DOMContentLoaded', () => {

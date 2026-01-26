@@ -1,5 +1,6 @@
-import anime from 'https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.es.js';
 import { initScene } from './scene.js';
+import * as animeModule from 'animejs';
+const anime = animeModule.default;
 const stagger = anime.stagger; 
 
 // Initialize 3D scene

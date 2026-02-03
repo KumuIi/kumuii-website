@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 // ...rest of your code
-
+const modelPath = './models/your-model.glb';
 
 
 export function initScene() {
@@ -61,8 +61,7 @@ export function initScene() {
   const loader = new GLTFLoader()
   let model = null
   
-  loader.load(
-  '/kumuii-website/models/your-model.glb',
+  loader.load(modelPath,
   (gltf) => {
     model = gltf.scene
     

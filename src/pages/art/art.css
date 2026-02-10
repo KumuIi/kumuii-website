@@ -1,0 +1,242 @@
+/* ========================
+   ELEGANT ART GALLERY
+   ======================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #f7f7f5;
+    font-family: 'Lato', sans-serif;
+    color: #111;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#ui-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ========================
+   LOGO
+   ======================== */
+.logo {
+    position: fixed;
+    top: 40px;
+    left: 50px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    z-index: 10;
+    color: #0d0d0d;
+}
+
+/* ========================
+   EXIT BUTTON
+   ======================== */
+.exit-btn {
+    position: fixed;
+    top: 40px;
+    right: 50px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: #333;
+    text-decoration: none;
+    z-index: 10;
+    pointer-events: auto;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+}
+
+.exit-btn:hover {
+    background: #fff;
+    border-color: #333;
+    transform: translateX(-5px);
+}
+
+/* ========================
+   SLIDE CONTENT
+   ======================== */
+.slide-content {
+    position: absolute;
+    top: 25%;
+    left: 8%;
+    width: 30%;
+    max-width: 450px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease-out;
+    pointer-events: auto;
+}
+
+.slide-content.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 4rem;
+    margin: 0 0 1.5rem 0;
+    line-height: 1;
+    color: #0d0d0d;
+}
+
+.catalogue-number {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #999;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.description {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 3rem;
+    text-align: justify;
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    row-gap: 0.8rem;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 1.5rem;
+}
+
+.meta-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #888;
+    align-self: center;
+}
+
+.meta-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #222;
+}
+
+/* ========================
+   SCROLL HINT
+   ======================== */
+.scroll-hint {
+    position: fixed;
+    bottom: 40px;
+    left: 50px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #aaa;
+    z-index: 10;
+}
+
+/* ========================
+   RESPONSIVE
+   ======================== */
+@media (max-width: 1024px) {
+    .slide-content {
+        width: 45%;
+        max-width: none;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo {
+        top: 20px;
+        left: 20px;
+        font-size: 0.85rem;
+    }
+
+    .exit-btn {
+        top: 20px;
+        right: 20px;
+        font-size: 0.8rem;
+        padding: 8px 15px;
+    }
+
+    .slide-content {
+        top: 20%;
+        left: 5%;
+        width: 90%;
+        max-width: none;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .description {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .meta-grid {
+        grid-template-columns: 70px 1fr;
+    }
+
+    .scroll-hint {
+        bottom: 20px;
+        left: 20px;
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .catalogue-number {
+        font-size: 0.6rem;
+    }
+
+    .description {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
+
+    .meta-label {
+        font-size: 0.6rem;
+    }
+
+    .meta-value {
+        font-size: 1rem;
+    }
+}

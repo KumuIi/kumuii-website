@@ -1,0 +1,418 @@
+/* ========================
+   IMMERSIVE 3D SHOWCASE
+   ======================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* ========================
+   NAVIGATION
+   ======================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    z-index: 1000;
+    padding: 1.2rem 3rem;
+}
+
+.nav-content {
+    max-width: 2000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+}
+
+.nav-logo {
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    flex: 1;
+    justify-content: center;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 80%;
+}
+
+.nav-back {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.nav-back:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+/* ========================
+   SCROLL INDICATOR
+   ======================== */
+.scroll-indicator {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: fadeIn 1s ease-out 1s both;
+}
+
+.scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(10px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ========================
+   MODEL SPACES
+   ======================== */
+.models-container {
+    width: 100%;
+}
+
+.model-space {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.space-title {
+    position: absolute;
+    font-size: clamp(4rem, 12vw, 12rem);
+    font-weight: 800;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -3px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.6;
+    text-transform: uppercase;
+    line-height: 0.9;
+
+    /* reset positioning so overrides are clean */
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    text-align: center;
+}
+/* "Chibi Characters" – bottom centered */
+.chibi-space .space-title {
+    bottom: 2rem;
+    left: 6%;
+    text-align: center;
+}
+
+/* "Full Size Characters" – middle centered */
+.character-space .space-title {
+    top: 10rem;
+    left: 2rem;
+    text-align: center;
+}
+
+/* "FPS Assets" – bottom right */
+.fps-space .space-title {
+    top: 2rem;
+    left: 2rem;
+    text-align: right;
+}
+
+/* "Environment Props" – top right */
+.props-space .space-title {
+    top: 2rem;
+    right: 2rem;
+    text-align: right;
+}
+
+
+
+
+.space-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.space-canvas canvas {
+    pointer-events: auto;
+}
+
+/* ========================
+   THEMED SPACES
+   ======================== */
+
+/* Chibi Space - Soft pastel dream */
+.chibi-space {
+    background:
+        radial-gradient(circle at 30% 40%, rgba(255, 105, 180, 0.8) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(135, 206, 250, 0.8) 0%, transparent 50%),
+        url('../../../public/background/chibiBackground.png') center/cover no-repeat,
+        linear-gradient(135deg, #4a2a4d 0%, #2d3a5f 100%);
+}
+
+.chibi-space .space-title {
+    background: linear-gradient(135deg, #ffb6c1 0%, #add8e6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(255, 182, 193, 0.5));
+}
+
+/* Character Space - Fantasy purple depths */
+.character-space {
+    background: radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.9) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(79, 70, 229, 0.9) 0%, transparent 50%),
+                linear-gradient(135deg, #3d1f6b 0%, #1e2a5e 100%);
+}
+
+.character-space .space-title {
+    background: linear-gradient(135deg, #8a2be2 0%, #4169e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(138, 43, 226, 0.5));
+}
+
+/* FPS Space - Tactical combat zone */
+.fps-space {
+    background: radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.85) 0%, transparent 50%),
+                radial-gradient(circle at 30% 70%, rgba(249, 115, 22, 0.85) 0%, transparent 50%),
+                linear-gradient(135deg, #4a2828 0%, #331a1a 100%);
+}
+
+.fps-space .space-title {
+    background: linear-gradient(135deg, #dc143c 0%, #ff4500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(220, 20, 60, 0.5));
+}
+
+/* Props Space - Natural environment */
+.props-space {
+    background: radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.85) 0%, transparent 50%),
+                radial-gradient(circle at 60% 60%, rgba(20, 184, 166, 0.85) 0%, transparent 50%),
+                linear-gradient(135deg, #2d4a35 0%, #1a3d2e 100%);
+}
+
+.props-space .space-title {
+    background: linear-gradient(135deg, #2e8b57 0%, #40e0d0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(46, 139, 87, 0.5));
+}
+
+/* ========================
+   INTERACTION HINT
+   ======================== */
+.space-canvas::after {
+    content: 'Click model to rotate • Drag to spin';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    z-index: 5;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.space-canvas.interacting::after {
+    opacity: 0;
+}
+
+/* ========================
+   RESPONSIVE
+   ======================== */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 1rem 2rem;
+    }
+
+    .nav-links {
+        gap: 1rem;
+    }
+
+    .nav-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .space-title {
+        font-size: clamp(3rem, 10vw, 10rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem 1.5rem;
+    }
+
+    .nav-content {
+        gap: 1.5rem;
+    }
+
+    .nav-logo {
+        font-size: 1rem;
+    }
+
+    .nav-links {
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .space-title {
+        font-size: clamp(2.5rem, 8vw, 8rem);
+        opacity: 0.4;
+    }
+
+    .scroll-indicator {
+        bottom: 30px;
+        font-size: 0.7rem;
+    }
+
+    .scroll-line {
+        height: 30px;
+    }
+
+    .space-canvas::after {
+        font-size: 0.75rem;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .space-title {
+        font-size: clamp(2rem, 6vw, 6rem);
+    }
+}
+
+/* ========================
+   SMOOTH TRANSITIONS
+   ======================== */
+.model-space {
+    position: relative;
+}
+
+.model-space:nth-child(1) { animation-delay: 0.2s; }
+.model-space:nth-child(2) { animation-delay: 0.3s; }
+.model-space:nth-child(3) { animation-delay: 0.4s; }
+.model-space:nth-child(4) { animation-delay: 0.5s; }
+
+@keyframes fadeInSpace {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Custom scrollbar */
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}

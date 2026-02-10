@@ -51,13 +51,12 @@ const planeGeo = new THREE.PlaneGeometry(CONFIG.pWidth, CONFIG.pHeight);
 
 // Your Art Images
 const images = [
-    '../../../public/images/imagesPage/demonGirl.png',
-    '../../../public/images/imagesPage/OC.png',
-    '../../../public/images/imagesPage/randomgirlSketch.png',
-    '../../../public/images/imagesPage/red ribbon girl.png',
-    '../../../public/images/imagesPage/sketch.png'
+    '/images/imagesPage/demonGirl.png',
+    '/images/imagesPage/OC.png',
+    '/images/imagesPage/randomgirlSketch.png',
+    '/images/imagesPage/red ribbon girl.png',
+    '/images/imagesPage/sketch.png'
 ];
-
 const paintingGroups = [];
 
 // Create Gallery Paintings
@@ -220,7 +219,3 @@ window.addEventListener('resize', () => {
 
 // Start Animation
 animate();
-
-// Console Art
-console.log('%c🎨 KUMUII ART GALLERY', 'color: #0d0d0d; font-size: 20px; font-family: "Playfair Display", serif;');
-console.log('%cInfinite 3D Gallery Experience', 'color: #444; font-size: 14px; font-family: "Lato", sans-serif;');

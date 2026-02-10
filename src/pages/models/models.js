@@ -6,22 +6,22 @@
 // Model configurations for each group
 const modelGroups = {
     chibi: [
-        { path: '../../../public/models/chibigirl1.glb', position: [-5, 0, 0], scale: 2, rotation: [0, 4, 0] },
-        { path: '../../../public/models/chibigirl2.glb', position: [0, 0, 1], scale: 2, rotation: [0, 3.5, 0] },
-        { path: '../../../public/models/chibigirl3.glb', position: [5, 0, -0.5], scale: 2, rotation: [0, 4, 0] }
+        { path: '/models/chibigirl1.glb', position: [-5, 0, 0], scale: 2, rotation: [0, 4, 0] },
+        { path: '/models/chibigirl2.glb', position: [0, 0, 1], scale: 2, rotation: [0, 3.5, 0] },
+        { path: '/models/chibigirl3.glb', position: [5, 0, -0.5], scale: 2, rotation: [0, 4, 0] }
     ],
     character: [
-        { path: '../../../public/models/ElfModel.glb', position: [-2.5, 0, 0], scale: 2 },
-        { path: '../../../public/models/fullsizegirl1.glb', position: [2.5, 0, 0], scale: 2.5 }
+        { path: '/models/ElfModel.glb', position: [-2.5, 0, 0], scale: 2 },
+        { path: '/models/fullsizegirl1.glb', position: [2.5, 0, 0], scale: 2.5 }
     ],
     fps: [
-        { path: '../../../public/models/FPSHand1.glb', position: [-5, 0, 0.5], scale: 4 },
-        { path: '../../../public/models/fbxshotgun.glb', position: [0, 0, 0], scale: 6 },
-        { path: '../../../public/models/makarov.glb', position: [5, 0, -0.5], scale: 3 }
+        { path: '/models/FPSHand1.glb', position: [-5, 0, 0.5], scale: 4 },
+        { path: '/models/fbxshotgun.glb', position: [0, 0, 0], scale: 6 },
+        { path: '/models/makarov.glb', position: [5, 0, -0.5], scale: 3 }
     ],
     props: [
-        { path: '../../../public/models/3dprop1.glb', position: [-3, 0, 0], scale: 2 },
-        { path: '../../../public/models/3dprop2.glb', position: [3, 0, 0.5], scale: 2 }
+        { path: '/models/3dprop1.glb', position: [3, 0, 0], scale: 2 },
+        { path: '/models/3dprop2.glb', position: [-3, 0, 0.5], scale: 2 }
     ]
 };
 

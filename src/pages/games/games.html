@@ -4,42 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GAME ARCHIVE :: KUMUII</title>
-    
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="games.css">
+    <link rel="stylesheet" href="../../style.css">
+
+    <!-- Inline style to prevent flash on transition -->
+    <style>
+        .transition-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #6366f1;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .transition-cover.active {
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Check if transitioning and show cover immediately -->
+    <script>
+        if (sessionStorage.getItem('playEnterTransition') === 'true') {
+            document.write('<div class="transition-cover active"></div>');
+        }
+    </script>
 </head>
 <body>
-    <!-- Static TV Noise Background -->
     <div class="tv-static"></div>
-    
-    <!-- CRT Screen Container -->
+
     <div class="crt-container">
-        <!-- Scanlines -->
         <div class="scanlines"></div>
         <div class="vignette"></div>
-        
-        <!-- VHS Tracking Lines -->
+
         <div class="tracking-line"></div>
         <div class="tracking-line"></div>
-        
-        <!-- Main Content -->
+
         <div class="archive-screen">
-            
-            <!-- Header -->
             <header class="archive-header">
                 <div class="glitch-title" data-text="[[ GAME ARCHIVE ]]">[[ GAME ARCHIVE ]]</div>
                 <div class="vcr-timestamp">REC ● 1987.12.25 23:59</div>
                 <a href="/#my-work" class="exit-btn">◄◄ EXIT ARCHIVE</a>
             </header>
-            
-            <!-- Gallery Grid -->
+
             <div class="games-gallery">
-                
-                <!-- Game Box 1: EliteElf (Coming Soon) -->
                 <article class="game-box" data-game="eliteelf">
                     <div class="tv-frame">
                         <div class="static-burst active"></div>
@@ -57,8 +71,7 @@
                         <button class="enter-btn disabled" disabled>► LOCKED</button>
                     </div>
                 </article>
-                
-                <!-- Game Box 2: Coming Soon -->
+
                 <article class="game-box" data-game="comingsoon">
                     <div class="tv-frame">
                         <div class="static-burst active"></div>
@@ -76,10 +89,8 @@
                         <button class="enter-btn disabled" disabled>► LOCKED</button>
                     </div>
                 </article>
-                
             </div>
-            
-            <!-- Footer -->
+
             <footer class="archive-footer">
                 <div class="status-bar">
                     <span class="blink">▌</span>
@@ -87,12 +98,11 @@
                     <span class="blink">▐</span>
                 </div>
             </footer>
-            
         </div>
     </div>
-    
-    <!-- Scripts -->
+
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
     <script src="games.js"></script>
+    <script src="../../transitions-init.js"></script>
 </body>
 </html>

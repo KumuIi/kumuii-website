@@ -1,6 +1,4 @@
-/* =============================================
-   PROFESSIONAL PORTFOLIO - BASE STYLES
-   ============================================= */
+/* professional portfolio - base styles */
 
 :root {
     /* Modern Color Palette */
@@ -42,8 +40,46 @@
 }
 
 /* =============================================
-   RESET & BASE
+   PAGE TRANSITION BLOCKS
    ============================================= */
+
+/* Pre-load overlay to prevent white flash */
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-primary);
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.page-loader.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.transition-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.transition-block {
+    position: absolute;
+    background-color: var(--color-primary);
+    opacity: 0;
+}
+
+/* reset & base */
 
 * {
     margin: 0;
@@ -71,9 +107,7 @@ body {
     color: white;
 }
 
-/* =============================================
-   SCROLL ANIMATION FIXES
-   ============================================= */
+/* scroll animation fixes */
 
 /* PERFECTLY HIDDEN UNTIL SCROLL */
 .section-title,
@@ -120,9 +154,7 @@ body {
     opacity: 1 !important;
 }
 
-/* =============================================
-   TYPOGRAPHY
-   ============================================= */
+/* typography */
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-primary);
@@ -152,9 +184,7 @@ a:hover {
     color: var(--color-primary-dark);
 }
 
-/* =============================================
-   LAYOUT
-   ============================================= */
+/* layout */
 
 .container {
     max-width: 1280px;
@@ -167,9 +197,7 @@ section {
     position: relative;
 }
 
-/* =============================================
-   NAVIGATION
-   ============================================= */
+/* navigation */
 
 .nav-bar {
     position: fixed;
@@ -196,11 +224,12 @@ section {
     font-family: var(--font-primary);
     font-size: 1.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    background: linear-gradient(135deg, #ffffff 0%, var(--color-primary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
 
 .nav-menu {
     display: flex;
@@ -249,9 +278,7 @@ section {
     transition: all var(--transition-base);
 }
 
-/* =============================================
-   BUTTONS
-   ============================================= */
+/* buttons */
 
 .btn-primary,
 .btn-secondary {
@@ -291,9 +318,7 @@ section {
     border-color: var(--color-primary);
 }
 
-/* =============================================
-   SECTION TITLES - PERFECTLY CENTERED
-   ============================================= */
+/* section titles - perfectly centered */
 
 .section-title {
     text-align: center;
@@ -319,9 +344,7 @@ section {
     border-radius: 2px;
 }
 
-/* =============================================
-   SCROLL INDICATOR - FIXED ARROW
-   ============================================= */
+/* scroll indicator - fixed arrow */
 
 .scroll-indicator {
   position: absolute;
@@ -357,9 +380,7 @@ section {
   }
 }
 
-/* =============================================
-   RESPONSIVE
-   ============================================= */
+/* responsive */
 
 @media (max-width: 768px) {
     .nav-menu {
@@ -378,9 +399,8 @@ section {
         padding: 0 var(--spacing-md);
     }
 }
-/* =============================================
-   ANIMATION SUPPORT
-   ============================================= */
+
+/* animation support */
 
 /* Hide hero elements initially */
 .hero-badge,

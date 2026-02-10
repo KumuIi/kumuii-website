@@ -1,6 +1,4 @@
-/* ========================
-   ELEGANT ART GALLERY
-   ======================== */
+/* elegant art gallery */
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
@@ -34,9 +32,7 @@ body, html {
     pointer-events: none;
 }
 
-/* ========================
-   LOGO
-   ======================== */
+/* logo */
 .logo {
     position: fixed;
     top: 40px;
@@ -50,9 +46,7 @@ body, html {
     color: #0d0d0d;
 }
 
-/* ========================
-   EXIT BUTTON
-   ======================== */
+/* exit button */
 .exit-btn {
     position: fixed;
     top: 40px;
@@ -76,9 +70,7 @@ body, html {
     transform: translateX(-5px);
 }
 
-/* ========================
-   SLIDE CONTENT
-   ======================== */
+/* slide content */
 .slide-content {
     position: absolute;
     top: 25%;
@@ -149,9 +141,7 @@ h1 {
     color: #222;
 }
 
-/* ========================
-   SCROLL HINT
-   ======================== */
+/* scroll hint */
 .scroll-hint {
     position: fixed;
     bottom: 40px;
@@ -163,9 +153,7 @@ h1 {
     z-index: 10;
 }
 
-/* ========================
-   RESPONSIVE
-   ======================== */
+/* responsive */
 @media (max-width: 1024px) {
     .slide-content {
         width: 45%;

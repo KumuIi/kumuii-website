@@ -1,12 +1,4 @@
-// Games Gallery Animations
-
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // =============================================
-    // ENTRANCE ANIMATIONS
-    // =============================================
-    
-    // Screen boot-up effect
     anime({
         targets: '.archive-screen',
         opacity: [0, 0.5, 1],
@@ -14,8 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 1200,
         easing: 'easeOutQuad'
     });
-    
-    // Title glitch entrance
     anime({
         targets: '.glitch-title',
         opacity: [0, 1],
@@ -30,8 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         delay: 300,
         easing: 'easeOutElastic(1, 0.6)'
     });
-    
-    // VCR timestamp fade-in
     anime({
         targets: '.vcr-timestamp',
         opacity: [0, 1],
@@ -40,8 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         delay: 800,
         easing: 'easeOutQuad'
     });
-    
-    // Game boxes staggered entrance
     anime({
         targets: '.game-box',
         opacity: [0, 1],
@@ -51,26 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 1000,
         easing: 'easeOutElastic(1, 0.5)'
     });
-    
-    // =============================================
-    // HOVER EFFECTS
-    // =============================================
-    
+
     document.querySelectorAll('.game-box').forEach(box => {
         const tvFrame = box.querySelector('.tv-frame');
         const thumbnail = box.querySelector('.game-thumbnail');
         const staticBurst = box.querySelector('.static-burst');
-        
+
         box.addEventListener('mouseenter', () => {
-            // Screen zoom effect
             anime({
                 targets: thumbnail,
                 scale: [1, 1.1],
                 duration: 400,
                 easing: 'easeOutQuad'
             });
-            
-            // Static burst
             if (staticBurst && !staticBurst.classList.contains('active')) {
                 anime({
                     targets: staticBurst,
@@ -79,8 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     easing: 'linear'
                 });
             }
-            
-            // TV frame glow
             anime({
                 targets: tvFrame,
                 boxShadow: [
@@ -109,14 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
-    
-    // =============================================
-    // BUTTON EFFECTS
-    // =============================================
-    
+
     document.querySelectorAll('.enter-btn:not(.disabled)').forEach(btn => {
         btn.addEventListener('click', function(e) {
-            // Screen distortion before transition
             anime({
                 targets: '.archive-screen',
                 translateX: [
@@ -129,8 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 scale: [1, 0.98, 1],
                 easing: 'easeInOutSine'
             });
-            
-            // Button press
             anime({
                 targets: this,
                 scale: [1, 0.9, 1],
@@ -138,11 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
-    
-    // =============================================
-    // RANDOM STATIC BURSTS
-    // =============================================
-    
+
+    // random static bursts
     setInterval(() => {
         const gameBoxes = document.querySelectorAll('.game-box');
         const randomBox = gameBoxes[Math.floor(Math.random() * gameBoxes.length)];
@@ -157,11 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }, 2500);
-    
-    // =============================================
-    // TRACKING LINE RANDOM GLITCHES
-    // =============================================
-    
+
+    // tracking line glitches
     setInterval(() => {
         if (Math.random() > 0.8) {
             anime({

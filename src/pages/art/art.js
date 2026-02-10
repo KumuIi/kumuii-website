@@ -1,7 +1,3 @@
-// ========================
-// ELEGANT 3D ART GALLERY
-// ========================
-
 const CONFIG = {
     slideCount: 5,
     spacingX: 45,
@@ -18,22 +14,20 @@ const CONFIG = {
 
 const totalGalleryWidth = CONFIG.slideCount * CONFIG.spacingX;
 
-// Scene Setup
+// scene
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xf7f7f5);
 scene.fog = new THREE.Fog(0xf7f7f5, 10, 110);
 
-// Camera Setup
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, CONFIG.camZ);
 
-// Renderer Setup
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-// Lighting
+// lighting
 const ambient = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambient);
 
@@ -41,15 +35,13 @@ const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
 dirLight.position.set(10, 20, 10);
 scene.add(dirLight);
 
-// Gallery Group
 const galleryGroup = new THREE.Group();
 scene.add(galleryGroup);
 
-// Texture Loader
 const textureLoader = new THREE.TextureLoader();
 const planeGeo = new THREE.PlaneGeometry(CONFIG.pWidth, CONFIG.pHeight);
 
-// Your Art Images
+// art images
 const images = [
     '/images/imagesPage/demonGirl.png',
     '/images/imagesPage/OC.png',
@@ -59,54 +51,48 @@ const images = [
 ];
 const paintingGroups = [];
 
-// Create Gallery Paintings
+// create paintings
 for (let i = 0; i < CONFIG.slideCount; i++) {
     const group = new THREE.Group();
     group.position.set(i * CONFIG.spacingX, 0, 0);
 
-    // Load texture and create material with proper aspect ratio handling
     const texture = textureLoader.load(images[i], (loadedTexture) => {
-        // Get original image dimensions
         const imgWidth = loadedTexture.image.width;
         const imgHeight = loadedTexture.image.height;
         const imgAspect = imgWidth / imgHeight;
 
-        // Frame aspect ratio
         const frameAspect = CONFIG.pWidth / CONFIG.pHeight;
 
-        // Adjust texture to fit entire image without cropping (contain mode)
+        // fit image to frame
         if (imgAspect > frameAspect) {
-            // Image is wider than frame - fit to width, letterbox top/bottom
             loadedTexture.repeat.x = 1;
             loadedTexture.repeat.y = imgAspect / frameAspect;
         } else {
-            // Image is taller than frame - fit to height, pillarbox left/right
             loadedTexture.repeat.x = frameAspect / imgAspect;
             loadedTexture.repeat.y = 1;
         }
 
-        // Center the texture
         loadedTexture.offset.x = (1 - loadedTexture.repeat.x) / 2;
         loadedTexture.offset.y = (1 - loadedTexture.repeat.y) / 2;
     });
 
     const mat = new THREE.MeshBasicMaterial({
         map: texture,
-        color: 0xf7f7f5  // Add background color to match gallery background
+        color: 0xf7f7f5
     });
     const mesh = new THREE.Mesh(planeGeo, mat);
 
-    // Frame/Outline
+    // frame outline
     const edges = new THREE.EdgesGeometry(planeGeo);
     const outline = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x222222 }));
 
-    // Shadow
+    // shadow
     const shadowGeo = new THREE.PlaneGeometry(CONFIG.pWidth, CONFIG.pHeight);
     const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.15 });
     const shadow = new THREE.Mesh(shadowGeo, shadowMat);
     shadow.position.set(0.8, -0.8, -0.5);
 
-    // Gallery Lines
+    // gallery lines
     const lineZ = -1;
     const lineLen = CONFIG.spacingX;
     const lineGeo = new THREE.BufferGeometry().setFromPoints([
@@ -127,7 +113,7 @@ for (let i = 0; i < CONFIG.slideCount; i++) {
 galleryGroup.rotation.y = CONFIG.wallAngleY;
 galleryGroup.position.x = 8;
 
-// Scroll Variables
+// scroll
 let currentScroll = 0;
 let targetScroll = 0;
 let snapTimer = null;
@@ -138,14 +124,13 @@ function snapToNearest() {
     targetScroll = index * CONFIG.spacingX;
 }
 
-// Mouse Wheel
 window.addEventListener('wheel', (e) => {
     targetScroll += e.deltaY * 0.1;
     if (snapTimer) clearTimeout(snapTimer);
     snapTimer = setTimeout(snapToNearest, CONFIG.snapDelay);
 });
 
-// Touch Support
+// touch
 let touchStart = 0;
 window.addEventListener('touchstart', e => {
     touchStart = e.touches[0].clientX;
@@ -163,13 +148,12 @@ window.addEventListener('touchend', () => {
     snapToNearest();
 });
 
-// Mouse Movement
 window.addEventListener('mousemove', (e) => {
     mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 });
 
-// Update UI Based on Scroll
+// update UI
 function updateUI(scrollX) {
     const rawIndex = Math.round(scrollX / CONFIG.spacingX);
     const safeIndex = ((rawIndex % CONFIG.slideCount) + CONFIG.slideCount) % CONFIG.slideCount;
@@ -183,7 +167,7 @@ function updateUI(scrollX) {
     }
 }
 
-// Animation Loop
+// animation
 function animate() {
     requestAnimationFrame(animate);
 
@@ -194,7 +178,7 @@ function animate() {
     camera.position.x = xMove;
     camera.position.z = CONFIG.camZ - zMove;
 
-    // Infinite Loop Effect
+    // infinite loop
     paintingGroups.forEach((group, i) => {
         const originalX = i * CONFIG.spacingX;
         const distFromCam = currentScroll - originalX;
@@ -202,7 +186,7 @@ function animate() {
         group.position.x = originalX + shift;
     });
 
-    // Subtle Camera Sway
+    // camera sway
     camera.rotation.x = mouse.y * 0.05;
     camera.rotation.y = -mouse.x * 0.05;
 
@@ -210,12 +194,11 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-// Window Resize
+// resize
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Start Animation
 animate();

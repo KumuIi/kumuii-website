@@ -1,6 +1,4 @@
-/* ========================
-   IMMERSIVE 3D SHOWCASE
-   ======================== */
+/* immersive 3d showcase */
 
 * {
     margin: 0;
@@ -14,9 +12,7 @@ body {
     scroll-behavior: smooth;
 }
 
-/* ========================
-   NAVIGATION
-   ======================== */
+/* navigation */
 .navbar {
     position: fixed;
     top: 0;
@@ -96,9 +92,7 @@ body {
     color: rgba(255, 255, 255, 1);
 }
 
-/* ========================
-   SCROLL INDICATOR
-   ======================== */
+/* scroll indicator */
 .scroll-indicator {
     position: fixed;
     bottom: 40px;
@@ -133,9 +127,7 @@ body {
     to { opacity: 1; }
 }
 
-/* ========================
-   MODEL SPACES
-   ======================== */
+/* model spaces */
 .models-container {
     width: 100%;
 }
@@ -212,9 +204,7 @@ body {
     pointer-events: auto;
 }
 
-/* ========================
-   THEMED SPACES
-   ======================== */
+/* themed spaces */
 
 /* Chibi Space - Soft pastel dream */
 .chibi-space {
@@ -278,9 +268,7 @@ body {
     filter: drop-shadow(0 0 40px rgba(46, 139, 87, 0.5));
 }
 
-/* ========================
-   INTERACTION HINT
-   ======================== */
+/* interaction hint */
 .space-canvas::after {
     content: 'Click model to rotate • Drag to spin';
     position: absolute;
@@ -304,9 +292,7 @@ body {
     opacity: 0;
 }
 
-/* ========================
-   RESPONSIVE
-   ======================== */
+/* responsive */
 @media (max-width: 1024px) {
     .navbar {
         padding: 1rem 2rem;
@@ -382,9 +368,7 @@ body {
     }
 }
 
-/* ========================
-   SMOOTH TRANSITIONS
-   ======================== */
+/* smooth transitions */
 .model-space {
     position: relative;
 }

@@ -5,19 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Models - Kumuii</title>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="../../../public/images/logo.png">
 
-    <!-- Fonts -->
+    <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="models.css">
+    <link rel="stylesheet" href="../../style.css">
+
+    <!-- Inline style to prevent flash on transition -->
+    <style>
+        .transition-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #6366f1;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .transition-cover.active {
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Check if transitioning and show cover immediately -->
+    <script>
+        if (sessionStorage.getItem('playEnterTransition') === 'true') {
+            document.write('<div class="transition-cover active"></div>');
+        }
+    </script>
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-content">
             <div class="nav-logo">3D Showcase</div>
@@ -31,34 +55,28 @@
         </div>
     </nav>
 
-    <!-- Scroll Indicator -->
     <div class="scroll-indicator">
         <span>Scroll</span>
         <div class="scroll-line"></div>
     </div>
 
-    <!-- Models Container -->
     <div class="models-container">
 
-        <!-- Chibi Characters Space -->
         <section class="model-space chibi-space" id="chibi-space">
             <div class="space-title">Chibi Characters</div>
             <div class="space-canvas" data-group="chibi"></div>
         </section>
 
-        <!-- Full Size Characters Space -->
         <section class="model-space character-space" id="character-space">
             <div class="space-title">Full Size Characters</div>
             <div class="space-canvas" data-group="character"></div>
         </section>
 
-        <!-- FPS Assets Space -->
         <section class="model-space fps-space" id="fps-space">
             <div class="space-title">FPS Assets</div>
             <div class="space-canvas" data-group="fps"></div>
         </section>
 
-        <!-- Props Space -->
         <section class="model-space props-space" id="props-space">
             <div class="space-title">Environment Props</div>
             <div class="space-canvas" data-group="props"></div>
@@ -71,5 +89,6 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
     <script type="module" src="./models.js"></script>
+    <script src="../../transitions-init.js"></script>
 </body>
 </html>

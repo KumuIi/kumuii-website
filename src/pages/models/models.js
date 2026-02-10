@@ -1,9 +1,4 @@
-// ========================
-// IMMERSIVE 3D SHOWCASE
-// ========================
-
-
-// Model configurations for each group
+// model configs for each group
 const modelGroups = {
     chibi: [
         { path: '/models/chibigirl1.glb', position: [-5, 0, 0], scale: 2, rotation: [0, 4, 0] },
@@ -26,7 +21,7 @@ const modelGroups = {
 };
 
 
-// Lighting configurations for each group
+// lighting configs for each group
 const lightingConfigs = {
     chibi: {
         ambient: { color: 0xffffff, intensity: 0.7 },
@@ -60,7 +55,7 @@ const lightingConfigs = {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Animate space titles on load
+    // animate titles
     anime({
         targets: '.space-title',
         opacity: [0, 0.6],
@@ -71,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // Get all space canvases
     const canvases = document.querySelectorAll('.space-canvas');
 
 
@@ -83,15 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!models || !lighting) return;
 
-
-        // Scene Setup – transparent background
+        // scene setup
         const scene = new THREE.Scene();
         scene.background = null;
-        // No fog so only models are visible
-        // scene.fog = new THREE.Fog(lighting.background, 8, 35);
 
 
-        // Camera Setup
+        // camera setup
         const camera = new THREE.PerspectiveCamera(
             55,
             canvas.clientWidth / canvas.clientHeight,
@@ -101,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         camera.position.set(0, 2, 8);
 
 
-        // Renderer Setup – alpha true for transparency
+        // renderer setup
         const renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true,
@@ -115,11 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.toneMappingExposure = 1.4;
         canvas.appendChild(renderer.domElement);
 
-
-        // Lighting
+        // lighting
         const ambientLight = new THREE.AmbientLight(lighting.ambient.color, lighting.ambient.intensity);
         scene.add(ambientLight);
-
 
         const mainLight = new THREE.DirectionalLight(lighting.main.color, lighting.main.intensity);
         mainLight.position.set(6, 12, 6);
@@ -129,9 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mainLight.shadow.camera.near = 0.5;
         mainLight.shadow.camera.far = 50;
         scene.add(mainLight);
-
-
-        // Accent lights
         const accentLight1 = new THREE.PointLight(
             lighting.accent1.color,
             lighting.accent1.intensity,
@@ -140,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         accentLight1.position.set(...lighting.accent1.position);
         scene.add(accentLight1);
 
-
         const accentLight2 = new THREE.PointLight(
             lighting.accent2.color,
             lighting.accent2.intensity,
@@ -148,30 +133,21 @@ document.addEventListener('DOMContentLoaded', () => {
         );
         accentLight2.position.set(...lighting.accent2.position);
         scene.add(accentLight2);
-
-
-        // Rim light
         const rimLight = new THREE.DirectionalLight(0xffffff, 0.7);
         rimLight.position.set(-6, 5, -6);
         scene.add(rimLight);
 
-
-        // Array to store models for individual rotation
+        // store models for rotation
         const modelObjects = [];
         let isDragging = false;
         let previousMousePosition = { x: 0, y: 0 };
         let selectedModel = null;
-
-
-        // Raycaster for model selection
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
-
-        // Load Models
+        // load models
         const loader = new THREE.GLTFLoader();
         let loadedCount = 0;
-
 
         models.forEach((modelData, index) => {
             loader.load(
@@ -179,38 +155,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 (gltf) => {
                     const model = gltf.scene;
 
-
-                    // Center and scale model
                     const box = new THREE.Box3().setFromObject(model);
                     const size = box.getSize(new THREE.Vector3());
                     const center = box.getCenter(new THREE.Vector3());
-
-
-                    // Apply custom scale multiplier
                     const maxDim = Math.max(size.x, size.y, size.z);
                     const baseTargetSize = groupType === 'fps' ? 1.2 : 1.8;
                     const scale = (baseTargetSize / maxDim) * modelData.scale;
                     model.scale.set(scale, scale, scale);
 
-
-                    // Position model
                     model.position.x = modelData.position[0] - center.x * scale;
                     model.position.y = -box.min.y * scale;
                     model.position.z = modelData.position[2] - center.z * scale;
 
-                    // Apply per‑model rotation from config (chibi: 180° on X)
+                    // apply per-model rotation from config
                     if (modelData.rotation) {
                         const [rx, ry, rz] = modelData.rotation;
                         model.rotation.set(rx, ry, rz);
                     }
-
-
-                    // Enable shadows and enhance materials
                     model.traverse((child) => {
                         if (child.isMesh) {
                             child.castShadow = true;
                             child.receiveShadow = true;
-
 
                             if (child.material) {
                                 child.material.needsUpdate = true;
@@ -220,25 +185,18 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         }
                     });
-
-
-                    // Store original position for rotation
                     model.userData.basePosition = {
                         x: modelData.position[0],
                         y: -box.min.y * scale,
                         z: modelData.position[2]
                     };
 
-
                     scene.add(model);
                     modelObjects.push(model);
 
-
-                    // Animate model entrance with anime.js
+                    // animate entrance
                     const startY = model.position.y;
                     model.position.y -= 2;
-
-                    // Keep your existing random Y spin for non-rotated models
                     if (!modelData.rotation) {
                         model.rotation.y = Math.random() * Math.PI * 2;
                     }
@@ -250,8 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         delay: index * 200 + 300,
                         easing: 'easeOutBounce'
                     });
-
-                    // Only animate Y back to 0 if we didn't set a custom rotation
                     if (!modelData.rotation) {
                         anime({
                             targets: model.rotation,
@@ -262,9 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     }
 
-
                     loadedCount++;
-
 
                     if (loadedCount === models.length) {
                         console.log(`✓ ${groupType} group loaded (${loadedCount} models)`);
@@ -277,20 +231,16 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         });
 
-
-        // Mouse events for individual model rotation
+        // mouse events for rotation
         renderer.domElement.addEventListener('mousedown', (event) => {
             const rect = renderer.domElement.getBoundingClientRect();
             mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(scene.children, true);
 
-
             if (intersects.length > 0) {
-                // Find which model was clicked
                 for (let model of modelObjects) {
                     let current = intersects[0].object;
                     while (current) {
@@ -308,21 +258,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-
         renderer.domElement.addEventListener('mousemove', (event) => {
             if (isDragging && selectedModel) {
                 const deltaX = event.clientX - previousMousePosition.x;
                 const deltaY = event.clientY - previousMousePosition.y;
 
-
                 selectedModel.rotation.y += deltaX * 0.01;
                 selectedModel.rotation.x += deltaY * 0.01;
-
 
                 previousMousePosition = { x: event.clientX, y: event.clientY };
             }
         });
-
 
         renderer.domElement.addEventListener('mouseup', () => {
             isDragging = false;
@@ -332,18 +278,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 2000);
         });
 
-
-        // Touch events for mobile
+        // touch events
         renderer.domElement.addEventListener('touchstart', (event) => {
             if (event.touches.length === 1) {
                 const rect = renderer.domElement.getBoundingClientRect();
                 mouse.x = ((event.touches[0].clientX - rect.left) / rect.width) * 2 - 1;
                 mouse.y = -((event.touches[0].clientY - rect.top) / rect.height) * 2 + 1;
 
-
                 raycaster.setFromCamera(mouse, camera);
                 const intersects = raycaster.intersectObjects(scene.children, true);
-
 
                 if (intersects.length > 0) {
                     for (let model of modelObjects) {
@@ -367,16 +310,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-
         renderer.domElement.addEventListener('touchmove', (event) => {
             if (isDragging && selectedModel && event.touches.length === 1) {
                 const deltaX = event.touches[0].clientX - previousMousePosition.x;
                 const deltaY = event.touches[0].clientY - previousMousePosition.y;
 
-
                 selectedModel.rotation.y += deltaX * 0.01;
                 selectedModel.rotation.x += deltaY * 0.01;
-
 
                 previousMousePosition = {
                     x: event.touches[0].clientX,
@@ -384,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             }
         });
-
 
         renderer.domElement.addEventListener('touchend', () => {
             isDragging = false;
@@ -394,20 +333,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 2000);
         });
 
-
-        // Animation Loop
+        // animation loop
         function animate() {
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
         }
         animate();
 
-
-        // Handle resize
+        // handle resize
         const resizeObserver = new ResizeObserver(() => {
             const width = canvas.clientWidth;
             const height = canvas.clientHeight;
-
 
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
@@ -415,22 +351,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         resizeObserver.observe(canvas);
 
-
-        // Cleanup
+        // cleanup
         window.addEventListener('beforeunload', () => {
             resizeObserver.disconnect();
             renderer.dispose();
         });
     });
 
-
-    // Smooth scroll navigation
+    // smooth scroll nav
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = link.getAttribute('href');
             const targetSection = document.querySelector(targetId);
-
 
             if (targetSection) {
                 anime({
@@ -442,7 +375,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-
-    console.log('%c🌌 IMMERSIVE 3D SHOWCASE', 'color: #fff; font-size: 18px; font-weight: bold; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); padding: 10px 16px; border-radius: 6px;');
 });

@@ -8,6 +8,8 @@ export default defineConfig({
             input: {
                 main: resolve(__dirname, 'index.html'),
                 games: resolve(__dirname, 'src/pages/games/games.html'),
+                art: resolve(__dirname, 'src/pages/art/art.html'),
+                threeDart: resolve(__dirname, 'src/pages/models/models.html'),
             },
             output: {
                 entryFileNames: `assets/[name]-[hash].js`,

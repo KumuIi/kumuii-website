@@ -30,10 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
   // Remove the transition cover once blocks are ready
   const transitionCover = document.querySelector('.transition-cover');
   if (transitionCover) {
+    console.log('Transition cover found, will remove it');
+
     // Keep it visible until blocks animate, then remove it
     setTimeout(() => {
-      transitionCover.remove();
+      if (transitionCover.parentNode) {
+        transitionCover.remove();
+        console.log('Transition cover removed (150ms)');
+      }
     }, 150);
+
+    // Fallback: Remove after 1.5 seconds if still there
+    setTimeout(() => {
+      if (transitionCover.parentNode) {
+        transitionCover.remove();
+        console.log('Transition cover removed (fallback 1.5s)');
+      }
+    }, 1500);
   }
 
   // Initialize page transitions

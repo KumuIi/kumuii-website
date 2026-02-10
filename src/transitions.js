@@ -120,15 +120,43 @@ export function initTransitions() {
   if (sessionStorage.getItem('playEnterTransition') === 'true') {
     sessionStorage.removeItem('playEnterTransition');
 
-    // Make sure all blocks are visible first
-    anime.set(transitionBlocks, { opacity: 1 });
+    // Make sure anime.js is loaded and blocks are ready
+    let attempts = 0;
+    const maxAttempts = 40; // Max 2 seconds (40 * 50ms)
 
-    // Wait a bit, then play the reveal animation
-    setTimeout(() => {
-      playEnterAnimation().then(() => {
-        // Animation complete
-      });
-    }, 100);
+    const waitForAnime = () => {
+      attempts++;
+
+      if (typeof anime !== 'undefined' && transitionBlocks.length > 0) {
+        console.log('Anime loaded, playing enter animation');
+
+        // Make sure all blocks are visible first
+        anime.set(transitionBlocks, { opacity: 1 });
+
+        // Wait a bit, then play the reveal animation
+        setTimeout(() => {
+          playEnterAnimation().then(() => {
+            console.log('Animation complete');
+          });
+        }, 100);
+      } else if (attempts < maxAttempts) {
+        // Retry after a short delay
+        setTimeout(waitForAnime, 50);
+      } else {
+        // Fallback: manually fade out blocks
+        console.warn('Anime.js not loaded, using fallback animation');
+        transitionBlocks.forEach((block, i) => {
+          block.style.opacity = '1';
+          block.style.transition = 'opacity 0.3s ease-out';
+          const delay = (i / transitionBlocks.length) * 400;
+          setTimeout(() => {
+            block.style.opacity = '0';
+          }, delay);
+        });
+      }
+    };
+
+    waitForAnime();
   }
   // On first load, loader stays hidden (no flash)
 

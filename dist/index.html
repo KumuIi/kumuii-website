@@ -5,21 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kumuii | Game/App Developer & 3D Artist</title>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/assets/logo-Bsn664mw.png">
 
-    <!-- Fonts -->
+    <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Email form -->
+
+    <!-- emailjs -->
      <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-    <!-- Font Awesome -->
+    <!-- icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- CSS -->
+
+
+    <!-- Inline style to prevent flash on transition -->
+    <style>
+        .transition-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #6366f1;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .transition-cover.active {
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Check if transitioning and show cover immediately -->
+    <script>
+        if (sessionStorage.getItem('playEnterTransition') === 'true') {
+            document.write('<div class="transition-cover active"></div>');
+        }
+    </script>
     <script type="importmap">
     {
         "imports": {
@@ -28,18 +51,19 @@
         }
     }
     </script>
-  <script type="module" crossorigin src="/assets/main-DD5mQnf7.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="stylesheet" crossorigin href="/assets/main-BVOM4c6V.css">
+  <script type="module" crossorigin src="/assets/main--O5crofF.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/style-CGkt1QYp.js">
+  <link rel="stylesheet" crossorigin href="/assets/style-CTM9R8zn.css">
+  <link rel="stylesheet" crossorigin href="/assets/main-v2K6mRZE.css">
 </head>
 <body>
-    <!-- 3D Background Scene -->
+    <!-- 3d background -->
     <div id="three-container"></div>
-    
-    <!-- Navigation -->
+
+    <!-- navbar -->
     <nav class="nav-bar">
         <div class="nav-container">
-            <div class="nav-logo">Kumuii</div>
+            <div class="nav-logo">Christopher Perov</div>
             <ul class="nav-menu">
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -55,7 +79,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- hero -->
     <section id="hero">
         <div class="hero-wrapper">
             <div class="hero-content">
@@ -79,14 +103,14 @@
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- about -->
     <section id="about">
         <div class="container">
             <div class="about-grid">
                 <div class="about-content">
                     <h2 class="section-title">About Me</h2>
                     <div class="about-text">
-                        <p>I'm a passionate hobby game developer and 3D artist specializing in creating immersive digital experiences. With expertise in Unity, Blender, and modern web technologies, I bring creative visions to life through code and design.</p>
+                        <p>I'm a hobby game developer and 3D artist & animator, i love to work on creating games and making 3D models. With expertise in C# and other programming languages, I can bring my ideas to life.</p>
                         <p>My work combines technical proficiency with artistic vision, resulting in polished, professional projects.</p>
                     </div>
                     <div class="stats-grid">
@@ -113,12 +137,12 @@
         </div>
     </section>
 
-    <!-- Tech Stack Section -->
+    <!-- skills -->
 <section id="tech-stack">
     <div class="container">
         <h2 class="section-title">Skills & Expertise</h2>
-        
-        <!-- Primary Skills - 3 Cards Side by Side -->
+
+        <!-- main 3 skill cards -->
         <div class="primary-skills">
             <div class="skill-card">
                 <div class="skill-icon">
@@ -143,7 +167,7 @@
             </div>
         </div>
 
-        <!-- Secondary Skills -->
+        <!-- skill categories -->
         <div class="skills-categories">
             <div class="skills-section">
                 <h4 class="skills-category">Programming</h4>
@@ -211,12 +235,11 @@
 </section>
 
 
-    <!-- My Work Section -->
+    <!-- work -->
 <section id="my-work">
     <div class="container">
         <h2 class="section-title">My Work</h2>
-        
-        <!-- Project 1 -->
+
         <div class="work-card left">
             <div class="work-image">
                 <img src="/assets/preview-art-DFPt5Of_.jpg" alt="3D Art Project" loading="lazy">
@@ -227,7 +250,6 @@
             </div>
         </div>
         
-        <!-- Project 2 -->
         <div class="work-card right">
             <div class="work-image">
                 <img src="/assets/preview-models-BfmdgoLv.jpg" alt="3D Models" loading="lazy">
@@ -238,7 +260,6 @@
             </div>
         </div>
         
-        <!-- Project 3 -->
         <div class="work-card left">
             <div class="work-image">
                 <img src="/assets/preview-games-C8jQk0-B.jpg" alt="Game Development" loading="lazy">
@@ -252,7 +273,7 @@
 </section>
 
 
-    <!-- Contact Section -->
+    <!-- contact -->
 <section id="contact">
     <div class="container">
         <h2 class="section-title">Get In Touch</h2>
@@ -294,14 +315,13 @@
 </section>
 
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2026 Kumuii. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- FIXED Scripts - Anime.js UMD + Three.js -->
+    <!-- anime.js & three.js -->
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
 
 </body>

@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <link rel="stylesheet" href="models.css">
     <link rel="stylesheet" href="../../style.css">
 
@@ -42,16 +45,21 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-content">
-            <div class="nav-logo">3D Showcase</div>
-            <div class="nav-links">
-                <a href="#chibi-space" class="nav-link">Chibis</a>
-                <a href="#character-space" class="nav-link">Characters</a>
-                <a href="#fps-space" class="nav-link">FPS</a>
-                <a href="#props-space" class="nav-link">Props</a>
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <div class="nav-logo">Christopher Perov</div>
+            <ul class="nav-menu">
+                <li><a href="#chibi-space">Chibis</a></li>
+                <li><a href="#character-space">Characters</a></li>
+                <li><a href="#fps-space">FPS</a></li>
+                <li><a href="#props-space">Props</a></li>
+                <li><a href="../../../index.html#my-work">← Back</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-            <a href="../../../index.html#my-work" class="nav-back">← Back</a>
         </div>
     </nav>
 
@@ -90,5 +98,26 @@
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
     <script type="module" src="./models.js"></script>
     <script type="module" src="../../transitions-init.js"></script>
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    if (navMenu?.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

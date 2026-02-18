@@ -12,85 +12,6 @@ body {
     scroll-behavior: smooth;
 }
 
-/* navigation */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    z-index: 1000;
-    padding: 1.2rem 3rem;
-}
-
-.nav-content {
-    max-width: 2000px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 3rem;
-}
-
-.nav-logo {
-    font-size: 1.2rem;
-    font-weight: 600;
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: 0.5px;
-    color: rgba(255, 255, 255, 0.95);
-}
-
-.nav-links {
-    display: flex;
-    gap: 2rem;
-    flex: 1;
-    justify-content: center;
-}
-
-.nav-link {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    position: relative;
-}
-
-.nav-link:hover {
-    color: rgba(255, 255, 255, 1);
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: currentColor;
-    transition: width 0.3s ease;
-}
-
-.nav-link:hover::after {
-    width: 80%;
-}
-
-.nav-back {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-}
-
-.nav-back:hover {
-    color: rgba(255, 255, 255, 1);
-}
 
 /* scroll indicator */
 .scroll-indicator {
@@ -294,46 +215,12 @@ body {
 
 /* responsive */
 @media (max-width: 1024px) {
-    .navbar {
-        padding: 1rem 2rem;
-    }
-
-    .nav-links {
-        gap: 1rem;
-    }
-
-    .nav-link {
-        font-size: 0.85rem;
-        padding: 0.4rem 0.8rem;
-    }
-
     .space-title {
         font-size: clamp(3rem, 10vw, 10rem);
     }
 }
 
 @media (max-width: 768px) {
-    .navbar {
-        padding: 1rem 1.5rem;
-    }
-
-    .nav-content {
-        gap: 1.5rem;
-    }
-
-    .nav-logo {
-        font-size: 1rem;
-    }
-
-    .nav-links {
-        gap: 0.5rem;
-    }
-
-    .nav-link {
-        font-size: 0.75rem;
-        padding: 0.3rem 0.6rem;
-    }
-
     .space-title {
         font-size: clamp(2.5rem, 8vw, 8rem);
         opacity: 0.4;
@@ -355,14 +242,6 @@ body {
 }
 
 @media (max-width: 480px) {
-    .navbar {
-        padding: 1rem;
-    }
-
-    .nav-links {
-        display: none;
-    }
-
     .space-title {
         font-size: clamp(2rem, 6vw, 6rem);
     }

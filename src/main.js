@@ -30,13 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Remove the transition cover once blocks are ready
   const transitionCover = document.querySelector('.transition-cover');
   if (transitionCover) {
-    console.log('Transition cover found, will remove it');
-
     // Keep it visible until blocks animate, then remove it
     setTimeout(() => {
       if (transitionCover.parentNode) {
         transitionCover.remove();
-        console.log('Transition cover removed (150ms)');
       }
     }, 150);
 
@@ -44,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       if (transitionCover.parentNode) {
         transitionCover.remove();
-        console.log('Transition cover removed (fallback 1.5s)');
       }
     }, 1500);
   }
@@ -60,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', () => {
       navMenu.classList.toggle('active');
+      navToggle.classList.toggle('active');
     });
   }
 
@@ -72,22 +69,48 @@ document.addEventListener('DOMContentLoaded', () => {
         target.scrollIntoView({ behavior: 'smooth' });
         if (navMenu?.classList.contains('active')) {
           navMenu.classList.remove('active');
+          navToggle?.classList.remove('active');
         }
       }
     });
   });
 
-  // Change navbar style on scroll
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+  // Cache references for unified scroll handler
+  const threeContainer = document.getElementById('three-container');
+  const hero = document.getElementById('hero');
 
-    if (currentScroll > 50) {
-      navbar.style.background = 'rgba(15, 23, 42, 0.95)';
-      navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
-    } else {
-      navbar.style.background = 'rgba(15, 23, 42, 0.8)';
-      navbar.style.boxShadow = 'none';
-    }
+  // Unified scroll handler (navbar + 3D fade) with rAF throttling
+  let scrollTicking = false;
+  window.addEventListener('scroll', () => {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(() => {
+      const currentScroll = window.scrollY;
+
+      // Change navbar style on scroll
+      if (currentScroll > 50) {
+        navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+        navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
+      } else {
+        navbar.style.background = 'rgba(15, 23, 42, 0.8)';
+        navbar.style.boxShadow = 'none';
+      }
+
+      // Fade out 3D background after hero
+      if (threeContainer && hero) {
+        const heroHeight = hero.offsetHeight;
+        if (currentScroll > heroHeight * 0.3) {
+          const start = heroHeight * 0.3;
+          const end = heroHeight * 0.9;
+          const progress = Math.min((currentScroll - start) / (end - start), 1);
+          threeContainer.style.opacity = 0.4 * (1 - progress);
+        } else {
+          threeContainer.style.opacity = 0.4;
+        }
+      }
+
+      scrollTicking = false;
+    });
   }, { passive: true });
 
   // Hero entrance animation
@@ -138,15 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function splitTextToChars(element) {
     const text = element.textContent;
-    element.innerHTML = '';
+    const fragment = document.createDocumentFragment();
 
-    text.split('').forEach(char => {
+    for (let i = 0; i < text.length; i++) {
       const span = document.createElement('span');
       span.style.display = 'inline-block';
-      span.textContent = char === ' ' ? '\u00A0' : char;
-      element.appendChild(span);
-    });
+      span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+      fragment.appendChild(span);
+    }
 
+    element.innerHTML = '';
+    element.appendChild(fragment);
     return element.querySelectorAll('span');
   }
 
@@ -237,10 +262,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Social icons entrance
-  const socialIcons = document.querySelectorAll('.social-icon');
-
   anime({
-    targets: socialIcons,
+    targets: '.social-icon',
     opacity: [0, 1],
     scale: [0, 1],
     duration: 500,
@@ -300,26 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
       }
     });
-  }
-
-  // Fade out 3D background after hero
-  const threeContainer = document.getElementById('three-container');
-  const hero = document.getElementById('hero');
-
-  if (threeContainer && hero) {
-    window.addEventListener('scroll', () => {
-      const heroHeight = hero.offsetHeight;
-      const scroll = window.pageYOffset;
-
-      if (scroll > heroHeight * 0.3) {
-        const start = heroHeight * 0.3;
-        const end = heroHeight * 0.9;
-        const progress = Math.min((scroll - start) / (end - start), 1);
-        threeContainer.style.opacity = 0.4 * (1 - progress);
-      } else {
-        threeContainer.style.opacity = 0.4;
-      }
-    }, { passive: true });
   }
 
 });

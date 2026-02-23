@@ -6,6 +6,17 @@ const BLOCK_SIZE = 60;
 let transitionBlocks = [];
 let transitionContainer = null;
 
+// Fisher-Yates shuffle for unbiased randomization
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = (Math.random() * (i + 1)) | 0;
+    const tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+  return arr;
+}
+
 // Create the transition grid overlay
 function createTransitionGrid() {
   if (!transitionContainer) {
@@ -24,6 +35,8 @@ function createTransitionGrid() {
   const offsetX = (gridWidth - columns * BLOCK_SIZE) / 2;
   const offsetY = (gridHeight - rows * BLOCK_SIZE) / 2;
 
+  const fragment = document.createDocumentFragment();
+
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < columns; col++) {
       const block = document.createElement('div');
@@ -34,10 +47,12 @@ function createTransitionGrid() {
         left: ${col * BLOCK_SIZE + offsetX}px;
         top: ${row * BLOCK_SIZE + offsetY}px;
       `;
-      transitionContainer.appendChild(block);
+      fragment.appendChild(block);
       transitionBlocks.push(block);
     }
   }
+
+  transitionContainer.appendChild(fragment);
 
   // Set initial state - hidden
   anime.set(transitionBlocks, { opacity: 0, scale: 1 });
@@ -46,18 +61,14 @@ function createTransitionGrid() {
 // Play the "leave" animation (randomly fill blocks until screen is covered)
 function playLeaveAnimation() {
   return new Promise((resolve) => {
-    // Create a shuffled array of indices for random order
-    const shuffledIndices = [...Array(transitionBlocks.length).keys()]
-      .sort(() => Math.random() - 0.5);
-
-    // Create shuffled blocks array
-    const shuffledBlocks = shuffledIndices.map(i => transitionBlocks[i]);
+    const shuffledBlocks = shuffleArray([...transitionBlocks]);
+    const blockCount = shuffledBlocks.length;
 
     anime({
       targets: shuffledBlocks,
       opacity: [0, 1],
       duration: 300,
-      delay: anime.stagger(400 / transitionBlocks.length),
+      delay: anime.stagger(400 / blockCount),
       easing: 'easeOutQuad',
       complete: resolve
     });
@@ -69,18 +80,14 @@ function playEnterAnimation() {
   return new Promise((resolve) => {
     anime.set(transitionBlocks, { opacity: 1, scale: 1 });
 
-    // Create a shuffled array of indices for random order
-    const shuffledIndices = [...Array(transitionBlocks.length).keys()]
-      .sort(() => Math.random() - 0.5);
-
-    // Create shuffled blocks array
-    const shuffledBlocks = shuffledIndices.map(i => transitionBlocks[i]);
+    const shuffledBlocks = shuffleArray([...transitionBlocks]);
+    const blockCount = shuffledBlocks.length;
 
     anime({
       targets: shuffledBlocks,
       opacity: [1, 0],
       duration: 300,
-      delay: anime.stagger(400 / transitionBlocks.length),
+      delay: anime.stagger(400 / blockCount),
       easing: 'easeInQuad',
       complete: resolve
     });
@@ -128,27 +135,23 @@ export function initTransitions() {
       attempts++;
 
       if (typeof anime !== 'undefined' && transitionBlocks.length > 0) {
-        console.log('Anime loaded, playing enter animation');
-
         // Make sure all blocks are visible first
         anime.set(transitionBlocks, { opacity: 1 });
 
         // Wait a bit, then play the reveal animation
         setTimeout(() => {
-          playEnterAnimation().then(() => {
-            console.log('Animation complete');
-          });
+          playEnterAnimation();
         }, 100);
       } else if (attempts < maxAttempts) {
         // Retry after a short delay
         setTimeout(waitForAnime, 50);
       } else {
         // Fallback: manually fade out blocks
-        console.warn('Anime.js not loaded, using fallback animation');
+        const blockCount = transitionBlocks.length;
         transitionBlocks.forEach((block, i) => {
           block.style.opacity = '1';
           block.style.transition = 'opacity 0.3s ease-out';
-          const delay = (i / transitionBlocks.length) * 400;
+          const delay = (i / blockCount) * 400;
           setTimeout(() => {
             block.style.opacity = '0';
           }, delay);
@@ -173,10 +176,11 @@ function interceptNavigationLinks() {
     // Check if it's a link and not an anchor link
     if (link && link.href && !link.href.includes('#') && !link.target) {
       // Check if it's an internal link (same origin or relative)
+      const hrefAttr = link.getAttribute('href');
       const isInternal = link.href.startsWith(window.location.origin) ||
-                         link.getAttribute('href').startsWith('/') ||
-                         link.getAttribute('href').startsWith('./') ||
-                         link.getAttribute('href').startsWith('../');
+                         hrefAttr.startsWith('/') ||
+                         hrefAttr.startsWith('./') ||
+                         hrefAttr.startsWith('../');
 
       if (isInternal) {
         e.preventDefault();

@@ -236,8 +236,15 @@ body {
     }
 
     .space-canvas::after {
+        content: 'Tap & drag model to rotate';
         font-size: 0.75rem;
         padding: 10px 20px;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .space-canvas::after {
+        content: 'Tap & drag model to rotate';
     }
 }
 
@@ -245,21 +252,6 @@ body {
     .space-title {
         font-size: clamp(2rem, 6vw, 6rem);
     }
-}
-
-/* smooth transitions */
-.model-space {
-    position: relative;
-}
-
-.model-space:nth-child(1) { animation-delay: 0.2s; }
-.model-space:nth-child(2) { animation-delay: 0.3s; }
-.model-space:nth-child(3) { animation-delay: 0.4s; }
-.model-space:nth-child(4) { animation-delay: 0.5s; }
-
-@keyframes fadeInSpace {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
 
 /* Custom scrollbar */

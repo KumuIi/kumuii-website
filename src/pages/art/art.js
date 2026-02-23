@@ -14,6 +14,10 @@ const CONFIG = {
 
 const totalGalleryWidth = CONFIG.slideCount * CONFIG.spacingX;
 
+// Precompute trig values since wallAngleY is constant
+const cosWallAngle = Math.cos(CONFIG.wallAngleY);
+const sinWallAngle = Math.sin(CONFIG.wallAngleY);
+
 // scene
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xf7f7f5);
@@ -22,7 +26,7 @@ scene.fog = new THREE.Fog(0xf7f7f5, 10, 110);
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, CONFIG.camZ);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.getElementById('canvas-container').appendChild(renderer.domElement);
@@ -50,6 +54,12 @@ const images = [
     '/images/imagesPage/sketch.png'
 ];
 const paintingGroups = [];
+
+// Reusable materials
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0x222222 });
+const galleryLineMaterial = new THREE.LineBasicMaterial({ color: 0xdddddd });
+const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.15 });
+const edges = new THREE.EdgesGeometry(planeGeo);
 
 // create paintings
 for (let i = 0; i < CONFIG.slideCount; i++) {
@@ -82,13 +92,11 @@ for (let i = 0; i < CONFIG.slideCount; i++) {
     });
     const mesh = new THREE.Mesh(planeGeo, mat);
 
-    // frame outline
-    const edges = new THREE.EdgesGeometry(planeGeo);
-    const outline = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x222222 }));
+    // frame outline - reuse edge geometry
+    const outline = new THREE.LineSegments(edges, lineMaterial);
 
-    // shadow
+    // shadow - reuse material
     const shadowGeo = new THREE.PlaneGeometry(CONFIG.pWidth, CONFIG.pHeight);
-    const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.15 });
     const shadow = new THREE.Mesh(shadowGeo, shadowMat);
     shadow.position.set(0.8, -0.8, -0.5);
 
@@ -99,7 +107,7 @@ for (let i = 0; i < CONFIG.slideCount; i++) {
         new THREE.Vector3(-lineLen / 2, 14, lineZ), new THREE.Vector3(lineLen / 2, 14, lineZ),
         new THREE.Vector3(-lineLen / 2, -14, lineZ), new THREE.Vector3(lineLen / 2, -14, lineZ)
     ]);
-    const lines = new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({ color: 0xdddddd }));
+    const lines = new THREE.LineSegments(lineGeo, galleryLineMaterial);
 
     group.add(shadow);
     group.add(mesh);
@@ -117,7 +125,8 @@ galleryGroup.position.x = 8;
 let currentScroll = 0;
 let targetScroll = 0;
 let snapTimer = null;
-let mouse = { x: 0, y: 0 };
+let mouseX = 0;
+let mouseY = 0;
 
 function snapToNearest() {
     const index = Math.round(targetScroll / CONFIG.spacingX);
@@ -128,43 +137,50 @@ window.addEventListener('wheel', (e) => {
     targetScroll += e.deltaY * 0.1;
     if (snapTimer) clearTimeout(snapTimer);
     snapTimer = setTimeout(snapToNearest, CONFIG.snapDelay);
-});
+}, { passive: true });
 
 // touch
 let touchStart = 0;
 window.addEventListener('touchstart', e => {
     touchStart = e.touches[0].clientX;
     if (snapTimer) clearTimeout(snapTimer);
-});
+}, { passive: true });
 
 window.addEventListener('touchmove', e => {
     const diff = touchStart - e.touches[0].clientX;
     targetScroll += diff * 0.6;
     touchStart = e.touches[0].clientX;
     if (snapTimer) clearTimeout(snapTimer);
-});
+}, { passive: true });
 
-window.addEventListener('touchend', () => {
-    snapToNearest();
-});
+window.addEventListener('touchend', snapToNearest, { passive: true });
 
 window.addEventListener('mousemove', (e) => {
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-});
+    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+}, { passive: true });
 
-// update UI
+// update UI - cache slide elements
+const slideElements = [];
+for (let i = 0; i < CONFIG.slideCount; i++) {
+    slideElements.push(document.getElementById(`slide-${i}`));
+}
+
+let lastActiveIndex = -1;
+
 function updateUI(scrollX) {
     const rawIndex = Math.round(scrollX / CONFIG.spacingX);
     const safeIndex = ((rawIndex % CONFIG.slideCount) + CONFIG.slideCount) % CONFIG.slideCount;
 
+    if (safeIndex === lastActiveIndex) return;
+
     for (let i = 0; i < CONFIG.slideCount; i++) {
-        const el = document.getElementById(`slide-${i}`);
-        if (el) {
-            if (i === safeIndex) el.classList.add('active');
-            else el.classList.remove('active');
-        }
+        const el = slideElements[i];
+        if (!el) continue;
+        if (i === safeIndex) el.classList.add('active');
+        else el.classList.remove('active');
     }
+    lastActiveIndex = safeIndex;
 }
 
 // animation
@@ -173,22 +189,23 @@ function animate() {
 
     currentScroll += (targetScroll - currentScroll) * CONFIG.lerpSpeed;
 
-    const xMove = currentScroll * Math.cos(CONFIG.wallAngleY);
-    const zMove = currentScroll * Math.sin(CONFIG.wallAngleY);
+    const xMove = currentScroll * cosWallAngle;
+    const zMove = currentScroll * sinWallAngle;
     camera.position.x = xMove;
     camera.position.z = CONFIG.camZ - zMove;
 
     // infinite loop
-    paintingGroups.forEach((group, i) => {
+    for (let i = 0; i < paintingGroups.length; i++) {
+        const group = paintingGroups[i];
         const originalX = i * CONFIG.spacingX;
         const distFromCam = currentScroll - originalX;
         const shift = Math.round(distFromCam / totalGalleryWidth) * totalGalleryWidth;
         group.position.x = originalX + shift;
-    });
+    }
 
     // camera sway
-    camera.rotation.x = mouse.y * 0.05;
-    camera.rotation.y = -mouse.x * 0.05;
+    camera.rotation.x = mouseY * 0.05;
+    camera.rotation.y = -mouseX * 0.05;
 
     updateUI(currentScroll);
     renderer.render(scene, camera);
@@ -199,6 +216,6 @@ window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-});
+}, { passive: true });
 
 animate();

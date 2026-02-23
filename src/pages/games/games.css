@@ -39,7 +39,7 @@ body {
     opacity: 0.15;
     z-index: 1;
     pointer-events: none;
-    animation: static-shift 0.1s infinite;
+    animation: static-shift 0.5s infinite;
 }
 
 @keyframes static-shift {
@@ -216,7 +216,7 @@ body {
 
 .games-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
     gap: 4rem;
     margin-bottom: 3rem;
 }
@@ -277,12 +277,13 @@ body {
     height: 100%;
     object-fit: cover;
     filter: contrast(1.3) saturate(1.4);
-    animation: image-flicker 0.15s infinite;
+    animation: image-flicker 3s infinite;
 }
 
 @keyframes image-flicker {
-    0%, 90%, 100% { opacity: 1; filter: contrast(1.3) saturate(1.4); }
+    0%, 94%, 100% { opacity: 1; filter: contrast(1.3) saturate(1.4); }
     95% { opacity: 0.95; filter: contrast(1.3) saturate(1.4) hue-rotate(2deg); }
+    96% { opacity: 1; filter: contrast(1.3) saturate(1.4); }
 }
 
 /* Static Burst Effect */
@@ -455,17 +456,101 @@ body {
 @media (max-width: 768px) {
     .games-gallery {
         grid-template-columns: 1fr;
+        gap: 3rem;
     }
-    
+
     .crt-container {
         padding: 1rem;
     }
-    
+
     .archive-screen {
         padding: 1.5rem;
+        border-radius: 15px;
+        border-width: 4px;
     }
-    
+
     .glitch-title {
         font-size: 1.5rem;
+    }
+
+    .game-box {
+        padding: 1.5rem;
+        border-width: 3px;
+    }
+
+    .game-box::before,
+    .game-box::after {
+        font-size: 1.5rem;
+        top: -10px;
+        left: -10px;
+    }
+
+    .game-box::after {
+        top: auto;
+        left: auto;
+        bottom: -10px;
+        right: -10px;
+    }
+
+    .game-box:hover {
+        transform: translateY(-8px) scale(1.01);
+    }
+
+    .tv-frame {
+        border-width: 3px;
+        margin-bottom: 1.5rem;
+    }
+
+    .game-name {
+        font-size: 1.2rem;
+    }
+
+    .game-year {
+        font-size: 1.1rem;
+    }
+
+    .game-tagline {
+        font-size: 1rem;
+    }
+
+    .enter-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1.2rem;
+        min-height: 44px;
+    }
+
+    .exit-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+        min-height: 44px;
+    }
+
+    .status-bar {
+        font-size: 1.2rem;
+        gap: 1rem;
+    }
+
+    .vcr-timestamp {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .archive-screen {
+        padding: 1rem;
+    }
+
+    .game-name {
+        font-size: 1rem;
+    }
+
+    .game-year,
+    .game-tagline {
+        font-size: 0.9rem;
+    }
+
+    .enter-btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
     }
 }

@@ -6,6 +6,17 @@ const BLOCK_SIZE = 60;
 let transitionBlocks = [];
 let transitionContainer = null;
 
+// Fisher-Yates shuffle for unbiased randomization
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = (Math.random() * (i + 1)) | 0;
+    const tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+  return arr;
+}
+
 // Create the transition grid overlay
 function createTransitionGrid() {
   if (!transitionContainer) {
@@ -24,6 +35,8 @@ function createTransitionGrid() {
   const offsetX = (gridWidth - columns * BLOCK_SIZE) / 2;
   const offsetY = (gridHeight - rows * BLOCK_SIZE) / 2;
 
+  const fragment = document.createDocumentFragment();
+
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < columns; col++) {
       const block = document.createElement('div');
@@ -34,24 +47,24 @@ function createTransitionGrid() {
         left: ${col * BLOCK_SIZE + offsetX}px;
         top: ${row * BLOCK_SIZE + offsetY}px;
       `;
-      transitionContainer.appendChild(block);
+      fragment.appendChild(block);
       transitionBlocks.push(block);
     }
   }
+
+  transitionContainer.appendChild(fragment);
 }
 
 // Play the "enter" animation (randomly remove blocks to reveal page)
 function playEnterAnimation() {
-  // Create a shuffled array of indices for random order
-  const shuffledIndices = [...Array(transitionBlocks.length).keys()]
-    .sort(() => Math.random() - 0.5);
+  const shuffledBlocks = shuffleArray([...transitionBlocks]);
+  const blockCount = shuffledBlocks.length;
 
-  shuffledIndices.forEach((index, i) => {
-    const block = transitionBlocks[index];
+  shuffledBlocks.forEach((block, i) => {
     block.style.opacity = '1';
     block.style.transition = 'opacity 0.3s ease-out';
 
-    const delay = (i / transitionBlocks.length) * 400;
+    const delay = (i / blockCount) * 400;
     setTimeout(() => {
       block.style.opacity = '0';
     }, delay);
@@ -84,14 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.removeItem('playEnterTransition');
 
     // Make sure all blocks are visible first
-    transitionBlocks.forEach(block => {
-      block.style.opacity = '1';
-    });
+    for (let i = 0; i < transitionBlocks.length; i++) {
+      transitionBlocks[i].style.opacity = '1';
+    }
 
     // Wait a bit, then play the reveal animation
-    setTimeout(() => {
-      playEnterAnimation();
-    }, 100);
+    setTimeout(playEnterAnimation, 100);
   }
   // On first load, loader stays hidden (no flash)
 
@@ -108,17 +119,15 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
 
-      // Create a shuffled array of indices for random order
-      const shuffledIndices = [...Array(transitionBlocks.length).keys()]
-        .sort(() => Math.random() - 0.5);
+      const shuffledBlocks = shuffleArray([...transitionBlocks]);
+      const blockCount = shuffledBlocks.length;
 
       // Randomly fill blocks to cover the page
-      shuffledIndices.forEach((index, i) => {
-        const block = transitionBlocks[index];
+      shuffledBlocks.forEach((block, i) => {
         block.style.opacity = '0';
         block.style.transition = 'opacity 0.3s ease-out';
 
-        const delay = (i / transitionBlocks.length) * 400;
+        const delay = (i / blockCount) * 400;
         setTimeout(() => {
           block.style.opacity = '1';
         }, delay);

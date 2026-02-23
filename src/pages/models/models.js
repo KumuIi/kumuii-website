@@ -65,22 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
         easing: 'easeOutElastic(1, .6)'
     });
 
-
     const canvases = document.querySelectorAll('.space-canvas');
-
 
     canvases.forEach((canvas) => {
         const groupType = canvas.getAttribute('data-group');
         const models = modelGroups[groupType];
         const lighting = lightingConfigs[groupType];
 
-
         if (!models || !lighting) return;
 
         // scene setup
         const scene = new THREE.Scene();
         scene.background = null;
-
 
         // camera setup
         const camera = new THREE.PerspectiveCamera(
@@ -90,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
             1000
         );
         camera.position.set(0, 2, 8);
-
 
         // renderer setup
         const renderer = new THREE.WebGLRenderer({
@@ -118,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mainLight.shadow.camera.near = 0.5;
         mainLight.shadow.camera.far = 50;
         scene.add(mainLight);
+
         const accentLight1 = new THREE.PointLight(
             lighting.accent1.color,
             lighting.accent1.intensity,
@@ -133,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         );
         accentLight2.position.set(...lighting.accent2.position);
         scene.add(accentLight2);
+
         const rimLight = new THREE.DirectionalLight(0xffffff, 0.7);
         rimLight.position.set(-6, 5, -6);
         scene.add(rimLight);
@@ -140,14 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // store models for rotation
         const modelObjects = [];
         let isDragging = false;
-        let previousMousePosition = { x: 0, y: 0 };
+        let prevX = 0;
+        let prevY = 0;
         let selectedModel = null;
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
         // load models
         const loader = new THREE.GLTFLoader();
-        let loadedCount = 0;
 
         models.forEach((modelData, index) => {
             loader.load(
@@ -169,22 +166,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // apply per-model rotation from config
                     if (modelData.rotation) {
-                        const [rx, ry, rz] = modelData.rotation;
-                        model.rotation.set(rx, ry, rz);
+                        model.rotation.set(modelData.rotation[0], modelData.rotation[1], modelData.rotation[2]);
                     }
+
                     model.traverse((child) => {
                         if (child.isMesh) {
                             child.castShadow = true;
                             child.receiveShadow = true;
 
-                            if (child.material) {
+                            if (child.material && child.material.metalness !== undefined) {
+                                child.material.metalness = Math.min(child.material.metalness * 1.3, 1);
                                 child.material.needsUpdate = true;
-                                if (child.material.metalness !== undefined) {
-                                    child.material.metalness = Math.min(child.material.metalness * 1.3, 1);
-                                }
                             }
                         }
                     });
+
                     model.userData.basePosition = {
                         x: modelData.position[0],
                         y: -box.min.y * scale,
@@ -217,56 +213,53 @@ document.addEventListener('DOMContentLoaded', () => {
                             easing: 'easeOutQuad'
                         });
                     }
-
-                    loadedCount++;
-
-                    if (loadedCount === models.length) {
-                        console.log(`✓ ${groupType} group loaded (${loadedCount} models)`);
-                    }
                 },
                 undefined,
                 (error) => {
-                    console.error(`✗ Error loading model in ${groupType}:`, error);
+                    console.error(`Error loading model in ${groupType}:`, error);
                 }
             );
         });
 
-        // mouse events for rotation
-        renderer.domElement.addEventListener('mousedown', (event) => {
+        // Helper: find which model was hit by raycaster
+        function findHitModel(clientX, clientY) {
             const rect = renderer.domElement.getBoundingClientRect();
-            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
 
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(scene.children, true);
 
             if (intersects.length > 0) {
-                for (let model of modelObjects) {
+                for (const model of modelObjects) {
                     let current = intersects[0].object;
                     while (current) {
-                        if (current === model) {
-                            selectedModel = model;
-                            isDragging = true;
-                            previousMousePosition = { x: event.clientX, y: event.clientY };
-                            canvas.classList.add('interacting');
-                            break;
-                        }
+                        if (current === model) return model;
                         current = current.parent;
                     }
-                    if (isDragging) break;
                 }
+            }
+            return null;
+        }
+
+        // mouse events for rotation
+        renderer.domElement.addEventListener('mousedown', (event) => {
+            const hit = findHitModel(event.clientX, event.clientY);
+            if (hit) {
+                selectedModel = hit;
+                isDragging = true;
+                prevX = event.clientX;
+                prevY = event.clientY;
+                canvas.classList.add('interacting');
             }
         });
 
         renderer.domElement.addEventListener('mousemove', (event) => {
             if (isDragging && selectedModel) {
-                const deltaX = event.clientX - previousMousePosition.x;
-                const deltaY = event.clientY - previousMousePosition.y;
-
-                selectedModel.rotation.y += deltaX * 0.01;
-                selectedModel.rotation.x += deltaY * 0.01;
-
-                previousMousePosition = { x: event.clientX, y: event.clientY };
+                selectedModel.rotation.y += (event.clientX - prevX) * 0.01;
+                selectedModel.rotation.x += (event.clientY - prevY) * 0.01;
+                prevX = event.clientX;
+                prevY = event.clientY;
             }
         });
 
@@ -281,49 +274,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // touch events
         renderer.domElement.addEventListener('touchstart', (event) => {
             if (event.touches.length === 1) {
-                const rect = renderer.domElement.getBoundingClientRect();
-                mouse.x = ((event.touches[0].clientX - rect.left) / rect.width) * 2 - 1;
-                mouse.y = -((event.touches[0].clientY - rect.top) / rect.height) * 2 + 1;
-
-                raycaster.setFromCamera(mouse, camera);
-                const intersects = raycaster.intersectObjects(scene.children, true);
-
-                if (intersects.length > 0) {
-                    for (let model of modelObjects) {
-                        let current = intersects[0].object;
-                        while (current) {
-                            if (current === model) {
-                                selectedModel = model;
-                                isDragging = true;
-                                previousMousePosition = {
-                                    x: event.touches[0].clientX,
-                                    y: event.touches[0].clientY
-                                };
-                                canvas.classList.add('interacting');
-                                break;
-                            }
-                            current = current.parent;
-                        }
-                        if (isDragging) break;
-                    }
+                const hit = findHitModel(event.touches[0].clientX, event.touches[0].clientY);
+                if (hit) {
+                    selectedModel = hit;
+                    isDragging = true;
+                    prevX = event.touches[0].clientX;
+                    prevY = event.touches[0].clientY;
+                    canvas.classList.add('interacting');
                 }
             }
-        });
+        }, { passive: true });
 
         renderer.domElement.addEventListener('touchmove', (event) => {
             if (isDragging && selectedModel && event.touches.length === 1) {
-                const deltaX = event.touches[0].clientX - previousMousePosition.x;
-                const deltaY = event.touches[0].clientY - previousMousePosition.y;
-
-                selectedModel.rotation.y += deltaX * 0.01;
-                selectedModel.rotation.x += deltaY * 0.01;
-
-                previousMousePosition = {
-                    x: event.touches[0].clientX,
-                    y: event.touches[0].clientY
-                };
+                selectedModel.rotation.y += (event.touches[0].clientX - prevX) * 0.01;
+                selectedModel.rotation.x += (event.touches[0].clientY - prevY) * 0.01;
+                prevX = event.touches[0].clientX;
+                prevY = event.touches[0].clientY;
             }
-        });
+        }, { passive: true });
 
         renderer.domElement.addEventListener('touchend', () => {
             isDragging = false;
@@ -331,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 canvas.classList.remove('interacting');
             }, 2000);
-        });
+        }, { passive: true });
 
         // animation loop
         function animate() {
@@ -355,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('beforeunload', () => {
             resizeObserver.disconnect();
             renderer.dispose();
-        });
+        }, { once: true });
     });
 
     // smooth scroll nav

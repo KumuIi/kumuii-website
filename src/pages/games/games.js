@@ -38,7 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
         easing: 'easeOutElastic(1, 0.5)'
     });
 
-    document.querySelectorAll('.game-box').forEach(box => {
+    // Cache game box elements and their children once
+    const gameBoxes = document.querySelectorAll('.game-box');
+
+    gameBoxes.forEach(box => {
         const tvFrame = box.querySelector('.tv-frame');
         const thumbnail = box.querySelector('.game-thumbnail');
         const staticBurst = box.querySelector('.static-burst');
@@ -67,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 duration: 400
             });
         });
-        
+
         box.addEventListener('mouseleave', () => {
             anime({
                 targets: thumbnail,
@@ -75,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 duration: 300,
                 easing: 'easeOutQuad'
             });
-            
+
             anime({
                 targets: tvFrame,
                 boxShadow: [
@@ -88,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelectorAll('.enter-btn:not(.disabled)').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function() {
             anime({
                 targets: '.archive-screen',
                 translateX: [
@@ -109,12 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // random static bursts
+    // random static bursts - use cached gameBoxes
+    const boxCount = gameBoxes.length;
     setInterval(() => {
-        const gameBoxes = document.querySelectorAll('.game-box');
-        const randomBox = gameBoxes[Math.floor(Math.random() * gameBoxes.length)];
+        const randomBox = gameBoxes[Math.floor(Math.random() * boxCount)];
         const staticBurst = randomBox?.querySelector('.static-burst:not(.active)');
-        
+
         if (staticBurst && Math.random() > 0.6) {
             anime({
                 targets: staticBurst,

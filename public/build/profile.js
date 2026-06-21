@@ -80,15 +80,15 @@
         { name:'My Track', by:'kumuii', src:'build/tracks/mytrack.mp3', cover:'build/assets/pfp.png' }
      ==================================================================== */
   const PLAYLIST = [
-    { name: 'Love Is A Mighty Big Word', by: 'Sewerslvt · Draining Love Story', src: 'build/assets/sewerslvt-draining-love-story-01.mp3', cover: 'build/assets/illusion.jpg' },
+    { name: 'Mr. Kill Myself', by: 'Sewerslvt', src: 'build/assets/sewerslvt-draining-love-story-08.mp3', cover: 'build/assets/album-cover.png' },
   ];
-  const DEFAULT_COVER = 'build/assets/illusion.jpg';
-  const BG_VOLUME = 0.25;
+  const DEFAULT_COVER = 'build/assets/album-cover.png';
+  let BG_VOLUME = 0.25;
 
   const synth = (typeof ChipSynth !== 'undefined') ? new ChipSynth() : null;
   if (synth) synth.setVolume(0.7);
   const audio = new Audio(); audio.preload = 'auto'; audio.volume = BG_VOLUME;
-  audio.muted = true; // muted for now
+  audio.muted = false; // background music audible (starts on first interaction due to autoplay rules)
   let cur = 0, playing = false, userPaused = false, secs = 0, secTimer = null;
 
   // resume background track where it left off
@@ -114,6 +114,24 @@
     plEl.appendChild(d);
   });
   const plItems = $$('.pli', plEl);
+
+  // volume control (slider + - / +), persists in localStorage
+  (function () {
+    const vol = $('#ampVol'), pct = $('#ampVolPct'), vd = $('#ampVolDown'), vu = $('#ampVolUp');
+    if (!vol) return;
+    function apply(v) {
+      v = Math.max(0, Math.min(100, Math.round(v)));
+      BG_VOLUME = v / 100;
+      audio.volume = v / 100;
+      vol.value = v;
+      if (pct) pct.textContent = v + '%';
+      try { localStorage.setItem('kumuii_vol', v); } catch (e) {}
+    }
+    apply(25); // always start at 25%
+    vol.addEventListener('input', () => apply(parseInt(vol.value, 10)));
+    vd && vd.addEventListener('click', () => apply(parseInt(vol.value, 10) - 10));
+    vu && vu.addEventListener('click', () => apply(parseInt(vol.value, 10) + 10));
+  })();
 
   // viz
   const viz = $('#ampViz');

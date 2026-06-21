@@ -34,6 +34,7 @@
   input, textarea { cursor: none; }
   .crt, .pfp-frame { cursor: none; }
   .amp-inner, .disc, .amp-viz, .amp-meta, .dose { cursor: none; }
+  .amp-launcher, .w95 .tbar button, .amp-ctrls button, .amp-pl .pli, .amp-vol input { cursor: none !important; }
 
   /* ===== fixed overlays (vignette + scanlines over the body wallpaper) ===== */
   .scan, .vignette { position: fixed; inset: 0; pointer-events: none; }
@@ -202,6 +203,40 @@
   .foot { text-align: center; font-family: var(--mono); font-size: 15px; color: var(--green-dim); margin-top: 22px; line-height: 1.6; }
   .foot a { color: var(--green); } .foot .dis { color: #3a5443; font-size: 13px; }
 
+  /* ramblings / blog */
+  .post { border-bottom: 1px dashed var(--border); padding: 9px 0 11px; }
+  .post:last-child { border-bottom: none; }
+  .post .pt { font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 18px; color: #fff; margin: 0 0 2px; text-shadow: 1px 1px 0 var(--red-deep); }
+  .post .pm { font-family: var(--mono); font-size: 14px; color: var(--green-dim); margin-bottom: 6px; }
+  .post .pm .tg { color: var(--amber); }
+  .post p { margin: 0 0 8px; color: #a9cbac; font-size: 12px; line-height: 1.55; }
+  .post p:last-child { margin-bottom: 0; }
+  .post .hl { color: var(--green-bright); } .post .rd { color: #ff9b8f; }
+  .post details summary { font-family: var(--mono); font-size: 14px; color: var(--link); cursor: none; list-style: none; }
+  .post details summary::-webkit-details-marker { display: none; }
+  .post details summary::before { content: '▸ '; color: var(--amber); }
+  .post details[open] summary::before { content: '▾ '; }
+
+  /* loves shrine */
+  .loves { display: grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap: 8px; }
+  .loves .lv { border: 1px solid var(--border); background: #060c08; padding: 7px 9px; }
+  .loves .lv h5 { font-family: var(--tek); font-weight: 700; font-size: 12px; text-transform: uppercase; color: var(--green-bright); margin: 0 0 3px; letter-spacing: .5px; }
+  .loves .lv p { margin: 0; font-size: 12px; color: #a9cbac; line-height: 1.45; }
+
+  /* big lists */
+  .loglists { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .loglists .ll { border: 1px solid var(--border); background: #060c08; padding: 8px 10px; }
+  .loglists .ll h5 { font-family: var(--tek); font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--amber); margin: 0 0 5px; letter-spacing: 1px; }
+  .loglists .ll p { margin: 0; font-family: var(--mono); font-size: 15px; color: #a9cbac; line-height: 1.5; }
+  @media (max-width: 720px) { .loglists { grid-template-columns: 1fr; } }
+
+  /* hot takes */
+  .takes { font-family: var(--mono); font-size: 16px; }
+  .takes .tk { display: flex; gap: 8px; padding: 4px 0; border-bottom: 1px dotted #1c3322; color: #a9cbac; }
+  .takes .tk:last-child { border-bottom: none; }
+  .takes .tk b { color: var(--soviet); flex: none; }
+  .takes .tk .hl { color: var(--green-bright); }
+
   /* ===== Win95 music player ===== */
   .amp-launcher { position: fixed; right: 0; top: 38%; z-index: 120; display: flex; align-items: center; gap: 6px; cursor: pointer;
     writing-mode: vertical-rl; font-family: var(--tek); font-weight: 700; font-size: 12px; letter-spacing: 1px; color: #1a1a1a; padding: 12px 5px;
@@ -221,12 +256,12 @@
   .w95 .menu u { text-decoration: none; } .w95 .menu span u { text-decoration: underline; }
   .amp-inner { padding: 9px; }
   .amp-head { display: flex; gap: 0; align-items: center; position: relative; height: 116px; }
-  .disc { position: absolute; left: 96px; top: 50%; transform: translateY(-50%); width: 104px; height: 104px; border-radius: 50%;
-    background: repeating-radial-gradient(circle at 50% 50%, #0a0a0a 0 2px, #161616 2px 4px); border: 1px solid #000; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-  .disc::after { content: ''; position: absolute; inset: 38px; border-radius: 50%; background: radial-gradient(circle, #c2ffc6 0 30%, #1c9c4d 31% 100%); border: 2px solid #0a120d; }
+  .disc { position: absolute; left: 50px; top: 50%; transform: translateY(-50%); width: 100px; height: 100px; border-radius: 50%; z-index: 1;
+    background: repeating-radial-gradient(circle at 50% 50%, #0a0a0a 0 2px, #161616 2px 4px); border: 1px solid #000; box-shadow: 0 4px 12px rgba(0,0,0,0.6); }
+  .disc::after { content: ''; position: absolute; inset: 24px; border-radius: 50%; background: url('build/assets/album-cover.png') center/cover, #1c9c4d; border: 1px solid #0a120d; box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 6px rgba(0,0,0,0.5); }
   .disc.spin { animation: spin 2.6s linear infinite; } @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
   .cover-wrap { position: relative; z-index: 2; width: 104px; height: 104px; border: 2px solid; border-color: var(--w95-d) var(--w95-l) var(--w95-l) var(--w95-d); background: #000; overflow: hidden; }
-  .cover-wrap img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.35) contrast(1.08); }
+  .cover-wrap img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(1.05); }
   .amp-meta { margin-top: 8px; background: #03130a; border: 2px solid; border-color: var(--w95-d) var(--w95-l) var(--w95-l) var(--w95-d); padding: 5px 8px; font-family: var(--mono); }
   .amp-meta .ru2 { color: #4fae74; font-size: 14px; }
   .amp-meta .nm { color: #5fffa0; font-size: 21px; white-space: nowrap; overflow: hidden; text-shadow: 0 0 8px rgba(120,255,150,0.4); }
@@ -243,6 +278,12 @@
   .amp-pl .pli { display: flex; gap: 6px; padding: 1px 6px; color: #14401f; cursor: pointer; }
   .amp-pl .pli:hover { background: #d8f0de; } .amp-pl .pli.on { background: var(--w95-nav); color: #fff; }
   .amp-pl .pli .n { color: #1c9c4d; } .amp-pl .pli.on .n { color: #bfe; } .amp-pl .pli .ti { flex: 1; } .amp-pl .pli .tg { opacity: .6; }
+  .amp-vol { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+  .amp-vol .vlab { font-family: var(--mono); font-size: 14px; color: #2a3a2e; }
+  .amp-vol button { width: 22px; font-family: var(--body); font-size: 13px; font-weight: bold; color: #000;
+    background: var(--w95); border: 2px solid; border-color: var(--w95-l) var(--w95-d) var(--w95-d) var(--w95-l); }
+  .amp-vol button:active { border-color: var(--w95-d) var(--w95-l) var(--w95-l) var(--w95-d); }
+  .amp-vol input[type=range] { flex: 1; accent-color: #1c9c4d; height: 14px; }
   .amp-foot { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 14px; color: #2a3a2e; margin-top: 6px; }
   .amp-foot b { color: var(--amber); }
 
@@ -280,10 +321,9 @@
 
 <!-- top bar -->
 <div class="topbar">
-  <div class="brand"><span class="logo">kumuii</span><span class="tag">// узел // disputed zone</span></div>
+  <div class="brand"><span class="logo">kumuii</span></div>
   <div class="topnav">
-    <a href="#about">about</a><a href="#project">project</a><a href="#gallery">gallery</a>
-    <a href="#collect">collections</a><a href="#comments">guestbook</a><a href="https://github.com/kumuii" target="_blank">github</a>
+    <a href="#about">about</a><a href="#project">project</a><a href="#ramblings">ramblings</a><a href="#gallery">gallery</a><a href="#takes">takes</a>
   </div>
 </div>
 
@@ -298,25 +338,26 @@
   <div class="cols">
     <!-- ===== LEFT ===== -->
     <div class="left">
-      <h1 class="name">kumuii</h1>
+      <h1 class="name"> - life kumuii cam</h1>
       <div class="pfp-frame"><img src="build/assets/pfp.png" alt="kumuii" /><div class="crtline"></div><div class="rec">REC</div></div>
       <div class="tagline">「 operator // disputed zone 」</div>
       <div class="meta">
         <div><span class="k">status:</span> half-machine, fully tired</div>
-        <div><span class="k">loc:</span> the metal sprawl</div>
+        <div><span class="k">loc:</span> germany // disputed zone</div>
         <div><span class="k">last seen:</span> <span id="lastactive">now</span></div>
-        <div class="mood"><span class="k">mood:</span> <b>▓ dissociating</b></div>
+        <div class="mood"><span class="k">mood:</span> <b>▓ chasing an idea</b></div>
       </div>
-      <div class="viewmy">view: <a href="#project">devlog</a> | <a href="#gallery">gallery</a> | <a href="#comments">guestbook</a></div>
+      <div class="viewmy">view: <a href="#ramblings">ramblings</a> | <a href="#project">devlog</a> | <a href="#gallery">gallery</a></div>
 
       <!-- NOW -->
       <div class="panel now" style="margin-top:12px;">
         <div class="ph"><span class="blip"></span> now</div>
         <div class="pc">
-          <div class="row"><span class="k">making</span><span class="v">an immersive sim</span></div>
-          <div class="row"><span class="k">playing</span><span class="v">Peripeteia (again)</span></div>
-          <div class="row"><span class="k">watching</span><span class="v">Serial Experiments Lain</span></div>
-          <div class="row"><span class="k">drinking</span><span class="v">cold earl grey</span></div>
+          <div class="row"><span class="k">making</span><span class="v">UNTITLED_ANGEL</span></div>
+          <div class="row"><span class="k">playing</span><span class="v">Persona 4</span></div>
+          <div class="row"><span class="k">reading</span><span class="v">Monogatari</span></div>
+          <div class="row"><span class="k">watching</span><span class="v">Re:Zero</span></div>
+          <div class="row"><span class="k">drinking</span><span class="v">monster (pipeline punch)</span></div>
         </div>
       </div>
 
@@ -324,12 +365,9 @@
       <div class="panel">
         <div class="ph red"><span class="blip"></span> contacting kumuii</div>
         <div class="pc contact" style="padding:6px 8px;">
-          <a href="https://github.com/kumuii" target="_blank"><span class="ico">⌨</span> GitHub <span class="sub">/kumuii</span></a>
-          <a href="https://x.com/CriPerS3" target="_blank"><span class="ico">𝕏</span> Twitter <span class="sub">@CriPerS3</span></a>
-          <a href="https://kumuii.itch.io" target="_blank"><span class="ico">▸</span> itch.io <span class="sub">/kumuii</span></a>
-          <a href="#" id="discordCopy" data-handle="kumuii"><span class="ico">◈</span> <span class="lbl">Discord</span> <span class="sub">click to copy</span></a>
           <a href="mailto:contact@kumuii.dev"><span class="ico">✉</span> Email <span class="sub">contact@…</span></a>
-          <a href="#comments"><span class="ico r">✎</span> Sign guestbook</a>
+          <a href="https://discordapp.com/users/524948157591715879" target="_blank"><span class="ico">◈</span> Discord <span class="sub">dm me!</span></a>
+          <a href="https://github.com/kumuii" target="_blank"><span class="ico">⌨</span> GitHub <span class="sub">/kumuii</span></a>
         </div>
       </div>
 
@@ -338,20 +376,15 @@
         <div class="ph"><span class="blip"></span> interests</div>
         <div class="pc" style="padding:0;">
           <table class="int">
-            <tr><td class="k">General</td><td>hobby game dev + 3D artist. immersive sims, brutalist concrete, soviet electronics, the smell of solder.</td></tr>
-            <tr><td class="k">Games</td><td><span style="color:var(--green-bright)">Peripeteia</span>, Thief, Deus Ex, E.Y.E, Cruelty Squad, S.T.A.L.K.E.R.</td></tr>
-            <tr><td class="k">Anime</td><td>Serial Experiments Lain, Texhnolyze, Ergo Proxy, Blame!, Akira.</td></tr>
-            <tr><td class="k">Music</td><td><span style="color:var(--green-bright)">Sewerslvt</span>, breakcore, atmospheric DnB, dungeon synth, DSBM, dark ambient.</td></tr>
-            <tr><td class="k">Tools</td><td>Unity · Blender · C# · a soldering iron.</td></tr>
+            <tr><td class="k">General</td><td>dystopian everything, liminal spaces, abandoned places, soviet/brutalist vibes... n moths (yes moths)</td></tr>
+            <tr><td class="k">Games</td><td><span style="color:var(--green-bright)">Peripeteia</span> (my goat), Persona series (P4 rn), S.T.A.L.K.E.R. series, DDLC, Cruelty Squad, System Shock, Armored Core 6, Song of Saya, Alice Madness Returns, Lunacid, Needy Streamer Overload, Mamas Sleeping Angels, The Citadel, Disillusion ST, Deepwoken, Beyond Citadel, Outward, Risk of Rain 2, Terraria, Project Zomboid, Rabbit and Steel, Your Only Move Is HUSTLE, iRacing, Chivalry. old jank &gt; new</td></tr>
+            <tr><td class="k">Anime+LN</td><td><span style="color:var(--green-bright)">Mushoku Tensei</span> (read the whole LN), Monogatari, Madoka Magica, FLCL, Re:Zero, Sonny Boy, Kokoro Connect, Gachiakuta, To Your Eternity, Chainsaw Man, Pupa, Sankarea, Make a Girl</td></tr>
+            <tr><td class="k">Music</td><td>russian post-punk + breakcore + shoegaze mush. comfort song: <span style="color:var(--green-bright)">засыпай (inkstreet101)</span>.<br>the pile: Poshlaya Molly, inkstreet101, cupsize, ssshhhiiittt, Valentin Strykalo, Kino, ЗоХа, T3Y0ID, Basement, xela fella, Clarion, Panchiko, Циркониевый Браслет, Второй Ка, Pierce The Veil, LONGMAN, Porch Light, жанна орешкина, Metric, Yaibai The Maid, Yakui The Maid, Chikoi The Maid, kyNZai, Chevelle, ivri, Violent Vira, Radiohead, аллергия на котов, Yorli, emosl4t696, темный принц, HIM, Evanescence, Red Hot Chili Peppers, Grechka, Mirele, zhanulka, две тысячи ярдов, нзнси холод, IOWA, Zdob si Zdub, плм, кариолемма, hermaeusmora, sewerslvt, mad1kid, alexsucks, Brandy Senki, MASS OF THE FERMENTING DREGS, Сова, Ada Rook, NESYA... (prob forgot some)</td></tr>
+            <tr><td class="k">Hobbies</td><td>learning to draw (amateur, getting there), collecting knives + figures, urbex / exploring decay, guitar (on n off), 3d modeling, programming, writing</td></tr>
           </table>
         </div>
       </div>
 
-      <!-- counter -->
-      <div class="panel">
-        <div class="ph"><span class="blip"></span> signal log</div>
-        <div class="pc"><div class="counter">souls through the wires:<div class="digits" id="counter"></div></div></div>
-      </div>
     </div>
 
     <!-- ===== RIGHT ===== -->
@@ -363,9 +396,8 @@
           <h3>about me:</h3>
           <div style="display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap;">
             <div style="flex:1; min-width:240px;">
-              <p>i don't give much real info — we're on the internet and i don't know you, complete stranger — but i can tell you i make <span class="hl">games in the dark</span> and i think about <span class="rd">Peripeteia</span> way too much.</p>
-              <p>i build immersive sims in Unity, sculpt grimy brutalist props in Blender, and chase one exact feeling: a metal sprawl, a cold war that never ended, <span class="hl">cybernetics with no ethics committee</span>, earl grey going cold on the desk.</p>
-              <p>this page is my room. turn the player on, pet the cat, sign the book before you leave. <span class="rd">the year is 19XX.</span></p>
+              <p>hii, im kumuii :> im 18 n im into all the dystopian, weird-ish stuff. brutalist architecture, cold soviet vibes, dream worlds, liminal spaces, basically anything a lil out of the ordinary that leaves me <span class="hl">kinda unsettled in a way i weirdly love</span>.</p>
+              <p>aside from that im just tryna learn to enjoy life, which somehow turned into me writing a <span class="rd">novel</span> AND making a <span class="rd">game</span> lol. theres more on both in my ramblings n the devlog if you actually care :p</p>
             </div>
             <div class="crt"><div class="tube"><img src="build/assets/tv-street.gif" alt="" /></div><span class="knob"></span><span class="label">CH 03</span></div>
           </div>
@@ -373,8 +405,8 @@
           <div style="display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap;">
             <div class="crt" style="width:200px;"><div class="tube"><img src="build/assets/tv-drinks.gif" alt="" /></div><span class="knob"></span><span class="label">CH 07</span></div>
             <div style="flex:1; min-width:240px;">
-              <p>other solo devs, 3D artists, anyone modding old immersive sims. people who make weird dystopian things and actually finish them.</p>
-              <p>recruiting for a clean futuristic megacorp? <span class="rd">wrong zone.</span> i want rust, wires, and CRT glow.</p>
+              <p>honestly?? anyone. im quiet til you know me but i LOVE meeting new ppl n hearing about whatever weird thing youre into. devs, artists, writers, ppl who make strange stuff... or just someone to ramble about games n moths w at 3am.</p>
+              <p>building a clean shiny futuristic megacorp tho? <span class="rd">wrong zone</span> lol. i want rust, wires n CRT glow. anyway dm me, i dont bite :p</p>
             </div>
           </div>
         </div>
@@ -387,12 +419,64 @@
         <div class="ph"><span class="blip"></span> current project // devlog</div>
         <div class="pc proj">
           <div class="info">
-            <h4>UNTITLED_SIM</h4>
-            <div class="stat">▸ stealth-action immersive sim · Unity</div>
-            <p>a one-operator infiltration sim set in a contested soviet-bloc sprawl. light/shadow + sound meter, leaning, a 3D-tetris inventory, brutalist level chunks i model in Blender.</p>
-            <div class="bar"><i></i><span>62%</span></div>
-            <div class="tags"><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">Blender</span><span class="tag">PS1-fog</span></div>
-            <p style="margin-top:8px; font-family:var(--mono); font-size:15px; color:var(--green-dim);">&gt; devlog 014: the shadow meter finally lies to the AI correctly.</p>
+            <h4>UNTITLED_ANGEL</h4>
+            <div class="stat">▸ immersive sim with a flip phone · Unity</div>
+            <p> you play as just any dude in a dystopian future. And get to meet and build relationships with people chat through your handy dandy flip phone and explore the weard structures and dungeons.</p>
+            <div class="bar"><i style="width:5%"></i><span>5%</span></div>
+            <div class="tags"><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">Blender</span><span class="tag">Soul</span></div>
+            <p style="margin-top:8px; font-family:var(--mono); font-size:15px; color:var(--green-dim);">&gt; devlog 002: Building the core conversation builder.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hazard"></div>
+
+      <!-- ramblings -->
+      <div class="panel" id="ramblings">
+        <div class="ph red"><span class="blip"></span> ramblings</div>
+        <div class="pc blurb">
+          <p style="font-family:var(--mono); font-size:15px; color:var(--green-dim); margin-top:0;">&gt; long thoughts go here. read em if u care :p</p>
+
+          <div class="post">
+            <div class="pt">ddlc kinda broke my brain (in a good way)</div>
+            <div class="pm">no date · <span class="tg">#origin</span> <span class="tg">#weird</span></div>
+            <p>ok so the whole "kumuii likes unsettling stuff" thing... it started w doki doki literature club. i went in for the cute characters w literally NO idea what i signed up for, n somehow loving it MORE because i didnt see it coming is what flipped a switch in me. like oh. this is what i want. give me the thing that looks one way n then is something else entirely.</p>
+            <p>thats kinda the root of all of it. the dystopian stuff, the liminal places, the games w that weird lonely feel. i just chase that <span class="hl">unsettled but in a way i love</span> feeling everywhere now. ill admit it im also drawn to the intense devoted girl characters who feel TOO much, the unpredictable ones... idk what that says about me lol but its honest so its going here :p</p>
+          </div>
+
+          <div class="post">
+            <div class="pt">peripeteia is basically my whole personality</div>
+            <div class="pm">no date · <span class="tg">#games</span> <span class="tg">#goat</span></div>
+            <p>my all time fav game n its not close. i played it at a time where nothing hit anymore, everything just holds your hand n points a big beacon at where u gotta go. peripeteia doesnt do that. it just DROPS you into this endless grimy soviet city w no real objective n lets you explore n fight n discover n learn about the world on your own. making mistakes is fine. getting lost is the point.</p>
+            <p>n the lowpoly jank?? thats not a flaw thats the <span class="hl">soul</span>. it feeds the whole thing. i was excited to boot it up like i was a kid in gradeschool rushing home to play fortnite again. thats the feeling i thought i lost. PLAY IT. its also basically the blueprint for the game im making lol.</p>
+          </div>
+
+          <div class="post">
+            <div class="pt">why my whole game runs on a flip phone</div>
+            <div class="pm">no date · <span class="tg">#untitled_angel</span> <span class="tg">#devlog</span></div>
+            <p>so UNTITLED_ANGEL (placeholder name, dont judge) is an immersive sim where you play as just some dude n it becomes about who YOU turn into. but the heart of it is the flip phone. you build basically every relationship through texting, multiple choice, think needy streamer overload meets persona. cause lets be real... we text people way more than we actually see them, so why not make THAT the whole thing.</p>
+            <p>n it matters. what you say, how fast you reply, whether you leave someone on <span class="rd">read</span>. but you still meet up n make plans irl, n thats where you really learn their fears n obsessions n traumas, n maybe fall for them. flip phone idea + name came from a game called mamas sleeping angel. also flip phones are just cool ok :P its my dream project, slowly cooking.</p>
+          </div>
+
+          <div class="post">
+            <div class="pt">the notebook novel (no spoilers i promise)</div>
+            <div class="pm">no date · <span class="tg">#writing</span> <span class="tg">#psychological</span></div>
+            <p>im writing a psychological novel. premise: a boys notebook gets stolen, the one where he wrote what he ACTUALLY thinks about everyone he knows, n suddenly its all out there. hes the kind of guy who becomes whoever hes around, n the story is about that catching up w him.</p>
+            <p>funny thing is it started as a throwaway draft where the kid just dies, like a quick thing built to be thrown out, but people read it n were like nah keep him alive we wanna know more. so here we are. core idea im chewing on: <span class="hl">youre not the main character of everyone elses story</span>. thats all youre getting, no spoilers :p</p>
+          </div>
+
+          <div class="post">
+            <div class="pt">moths are perfect actually</div>
+            <div class="pm">no date · <span class="tg">#unprompted</span> <span class="tg">#moth</span></div>
+            <p>nobody asked but i LOVE moths. like genuinely obsessed. its not even one thing, its how many cool features these lil guys are just BORN with. the big feathery antennae that can pick up a scent from way far off, the fact that some of them dont even have mouths n just exist to vibe n live their short life, the camouflage where they straight up cosplay as bark or leaves or even other animals, the way they fly completely silent, n yeah ok the wing dust thing is cool too but thats like one item on a long list.</p>
+            <p>n on top of ALL that theyre also just cute?? fuzzy little night guys w big eyes. unreal creature. if we ever talk n you wanna instantly be my friend just send me a cool moth, thats the cheat code :p</p>
+          </div>
+
+          <div class="post">
+            <div class="pt">my music taste makes no sense n thats fine</div>
+            <div class="pm">no date · <span class="tg">#music</span></div>
+            <p>people always want a clean reason for why you like music n i dont have one. theres no single throughline, its all super different, i just enjoy it so i listen to it. thats the whole take lol. but if u want a starting point: comfort song is <span class="hl">засыпай by inkstreet101</span>, n im deep in the russian post-punk + breakcore + shoegaze pile.</p>
+            <p>fav tracks if u want a starting point: засыпай (inkstreet101, my comfort song), стенки моего подьезда (cupsize), Laputa (Panchiko), Tarantula Girl (Violent Vira), Draining Love Story (Sewerslvt). the WHOLE glorious mess of a list lives over in my interests box if u wanna dig :p</p>
           </div>
         </div>
       </div>
@@ -404,13 +488,17 @@
         <div class="ph red"><span class="blip"></span> media wall</div>
         <div class="pc">
           <div class="gallery">
-            <div class="cell"><img src="build/assets/media/m-witch-jet.jpg" alt="" /></div>
-            <div class="cell"><img src="build/assets/media/m-eris.webp" alt="" /></div>
-            <div class="cell"><img src="build/assets/media/m-trio.jpg" alt="" /></div>
-            <div class="cell"><img src="build/assets/media/m-400.webp" alt="" /></div>
-            <div class="cell"><img src="build/assets/media/m-wide1.webp" alt="" /></div>
-            <div class="cell"><img src="build/assets/media/m-persona-banner.jpg" alt="" /></div>
-            <div class="cell"><img src="build/assets/media/m-notcute.png" alt="" /></div>
+            <!-- GALLERY:AUTO:START --><!-- auto-generated from public/build/assets/media/ by scripts/gen-gallery.mjs · run `npm run gallery` or it runs on build -->
+            <div class="cell"><img src="build/assets/media/m-400.webp" alt="" loading="lazy" /></div>
+            <div class="cell"><img src="build/assets/media/m-eris.webp" alt="" loading="lazy" /></div>
+            <div class="cell"><img src="build/assets/media/m-notcute.png" alt="" loading="lazy" /></div>
+            <div class="cell"><img src="build/assets/media/m-persona-banner.jpg" alt="" loading="lazy" /></div>
+            <div class="cell"><img src="build/assets/media/m-trio.jpg" alt="" loading="lazy" /></div>
+            <div class="cell"><img src="build/assets/media/m-wide1.webp" alt="" loading="lazy" /></div>
+            <div class="cell"><img src="build/assets/media/m-witch-jet.jpg" alt="" loading="lazy" /></div>
+            <div class="cell"><img src="build/assets/media/inkling.gif" alt="" loading="lazy" /></div>
+            <div class="cell"><img src="build/assets/media/puppy.jpg" alt="" loading="lazy" /></div>
+            <!-- GALLERY:AUTO:END -->
           </div>
           <div style="font-family:var(--mono); font-size:14px; color:var(--green-dim); margin-top:8px;">▸ click any to enlarge</div>
         </div>
@@ -418,13 +506,35 @@
 
       <div class="hazard"></div>
 
-      <!-- collections -->
-      <div class="panel" id="collect">
-        <div class="ph"><span class="blip"></span> Top3 Collection</div>
-        <div class="pc collect">
-          <div class="c"><h5>games</h5><div class="top">Peripeteia</div><div>Deepwoken</div><div>Beyond Citadel</div></div>
-          <div class="c"><h5>anime</h5><div class="top">Mushoku Tensei</div><div>FLCL</div><div>Madoka Magica</div></div>
-          <div class="c"><h5>artists</h5><div class="top">Cupsize</div><div>inkstreet101</div><div>Panchiko</div></div>
+      <!-- things i love (unprompted) -->
+      <div class="panel" id="loves">
+        <div class="ph"><span class="blip"></span> things i love (unprompted)</div>
+        <div class="pc">
+          <div class="loves">
+            <div class="lv"><h5>moths</h5><p>so many cool features AND cute?? feathery antennae, silent flight, master cosplayers. obsessed.</p></div>
+            <div class="lv"><h5>knives</h5><p>i just think theyre genuinely pretty. purely the look.</p></div>
+            <div class="lv"><h5>figures / merch</h5><p>shelf gremlin. every one has lore to me.</p></div>
+            <div class="lv"><h5>monster energy</h5><p>original + pipeline punch. fuel for the idea hunt.</p></div>
+            <div class="lv"><h5>flip phones</h5><p>they are cool. the entire game runs on one. no notes.</p></div>
+            <div class="lv"><h5>abandoned places</h5><p>urbex, decay, somewhere i shouldnt be. love that.</p></div>
+            <div class="lv"><h5>CRT glow</h5><p>rust, wires, scanlines &gt; clean futuristic anything.</p></div>
+            <div class="lv"><h5>learning to draw</h5><p>still an amateur but getting there. my fav way to disappear.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hazard"></div>
+
+      <!-- hot takes -->
+      <div class="panel" id="takes">
+        <div class="ph red"><span class="blip"></span> hot takes // hills i'll die on</div>
+        <div class="pc">
+          <div class="takes">
+            <div class="tk"><b>01</b><span>old games &gt; new ones. <span class="hl">no contest.</span> the jank is the soul n new stuff holds your hand til its boring.</span></div>
+            <div class="tk"><b>02</b><span>people are scared of feeling unsettled n uncomfy, n thats EXACTLY why everything got so sanitized.</span></div>
+            <div class="tk"><b>03</b><span>a story being slow at the start is GOOD actually. you stay for the characters not the eye candy. (push past mushoku tenseis slow start, trust)</span></div>
+            <div class="tk"><b>04</b><span>the journey &gt; the destination. always. let me get lost in the world.</span></div>
+          </div>
         </div>
       </div>
 
@@ -470,20 +580,6 @@
         </div>
       </div>
 
-      <div class="hazard"></div>
-
-      <!-- comments -->
-      <div class="panel" id="comments">
-        <div class="ph red"><span class="blip"></span> guestbook</div>
-        <div class="pc">
-          <div id="cmtList">
-            <div class="cmt"><div class="av"><img src="build/assets/pfp.png" alt="" /></div><div class="bd"><span class="who">xX_signal_Xx</span><span class="when">2:14am</span><p>the cat followed my cursor across the whole sprawl. 10/10 node ▓</p></div></div>
-            <div class="cmt"><div class="av"><img src="build/assets/moe.jpg" alt="" /></div><div class="bd"><span class="who">cactus_operator</span><span class="when">yesterday</span><p>earl grey gang. peripeteia supremacy 🍵</p></div></div>
-          </div>
-          <div class="cmtform"><input class="nm" id="cName" placeholder="handle" /><input class="msg" id="cMsg" placeholder="leave a transmission…" /><button id="cSend">post</button></div>
-        </div>
-      </div>
-
       <div class="foot">
         <a href="#about">about</a> · <a href="#project">devlog</a> · <a href="https://github.com/kumuii" target="_blank">github</a> · <a href="mailto:contact@kumuii.dev">contact</a><br>
         © 19XX–∞ kumuii · all signals reserved · <span style="color:var(--soviet)">★</span> ДИСПУТНАЯ ЗОНА<br>
@@ -504,19 +600,25 @@
   <div class="amp-inner">
     <div class="amp-head">
       <div class="disc" id="vinyl"></div>
-      <div class="cover-wrap"><img id="ampCover" src="build/assets/pfp.png" alt="" /></div>
+      <div class="cover-wrap"><img id="ampCover" src="build/assets/album-cover.png" alt="" /></div>
     </div>
     <div class="amp-meta">
       <div class="ru2">// signal</div>
-      <div class="nm" id="ampNm"><span class="s">— press play —</span></div>
-      <div class="row2"><span id="ampBy">kumuii</span><span id="ampTime">0:00</span></div>
+      <div class="nm" id="ampNm"><span class="s">Mr. Kill Myself</span></div>
+      <div class="row2"><span id="ampBy">Sewerslvt</span><span id="ampTime">0:00</span></div>
       <div class="amp-viz" id="ampViz"></div>
     </div>
     <div class="amp-ctrls">
       <button id="ampPrev">|◀</button><button class="play" id="ampPlay">▶</button><button id="ampNext">▶|</button>
     </div>
     <div class="amp-pl" id="ampPl"></div>
-    <div class="amp-foot"><span id="ampSub">stopped</span><span>♪ <b>add tracks</b> → build/tracks/</span></div>
+    <div class="amp-vol">
+      <span class="vlab">vol</span>
+      <button id="ampVolDown" type="button">−</button>
+      <input type="range" id="ampVol" min="0" max="100" value="25" />
+      <button id="ampVolUp" type="button">+</button>
+    </div>
+    <div class="amp-foot"><span id="ampSub">stopped</span><span>♪ vol <b id="ampVolPct">25%</b></span></div>
   </div>
 </div>
 

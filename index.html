@@ -1,336 +1,531 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Kumuii - Game Developer & 3D Artist portfolio. Explore 2D art, 3D models, and game projects.">
-    <title>Kumuii | Game/App Developer & 3D Artist</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>kumuii // disputed zone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,500;0,700;1,600;1,700&family=VT323&family=Tektur:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --mono: 'VT323', monospace; --disp: 'Oswald', sans-serif; --tek: 'Tektur', sans-serif;
+    --body: Tahoma, Verdana, Geneva, sans-serif;
+    --bg: #05080a; --panel: rgba(8,15,11,0.66); --green: #8fb892; --green-bright: #c2ffc6;
+    --green-dim: #51705a; --border: #2c5638; --border-bright: #3f8a52;
+    --red: #d4382a; --red-deep: #7d1c14; --amber: #cbb24a; --soviet: #c01f1f; --link: #8fe3a8;
+    --w95: #c3c7c0; --w95-d: #868a82; --w95-l: #fdfffb; --w95-nav: #1b3a6b;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { background: #05080a; }
+  body {
+    font-family: var(--body); color: var(--green); font-size: 13px; line-height: 1.5;
+    position: relative; min-height: 100vh; overflow-x: hidden;
+    background-color: #070d0a;
+    background-image: url('build/assets/grid.gif'), url('build/assets/bg-main.jpg');
+    background-size: cover, cover; background-position: center 72%, center; background-repeat: no-repeat, no-repeat; background-attachment: fixed, fixed;
+    background-blend-mode: soft-light, normal;
+    cursor: url('build/assets/cursors/normal.cur'), auto;
+  }
+  a { color: var(--link); text-decoration: none; } a:hover { color: #fff; text-decoration: underline; }
+  img { display: block; }
+  a, button, .navb, .topnav a, .contact a, .cmtform button, .amp-ctrls button, .amp-pl .pli, .amp-launcher, .w95 .tbar button, .webring a, #discordCopy { cursor: none; }
+  input, textarea { cursor: none; }
+  .crt, .pfp-frame { cursor: none; }
+  .amp-inner, .disc, .amp-viz, .amp-meta, .dose { cursor: none; }
 
-    <link rel="icon" type="image/png" href="public/images/logo.png">
+  /* ===== fixed overlays (vignette + scanlines over the body wallpaper) ===== */
+  .scan, .vignette { position: fixed; inset: 0; pointer-events: none; }
+  .vignette { z-index: -3; background: radial-gradient(135% 115% at 50% 38%, transparent 52%, rgba(3,7,4,0.4) 82%, rgba(0,0,0,0.72) 100%); }
+  .scan { z-index: 90; background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.22) 3px, transparent 4px); mix-blend-mode: multiply; }
 
-    <!-- preconnect to CDNs -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  #rain { position: fixed; inset: 0; z-index: 88; pointer-events: none; overflow: hidden; }
+  .drop { position: absolute; top: -12%; width: 1px; background: linear-gradient(transparent, rgba(180,220,190,0.4)); animation: fall linear infinite; }
+  @keyframes fall { to { transform: translateY(118vh); } }
 
-    <!-- fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  /* wires */
+  .wire { position: fixed; z-index: 80; pointer-events: none; opacity: 0.85; filter: brightness(0.6) drop-shadow(0 3px 4px rgba(0,0,0,0.6)); }
+  .wire.tl { top: -40px; left: -60px; width: 560px; transform: rotate(6deg); }
+  .wire.tr { top: -64px; right: -82px; width: 600px; transform: scaleX(-1) rotate(3deg); }
 
-    <!-- emailjs -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+  /* side posters */
+  .poster { position: fixed; z-index: 1; pointer-events: none; width: 188px; border: 3px solid #0c1610; outline: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7); opacity: 0.9; filter: saturate(0.7) brightness(0.82); }
+  .poster img { width: 100%; } .poster .cap { font-family: var(--mono); font-size: 14px; color: var(--green-dim); background: #060c08; text-align: center; }
+  .poster.l1 { left: 34px; top: 20%; transform: rotate(-3deg); } .poster.l2 { left: 24px; top: 56%; transform: rotate(2.5deg); width: 170px; }
+  .poster.r1 { right: 32px; top: 40%; transform: rotate(3deg); }
+  @media (max-width: 1380px) { .poster { opacity: 0.45; } } @media (max-width: 1180px) { .poster { display: none; } }
 
-    <!-- icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  /* miku floating mascot (transparent png, no box) */
+  .miku-mascot { position: fixed; right: 14px; bottom: 12px; width: 190px; z-index: 5; pointer-events: none; filter: drop-shadow(0 6px 16px rgba(0,0,0,0.55)); animation: mikufloat 4.5s ease-in-out infinite; }
+  @keyframes mikufloat { 50% { transform: translateY(-12px); } }
+  @media (max-width: 1180px) { .miku-mascot { display: none; } }
 
-    <link rel="stylesheet" href="src/style.css">
-    <link rel="stylesheet" href="src/pages/home/home.css">
+  /* dosimeter HUD */
+  .dose { position: fixed; left: 12px; bottom: 12px; z-index: 70; font-family: var(--mono); font-size: 15px;
+    background: rgba(6,12,8,0.85); border: 1px solid var(--border-bright); padding: 5px 9px; color: var(--green-bright); box-shadow: 0 0 16px rgba(0,0,0,0.6); }
+  .dose .lab { color: var(--amber); } .dose b { color: var(--red); } .dose .rad { color: var(--amber); animation: blink 1.4s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0.25; } }
 
-    <!-- Inline style to prevent flash on transition -->
-    <style>
-        .transition-cover {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #6366f1;
-            z-index: 99999;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .transition-cover.active {
-            opacity: 1;
-        }
-    </style>
+  /* ===== top bar ===== */
+  .topbar { position: relative; z-index: 40; background: linear-gradient(180deg,#0c1610,#060c08); border-bottom: 1px solid var(--border-bright);
+    box-shadow: 0 2px 18px rgba(0,0,0,0.7); display: flex; align-items: center; gap: 16px; padding: 6px 18px; }
+  .brand { display: flex; align-items: baseline; gap: 9px; }
+  .brand .logo { font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 26px; color: var(--red); letter-spacing: 1px; text-shadow: 2px 2px 0 #2a0a07; transform: skewX(-6deg); }
+  .brand .tag { font-family: var(--mono); font-size: 15px; color: var(--green-dim); }
+  .topnav { display: flex; gap: 2px; margin-left: auto; flex-wrap: wrap; }
+  .topnav a { font-family: var(--tek); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--green); padding: 4px 9px; border: 1px solid transparent; }
+  .topnav a:hover { color: #fff; border-color: var(--border-bright); background: rgba(63,138,82,0.15); text-decoration: none; }
 
-    <!-- Check if transitioning and show cover immediately -->
-    <script>
-        if (sessionStorage.getItem('playEnterTransition') === 'true') {
-            document.write('<div class="transition-cover active"></div>');
-        }
-    </script>
+  /* ===== banner ===== */
+  .wrap { position: relative; z-index: 10; max-width: 1000px; margin: 0 auto; padding: 14px 12px 60px; }
+  .banner { position: relative; height: 190px; margin-bottom: 4px; overflow: hidden; border: 1px solid var(--border-bright); background: #040a06; box-shadow: 0 0 0 3px #0a130d, 0 8px 30px rgba(0,0,0,0.6); }
+  .banner img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.55) brightness(0.62) hue-rotate(15deg); }
+  .banner .scanbar { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.25) 3px 4px); }
+  .banner .welcome { position: absolute; left: 16px; bottom: 12px; font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 30px; color: #fff; letter-spacing: 1px; text-shadow: 2px 2px 0 var(--red-deep), 0 0 18px rgba(0,0,0,0.8); transform: skewX(-6deg); }
+  .banner .welcome b { color: var(--red); }
+  .banner .cyr { position: absolute; right: 14px; top: 10px; font-family: var(--mono); font-size: 17px; color: var(--green-bright); text-shadow: 0 0 8px rgba(0,0,0,0.9); letter-spacing: 2px; }
+  .banner .cyr .star { color: var(--soviet); }
+
+  /* hazard tape divider */
+  .hazard { height: 14px; margin: 10px 0; background: repeating-linear-gradient(45deg, #d9b400 0 14px, #15151a 14px 28px); border-top: 1px solid #000; border-bottom: 1px solid #000; opacity: 0.85; }
+
+  /* ===== layout / panels ===== */
+  .cols { display: grid; grid-template-columns: 300px 1fr; gap: 12px; align-items: start; }
+  .panel { background: var(--panel); border: 1px solid var(--border); margin-bottom: 12px; backdrop-filter: blur(3px); box-shadow: inset 0 0 30px rgba(0,0,0,0.45); }
+  .ph { font-family: var(--tek); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--green-bright);
+    padding: 5px 10px; background: linear-gradient(180deg,#18301f,#0d1c12); border-bottom: 1px solid var(--border-bright); display: flex; align-items: center; gap: 7px; }
+  .ph.red { background: linear-gradient(180deg,#3a120c,#1f0a06); color: #ffd2cc; border-bottom-color: var(--red); }
+  .ph .blip { width: 7px; height: 7px; background: var(--soviet); box-shadow: 0 0 7px var(--soviet); animation: blink 1.4s steps(2) infinite; }
+  .ph .ru { margin-left: auto; font-family: var(--mono); font-weight: 400; font-size: 14px; color: var(--green-dim); letter-spacing: 1px; text-transform: none; }
+  .pc { padding: 10px; }
+
+  /* left */
+  .name { font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 32px; color: #fff; letter-spacing: 0.5px; line-height: 1; margin: 0 0 8px; transform: skewX(-5deg); text-shadow: 2px 2px 0 var(--red-deep); }
+  .pfp-frame { border: 1px solid var(--border-bright); background: #040a06; padding: 4px; position: relative; box-shadow: 0 0 18px rgba(0,0,0,0.6); }
+  .pfp-frame img { width: 100%; filter: saturate(0.85) contrast(1.05); }
+  .pfp-frame .crtline { position: absolute; inset: 4px; pointer-events: none; background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.2) 3px 4px); }
+  .pfp-frame .rec { position: absolute; top: 8px; left: 8px; font-family: var(--mono); font-size: 13px; color: var(--red); text-shadow: 0 0 4px #000; }
+  .pfp-frame .rec::before { content: '●'; animation: blink 1s steps(2) infinite; margin-right: 3px; }
+  .tagline { font-family: var(--mono); font-size: 17px; color: var(--green-bright); margin: 8px 0 4px; }
+  .meta { font-family: var(--mono); font-size: 16px; line-height: 1.35; } .meta .k { color: var(--green-dim); } .mood b { color: var(--amber); }
+  .viewmy { font-family: var(--mono); font-size: 16px; margin-top: 4px; border-top: 1px dashed var(--border); padding-top: 5px; }
+
+  /* now box */
+  .now .pc { font-family: var(--mono); font-size: 16px; }
+  .now .row { display: flex; gap: 8px; padding: 2px 0; border-bottom: 1px dotted #1c3322; }
+  .now .row .k { color: var(--amber); width: 74px; flex: none; } .now .row .v { color: var(--green-bright); }
+
+  /* contacting (working) */
+  .contact a { display: flex; align-items: center; gap: 9px; padding: 5px 4px; font-size: 12px; color: var(--link); border-bottom: 1px dotted #1c3322; }
+  .contact a:hover { background: rgba(63,138,82,0.14); text-decoration: none; color: #fff; }
+  .contact .ico { width: 18px; height: 18px; flex: none; display: grid; place-items: center; font-size: 11px; border: 1px solid var(--border-bright); background: #0c1c12; color: var(--green-bright); font-family: var(--mono); }
+  .contact .ico.r { border-color: var(--red); color: #ff9b8f; }
+  .contact .sub { color: var(--green-dim); font-size: 11px; margin-left: auto; font-family: var(--mono); }
+
+  table.int { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.int td { border: 1px solid var(--border); padding: 5px 7px; vertical-align: top; }
+  table.int td.k { width: 70px; background: #11241a; color: var(--green-bright); font-family: var(--tek); font-weight: 700; font-size: 10px; text-transform: uppercase; }
+  .links-list { font-family: var(--mono); font-size: 16px; line-height: 1.6; } .links-list .lk span { color: var(--green-dim); }
+
+  .counter { font-family: var(--mono); font-size: 15px; text-align: center; color: var(--green-dim); }
+  .counter .digits { display: inline-flex; gap: 2px; margin-top: 3px; }
+  .counter .digits span { background: #020604; border: 1px solid var(--border); padding: 1px 5px; color: var(--green-bright); }
+
+  /* right: blurbs */
+  .blurb h3 { font-family: var(--disp); font-style: italic; font-weight: 600; font-size: 18px; color: var(--red); margin: 4px 0 8px; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+  .blurb h3 .ru { font-family: var(--mono); font-style: normal; color: var(--green-dim); font-size: 15px; font-weight: 400; margin-left: 8px; }
+  .blurb p { margin: 0 0 9px; color: #a9cbac; } .blurb p .hl { color: var(--green-bright); } .blurb p .rd { color: #ff9b8f; }
+
+  .crt { position: relative; width: 210px; flex: none; background: #0a120d; border: 2px solid #1c3324; border-radius: 14px/20px; padding: 12px 12px 22px; box-shadow: inset 0 0 22px rgba(0,0,0,0.7), 0 6px 18px rgba(0,0,0,0.6); }
+  .crt .tube { position: relative; border-radius: 12px/16px; overflow: hidden; border: 1px solid #000; background: #000; }
+  .crt .tube img { width: 100%; filter: saturate(0.7) brightness(0.85); }
+  .crt .tube::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.28) 3px 4px), radial-gradient(120% 100% at 50% 50%, transparent 60%, rgba(0,0,0,0.5)); }
+  .crt .label { position: absolute; bottom: 5px; right: 14px; font-family: var(--mono); font-size: 13px; color: var(--green-dim); }
+  .crt .knob { position: absolute; bottom: 6px; left: 12px; width: 9px; height: 9px; border-radius: 50%; background: #1c3324; box-shadow: 0 0 0 2px #0a120d; }
+
+  /* project / devlog */
+  .proj { display: flex; gap: 12px; flex-wrap: wrap; }
+  .proj .shots { flex: 1; min-width: 260px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .proj .shots img { width: 100%; height: 110px; object-fit: cover; border: 1px solid var(--border-bright); filter: saturate(0.7) brightness(0.85); }
+  .proj .info { flex: 1; min-width: 240px; }
+  .proj .info h4 { font-family: var(--disp); font-style: italic; font-weight: 700; font-size: 20px; color: #fff; margin: 0 0 4px; text-shadow: 2px 2px 0 var(--red-deep); }
+  .proj .info .stat { font-family: var(--mono); font-size: 15px; color: var(--amber); margin-bottom: 6px; }
+  .proj .info p { margin: 0 0 8px; color: #a9cbac; font-size: 12px; }
+  .bar { height: 12px; border: 1px solid var(--border-bright); background: #040a06; margin: 4px 0 8px; position: relative; }
+  .bar i { position: absolute; inset: 1px; width: 62%; background: repeating-linear-gradient(45deg, var(--border-bright) 0 6px, #2c5638 6px 12px); }
+  .bar span { position: absolute; right: 4px; top: -1px; font-family: var(--mono); font-size: 13px; color: var(--green-bright); }
+  .tags { display: flex; gap: 5px; flex-wrap: wrap; } .tag { font-family: var(--mono); font-size: 14px; padding: 1px 7px; border: 1px solid var(--border); color: var(--green-bright); background: #0c1c12; }
+
+  /* media gallery */
+  .gallery { columns: 2; column-gap: 8px; }
+  .gallery .cell { break-inside: avoid; margin: 0 0 8px; border: 1px solid var(--border-bright); background: #040a06; padding: 3px; cursor: none; position: relative; }
+  .gallery .cell img { width: 100%; height: auto; display: block; filter: saturate(0.85) brightness(0.96); }
+  .gallery .cell:hover img { filter: saturate(1.1) brightness(1.1); }
+  .gallery .cell .cap { position: absolute; left: 6px; bottom: 9px; font-family: var(--mono); font-size: 13px; color: var(--green-bright); background: rgba(4,10,6,0.8); padding: 0 6px; border: 1px solid var(--border); }
+  #lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(2,5,3,0.92); display: none; align-items: center; justify-content: center; cursor: zoom-out; }
+  #lightbox.open { display: flex; } #lightbox img { max-width: 86%; max-height: 86%; border: 2px solid var(--border-bright); box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+
+  /* collections */
+  .collect { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; font-family: var(--mono); font-size: 16px; }
+  .collect .c h5 { font-family: var(--tek); font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--amber); margin: 0 0 5px; letter-spacing: 1px; }
+  .collect .c div { color: var(--green); border-bottom: 1px dotted #1c3322; padding: 1px 0; } .collect .c .top { color: var(--green-bright); }
+
+  /* 88x31 wall */
+  .wall { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .wall img { display: block; border: 1px solid #0a130d; background: #04140a; }
+  .wall a { display: block; line-height: 0; }
+  .b88 { width: 88px; height: 31px; border: 1px solid; display: flex; align-items: center; justify-content: center; text-align: center;
+    font-family: var(--mono); font-size: 13px; line-height: 1; image-rendering: pixelated; overflow: hidden; padding: 0 2px; letter-spacing: .5px; }
+  .b88.a { background: #060c08; color: var(--green-bright); border-color: var(--border-bright); }
+  .b88.b { background: var(--soviet); color: #fff; border-color: #ff9b8f; }
+  .b88.c { background: var(--green-bright); color: #04130a; border-color: #fff; }
+  .b88.d { background: #15151a; color: var(--amber); border-color: var(--amber); }
+  .b88.e { background: #0c1c2a; color: #7fd6ff; border-color: #2f6f8f; }
+  .b88.f { background: #1a0426; color: #d8b6ff; border-color: #6a3fb0; }
+  .b88 b { color: inherit; }
+  .webring { font-family: var(--mono); font-size: 16px; color: var(--green); margin-top: 9px; display: flex; align-items: center; gap: 8px; border-top: 1px dashed var(--border); padding-top: 8px; }
+  .webring a { color: var(--link); }
+
+  /* comments */
+  .cmt { display: flex; gap: 9px; padding: 8px 0; border-bottom: 1px dotted #1c3322; }
+  .cmt .av { width: 44px; height: 44px; flex: none; border: 1px solid var(--border-bright); overflow: hidden; background: #040a06; }
+  .cmt .av img { width: 100%; height: 100%; object-fit: cover; }
+  .cmt .who { font-family: var(--tek); font-weight: 700; color: var(--link); font-size: 12px; } .cmt .when { font-family: var(--mono); font-size: 13px; color: var(--green-dim); float: right; }
+  .cmt .bd p { margin: 3px 0 0; color: #a9cbac; font-size: 12px; }
+  .cmtform { display: flex; gap: 6px; margin-top: 9px; flex-wrap: wrap; }
+  .cmtform input { background: #040a06; border: 1px solid var(--border); color: var(--green-bright); font-family: var(--body); font-size: 12px; padding: 4px 7px; }
+  .cmtform input.nm { width: 120px; } .cmtform input.msg { flex: 1; min-width: 140px; }
+  .cmtform button { font-family: var(--tek); font-weight: 700; font-size: 11px; text-transform: uppercase; cursor: pointer; color: #04130a; background: var(--green-bright); border: 1px solid #fff; padding: 0 12px; }
+
+  .foot { text-align: center; font-family: var(--mono); font-size: 15px; color: var(--green-dim); margin-top: 22px; line-height: 1.6; }
+  .foot a { color: var(--green); } .foot .dis { color: #3a5443; font-size: 13px; }
+
+  /* ===== Win95 music player ===== */
+  .amp-launcher { position: fixed; right: 0; top: 38%; z-index: 120; display: flex; align-items: center; gap: 6px; cursor: pointer;
+    writing-mode: vertical-rl; font-family: var(--tek); font-weight: 700; font-size: 12px; letter-spacing: 1px; color: #1a1a1a; padding: 12px 5px;
+    background: linear-gradient(90deg,#e7eae3,var(--w95)); border: 2px solid; border-color: var(--w95-l) var(--w95-d) var(--w95-d) var(--w95-l); box-shadow: -3px 3px 12px rgba(0,0,0,0.5); }
+  .amp-launcher:hover { background: linear-gradient(90deg,#fff,#d8dbd4); }
+  .amp-launcher .dot { writing-mode: horizontal-tb; width: 8px; height: 8px; border-radius: 50%; background: #1c9c4d; box-shadow: 0 0 6px #1c9c4d; }
+
+  .w95 { position: fixed; right: 18px; top: 110px; width: 300px; z-index: 130; display: none;
+    background: var(--w95); border: 2px solid; border-color: var(--w95-l) var(--w95-d) var(--w95-d) var(--w95-l); box-shadow: 4px 5px 0 rgba(0,0,0,0.35), 0 14px 40px rgba(0,0,0,0.6); }
+  .w95 .tbar { display: flex; align-items: center; gap: 6px; padding: 3px 4px; cursor: grab; color: #fff;
+    background: linear-gradient(90deg, var(--w95-nav), #3a6cb5); font-family: var(--tek); font-weight: 700; font-size: 12px; }
+  .w95 .tbar .ic { width: 14px; height: 14px; background: #c0c7d6; border: 1px solid #0a1a3a; display: grid; place-items: center; font-size: 9px; color: var(--w95-nav); }
+  .w95 .tbar .tt { flex: 1; letter-spacing: .5px; }
+  .w95 .tbar button { width: 18px; height: 16px; font-family: var(--body); font-size: 11px; font-weight: bold; line-height: 1; cursor: pointer;
+    background: var(--w95); border: 2px solid; border-color: var(--w95-l) var(--w95-d) var(--w95-d) var(--w95-l); color: #000; }
+  .w95 .menu { font-family: var(--body); font-size: 11px; color: #111; padding: 2px 8px; display: flex; gap: 12px; border-bottom: 1px solid var(--w95-d); background: var(--w95); }
+  .w95 .menu u { text-decoration: none; } .w95 .menu span u { text-decoration: underline; }
+  .amp-inner { padding: 9px; }
+  .amp-head { display: flex; gap: 0; align-items: center; position: relative; height: 116px; }
+  .disc { position: absolute; left: 96px; top: 50%; transform: translateY(-50%); width: 104px; height: 104px; border-radius: 50%;
+    background: repeating-radial-gradient(circle at 50% 50%, #0a0a0a 0 2px, #161616 2px 4px); border: 1px solid #000; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+  .disc::after { content: ''; position: absolute; inset: 38px; border-radius: 50%; background: radial-gradient(circle, #c2ffc6 0 30%, #1c9c4d 31% 100%); border: 2px solid #0a120d; }
+  .disc.spin { animation: spin 2.6s linear infinite; } @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+  .cover-wrap { position: relative; z-index: 2; width: 104px; height: 104px; border: 2px solid; border-color: var(--w95-d) var(--w95-l) var(--w95-l) var(--w95-d); background: #000; overflow: hidden; }
+  .cover-wrap img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.35) contrast(1.08); }
+  .amp-meta { margin-top: 8px; background: #03130a; border: 2px solid; border-color: var(--w95-d) var(--w95-l) var(--w95-l) var(--w95-d); padding: 5px 8px; font-family: var(--mono); }
+  .amp-meta .ru2 { color: #4fae74; font-size: 14px; }
+  .amp-meta .nm { color: #5fffa0; font-size: 21px; white-space: nowrap; overflow: hidden; text-shadow: 0 0 8px rgba(120,255,150,0.4); }
+  .amp-meta .nm .s { display: inline-block; padding-left: 100%; animation: marq 9s linear infinite; } @keyframes marq { to { transform: translateX(-100%); } }
+  .amp-meta .row2 { display: flex; justify-content: space-between; color: #2fd47e; font-size: 14px; }
+  .amp-viz { display: flex; align-items: flex-end; gap: 2px; height: 22px; margin-top: 5px; }
+  .amp-viz i { flex: 1; height: 10%; background: linear-gradient(180deg,#6effb0,#0c8b46); }
+  .amp-ctrls { display: flex; gap: 4px; margin-top: 8px; }
+  .amp-ctrls button { flex: 1; font-family: var(--body); font-size: 13px; cursor: pointer; padding: 3px 0; color: #000;
+    background: var(--w95); border: 2px solid; border-color: var(--w95-l) var(--w95-d) var(--w95-d) var(--w95-l); }
+  .amp-ctrls button:active { border-color: var(--w95-d) var(--w95-l) var(--w95-l) var(--w95-d); }
+  .amp-ctrls .play { font-weight: bold; color: var(--w95-nav); }
+  .amp-pl { margin-top: 8px; height: 96px; overflow-y: auto; background: #fff; border: 2px solid; border-color: var(--w95-d) var(--w95-l) var(--w95-l) var(--w95-d); font-family: var(--mono); font-size: 15px; }
+  .amp-pl .pli { display: flex; gap: 6px; padding: 1px 6px; color: #14401f; cursor: pointer; }
+  .amp-pl .pli:hover { background: #d8f0de; } .amp-pl .pli.on { background: var(--w95-nav); color: #fff; }
+  .amp-pl .pli .n { color: #1c9c4d; } .amp-pl .pli.on .n { color: #bfe; } .amp-pl .pli .ti { flex: 1; } .amp-pl .pli .tg { opacity: .6; }
+  .amp-foot { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 14px; color: #2a3a2e; margin-top: 6px; }
+  .amp-foot b { color: var(--amber); }
+
+  @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } .gallery { grid-template-columns: repeat(3,1fr); } .collect { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
-    <!-- 3d background -->
-    <div id="three-container"></div>
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+    <rect width="400" height="400" fill="#070d09"/>
+    <g stroke="#2c5638" stroke-width="2" opacity="0.7"><path d="M-20 90 C140 60 260 150 420 70" fill="none"/><path d="M-20 130 C160 200 240 70 420 150" fill="none"/></g>
+    <text x="200" y="215" font-family="Georgia, serif" font-style="italic" font-weight="bold" font-size="62" fill="#d4382a" text-anchor="middle" transform="skewX(-6 200 200)">kumuii</text>
+    <text x="200" y="255" font-family="monospace" font-size="20" fill="#8fb892" text-anchor="middle" letter-spacing="3">// DISPUTED ZONE</text>
+  </svg>
+</template>
 
-    <!-- navbar -->
-    <nav class="nav-bar">
-        <div class="nav-container">
-            <div class="nav-logo">Christopher Perov</div>
-            <ul class="nav-menu">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#tech-stack">Skills</a></li>
-                <li><a href="#my-work">Work</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+<!-- bg -->
+<div class="vignette"></div>
+<div id="rain"></div>
+<div class="scan"></div>
+
+<img class="wire tl" src="build/assets/wire.png" alt="" />
+<img class="wire tr" src="build/assets/wire.png" alt="" />
+
+<!-- side posters -->
+<div class="poster l1"><img src="build/assets/peripeteia-poster.jpg" alt="" /><div class="cap">PERIPETEIA</div></div>
+<div class="poster l2"><img src="build/assets/marie-sm.jpg" alt="" /><div class="cap">&nbsp;</div></div>
+<div class="poster r1"><img src="build/assets/moe.jpg" alt="" /><div class="cap">&nbsp;</div></div>
+
+<!-- miku mascot (transparent, floats over the wallpaper) -->
+<img class="miku-mascot" src="build/assets/media/m-miku-nendo.gif" alt="miku" />
+
+<!-- dosimeter -->
+<div class="dose"><span class="lab">РАД:</span> <b id="dose">14.20</b> <span class="rad">☢</span> мкЗв/ч</div>
+
+<!-- top bar -->
+<div class="topbar">
+  <div class="brand"><span class="logo">kumuii</span><span class="tag">// узел // disputed zone</span></div>
+  <div class="topnav">
+    <a href="#about">about</a><a href="#project">project</a><a href="#gallery">gallery</a>
+    <a href="#collect">collections</a><a href="#comments">guestbook</a><a href="https://github.com/kumuii" target="_blank">github</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="banner">
+    <img class="bg" src="build/assets/game-hud.jpg" alt="" />
+    <div class="scanbar"></div>
+    <div class="cyr"><span class="star">★</span> ДИСПУТНАЯ ЗОНА · 19XX</div>
+    <div class="welcome"><b>welcome</b> to the wires</div>
+  </div>
+
+  <div class="cols">
+    <!-- ===== LEFT ===== -->
+    <div class="left">
+      <h1 class="name">kumuii</h1>
+      <div class="pfp-frame"><img src="build/assets/pfp.png" alt="kumuii" /><div class="crtline"></div><div class="rec">REC</div></div>
+      <div class="tagline">「 operator // disputed zone 」</div>
+      <div class="meta">
+        <div><span class="k">status:</span> half-machine, fully tired</div>
+        <div><span class="k">loc:</span> the metal sprawl</div>
+        <div><span class="k">last seen:</span> <span id="lastactive">now</span></div>
+        <div class="mood"><span class="k">mood:</span> <b>▓ dissociating</b></div>
+      </div>
+      <div class="viewmy">view: <a href="#project">devlog</a> | <a href="#gallery">gallery</a> | <a href="#comments">guestbook</a></div>
+
+      <!-- NOW -->
+      <div class="panel now" style="margin-top:12px;">
+        <div class="ph"><span class="blip"></span> now</div>
+        <div class="pc">
+          <div class="row"><span class="k">making</span><span class="v">an immersive sim</span></div>
+          <div class="row"><span class="k">playing</span><span class="v">Peripeteia (again)</span></div>
+          <div class="row"><span class="k">watching</span><span class="v">Serial Experiments Lain</span></div>
+          <div class="row"><span class="k">drinking</span><span class="v">cold earl grey</span></div>
         </div>
-    </nav>
+      </div>
 
-    <!-- hero -->
-    <section id="hero">
-        <div class="hero-wrapper">
-            <div class="hero-content">
-                <div class="hero-badge">Game Developer & 3D Artist</div>
-                <h1 class="hero-title">Kumuii</h1>
-                <p class="hero-subtitle">Crafting immersive digital experiences through code and creativity</p>
-                <div class="hero-cta">
-                    <a href="#my-work" class="btn-primary">View My Work</a>
-                    <a href="#contact" class="btn-secondary">Get In Touch</a>
-                </div>
-            </div>
-            <div class="hero-right">
-                <div class="hero-quote">
-                    "The only way to do great work is to love what you do. Stay hungry. Stay foolish."
-                </div>
-            </div>
+      <!-- contacting (working) -->
+      <div class="panel">
+        <div class="ph red"><span class="blip"></span> contacting kumuii</div>
+        <div class="pc contact" style="padding:6px 8px;">
+          <a href="https://github.com/kumuii" target="_blank"><span class="ico">⌨</span> GitHub <span class="sub">/kumuii</span></a>
+          <a href="https://x.com/CriPerS3" target="_blank"><span class="ico">𝕏</span> Twitter <span class="sub">@CriPerS3</span></a>
+          <a href="https://kumuii.itch.io" target="_blank"><span class="ico">▸</span> itch.io <span class="sub">/kumuii</span></a>
+          <a href="#" id="discordCopy" data-handle="kumuii"><span class="ico">◈</span> <span class="lbl">Discord</span> <span class="sub">click to copy</span></a>
+          <a href="mailto:contact@kumuii.dev"><span class="ico">✉</span> Email <span class="sub">contact@…</span></a>
+          <a href="#comments"><span class="ico r">✎</span> Sign guestbook</a>
         </div>
-        <div class="scroll-indicator">
-            <span>Scroll to explore</span>
-            <div class="scroll-arrow"></div>
+      </div>
+
+      <!-- interests -->
+      <div class="panel">
+        <div class="ph"><span class="blip"></span> interests</div>
+        <div class="pc" style="padding:0;">
+          <table class="int">
+            <tr><td class="k">General</td><td>hobby game dev + 3D artist. immersive sims, brutalist concrete, soviet electronics, the smell of solder.</td></tr>
+            <tr><td class="k">Games</td><td><span style="color:var(--green-bright)">Peripeteia</span>, Thief, Deus Ex, E.Y.E, Cruelty Squad, S.T.A.L.K.E.R.</td></tr>
+            <tr><td class="k">Anime</td><td>Serial Experiments Lain, Texhnolyze, Ergo Proxy, Blame!, Akira.</td></tr>
+            <tr><td class="k">Music</td><td><span style="color:var(--green-bright)">Sewerslvt</span>, breakcore, atmospheric DnB, dungeon synth, DSBM, dark ambient.</td></tr>
+            <tr><td class="k">Tools</td><td>Unity · Blender · C# · a soldering iron.</td></tr>
+          </table>
         </div>
-    </section>
+      </div>
 
-    <!-- about -->
-    <section id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-content">
-                    <h2 class="section-title">About Me</h2>
-                    <div class="about-text">
-                        <p>I'm a hobby game developer and 3D artist & animator, i love to work on creating games and making 3D models. With expertise in C# and other programming languages, I can bring my ideas to life.</p>
-                        <p>My work combines technical proficiency with artistic vision, resulting in polished, professional projects.</p>
-                    </div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-number">1+</div>
-                            <div class="stat-label">Years Experience</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">2+</div>
-                            <div class="stat-label">Projects Completed</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">4+</div>
-                            <div class="stat-label">Languages</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-image">
-                    <div class="image-placeholder">
-                        <img src="public/images/profile.png" alt="Game Development" loading="lazy">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- skills -->
-<section id="tech-stack">
-    <div class="container">
-        <h2 class="section-title">Skills & Expertise</h2>
-
-        <!-- main 3 skill cards -->
-        <div class="primary-skills">
-            <div class="skill-card">
-                <div class="skill-icon">
-                    <i class="fab fa-unity"></i>
-                </div>
-                <h3>Unity</h3>
-                <p>Game Development</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">
-                    <i class="fas fa-cube"></i>
-                </div>
-                <h3>Blender</h3>
-                <p>3D Modeling & Animation</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">
-                    <i class="fas fa-code"></i>
-                </div>
-                <h3>C#</h3>
-                <p>Programming</p>
-            </div>
-        </div>
-
-        <!-- skill categories -->
-        <div class="skills-categories">
-            <div class="skills-section">
-                <h4 class="skills-category">Programming</h4>
-                <div class="skills-grid">
-                    <div class="skill-item">
-                        <i class="fas fa-code"></i>
-                        <span>C#</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-php"></i>
-                        <span>PHP</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-python"></i>
-                        <span>Python</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-js"></i>
-                        <span>JavaScript</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="skills-section">
-                <h4 class="skills-category">Web Development</h4>
-                <div class="skills-grid">
-                    <div class="skill-item">
-                        <i class="fab fa-html5"></i>
-                        <span>HTML5</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-css3-alt"></i>
-                        <span>CSS3</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fas fa-bolt"></i>
-                        <span>Vite</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-node-js"></i>
-                        <span>Node.js</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="skills-section">
-                <h4 class="skills-category">Tools & Platforms</h4>
-                <div class="skills-grid">
-                    <div class="skill-item">
-                        <i class="fab fa-git-alt"></i>
-                        <span>Git</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-github"></i>
-                        <span>GitHub</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fas fa-database"></i>
-                        <span>MySQL</span>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fas fa-cloud"></i>
-                        <span>Azure</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <!-- counter -->
+      <div class="panel">
+        <div class="ph"><span class="blip"></span> signal log</div>
+        <div class="pc"><div class="counter">souls through the wires:<div class="digits" id="counter"></div></div></div>
+      </div>
     </div>
-</section>
 
+    <!-- ===== RIGHT ===== -->
+    <div class="right">
+      <!-- blurbs -->
+      <div class="panel" id="about">
+        <div class="ph red"><span class="blip"></span> blurbs</div>
+        <div class="pc blurb">
+          <h3>about me:</h3>
+          <div style="display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap;">
+            <div style="flex:1; min-width:240px;">
+              <p>i don't give much real info — we're on the internet and i don't know you, complete stranger — but i can tell you i make <span class="hl">games in the dark</span> and i think about <span class="rd">Peripeteia</span> way too much.</p>
+              <p>i build immersive sims in Unity, sculpt grimy brutalist props in Blender, and chase one exact feeling: a metal sprawl, a cold war that never ended, <span class="hl">cybernetics with no ethics committee</span>, earl grey going cold on the desk.</p>
+              <p>this page is my room. turn the player on, pet the cat, sign the book before you leave. <span class="rd">the year is 19XX.</span></p>
+            </div>
+            <div class="crt"><div class="tube"><img src="build/assets/tv-street.gif" alt="" /></div><span class="knob"></span><span class="label">CH 03</span></div>
+          </div>
+          <h3 style="margin-top:14px;">who i'd like to meet:</h3>
+          <div style="display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap;">
+            <div class="crt" style="width:200px;"><div class="tube"><img src="build/assets/tv-drinks.gif" alt="" /></div><span class="knob"></span><span class="label">CH 07</span></div>
+            <div style="flex:1; min-width:240px;">
+              <p>other solo devs, 3D artists, anyone modding old immersive sims. people who make weird dystopian things and actually finish them.</p>
+              <p>recruiting for a clean futuristic megacorp? <span class="rd">wrong zone.</span> i want rust, wires, and CRT glow.</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <!-- work -->
-<section id="my-work">
-    <div class="container">
-        <h2 class="section-title">My Work</h2>
+      <div class="hazard"></div>
 
-        <div class="work-card left">
-            <div class="work-image">
-                <img src="public/images/preview-art.jpg" alt="3D Art Project" loading="lazy">
-            </div>
-            <div class="work-info">
-                <h3>2D Art</h3>
-                <a href="/src/pages/art/art.html" class="work-button">View Gallery</a>
-            </div>
+      <!-- project / devlog -->
+      <div class="panel" id="project">
+        <div class="ph"><span class="blip"></span> current project // devlog</div>
+        <div class="pc proj">
+          <div class="info">
+            <h4>UNTITLED_SIM</h4>
+            <div class="stat">▸ stealth-action immersive sim · Unity</div>
+            <p>a one-operator infiltration sim set in a contested soviet-bloc sprawl. light/shadow + sound meter, leaning, a 3D-tetris inventory, brutalist level chunks i model in Blender.</p>
+            <div class="bar"><i></i><span>62%</span></div>
+            <div class="tags"><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">Blender</span><span class="tag">PS1-fog</span></div>
+            <p style="margin-top:8px; font-family:var(--mono); font-size:15px; color:var(--green-dim);">&gt; devlog 014: the shadow meter finally lies to the AI correctly.</p>
+          </div>
         </div>
-        
-        <div class="work-card right">
-            <div class="work-image">
-                <img src="public/images/preview-models.jpg" alt="3D Models" loading="lazy">
-            </div>
-            <div class="work-info">
-                <h3>Models</h3>
-                <a href="/src/pages/models/models.html" class="work-button">Browse Models</a>
-            </div>
+      </div>
+
+      <div class="hazard"></div>
+
+      <!-- gallery -->
+      <div class="panel" id="gallery">
+        <div class="ph red"><span class="blip"></span> media wall</div>
+        <div class="pc">
+          <div class="gallery">
+            <div class="cell"><img src="build/assets/media/m-witch-jet.jpg" alt="" /></div>
+            <div class="cell"><img src="build/assets/media/m-eris.webp" alt="" /></div>
+            <div class="cell"><img src="build/assets/media/m-trio.jpg" alt="" /></div>
+            <div class="cell"><img src="build/assets/media/m-400.webp" alt="" /></div>
+            <div class="cell"><img src="build/assets/media/m-wide1.webp" alt="" /></div>
+            <div class="cell"><img src="build/assets/media/m-persona-banner.jpg" alt="" /></div>
+            <div class="cell"><img src="build/assets/media/m-notcute.png" alt="" /></div>
+          </div>
+          <div style="font-family:var(--mono); font-size:14px; color:var(--green-dim); margin-top:8px;">▸ click any to enlarge</div>
         </div>
-        
-        <div class="work-card left">
-            <div class="work-image">
-                <img src="public/images/preview-games.jpg" alt="Game Development" loading="lazy">
-            </div>
-            <div class="work-info">
-                <h3>Games</h3>
-                <a href="/src/pages/games/games.html" class="work-button">Play Games</a>
-            </div>
+      </div>
+
+      <div class="hazard"></div>
+
+      <!-- collections -->
+      <div class="panel" id="collect">
+        <div class="ph"><span class="blip"></span> Top3 Collection</div>
+        <div class="pc collect">
+          <div class="c"><h5>games</h5><div class="top">Peripeteia</div><div>Deepwoken</div><div>Beyond Citadel</div></div>
+          <div class="c"><h5>anime</h5><div class="top">Mushoku Tensei</div><div>FLCL</div><div>Madoka Magica</div></div>
+          <div class="c"><h5>artists</h5><div class="top">Cupsize</div><div>inkstreet101</div><div>Panchiko</div></div>
         </div>
+      </div>
+
+      <div class="hazard"></div>
+
+      <!-- 88x31 wall + webring -->
+      <div class="panel">
+        <div class="ph"><span class="blip"></span> buttons // link me</div>
+        <div class="pc">
+          <div class="wall">
+            <img src="build/assets/buttons/b-wsmz.png" width="88" height="31" alt="wsmz uwu" />
+            <img src="build/assets/buttons/b-fauux.gif" width="97" height="31" alt="wired sound" />
+            <img src="build/assets/buttons/b-cheru.png" width="88" height="31" alt="cheru" />
+            <img src="build/assets/buttons/b-konata.gif" width="88" height="31" alt="lucky star" />
+            <img src="build/assets/buttons/b-miku.gif" width="88" height="31" alt="miku" />
+            <img src="build/assets/buttons/b-eva.gif" width="88" height="31" alt="evangelion" />
+            <img src="build/assets/buttons/b-zettai.gif" width="88" height="31" alt="zettai ryouiki" />
+            <img src="build/assets/buttons/b-tocxjo.gif" width="88" height="31" alt="toejo" />
+            <img src="build/assets/buttons/b-underwear.gif" width="88" height="31" alt="underwear is for losers" />
+            <img src="build/assets/buttons/b-bluepantsu.gif" width="88" height="31" alt="blue" />
+            <img src="build/assets/buttons/b-blink.gif" width="88" height="31" alt="blink" />
+            <img src="build/assets/buttons/b-notall.gif" width="88" height="31" alt="not all" />
+            <img src="build/assets/buttons/b-dawa.gif" width="88" height="31" alt="dawa" />
+            <img src="build/assets/buttons/b-asof.gif" width="88" height="31" alt="asof" />
+            <img src="build/assets/buttons/b-aban.gif" width="88" height="31" alt="aban" />
+            <img src="build/assets/buttons/b-363787.gif" width="88" height="31" alt="363787" />
+            <img src="build/assets/buttons/b-blueberry.png" width="88" height="31" alt="blueberrymuffinss" />
+            <img src="build/assets/buttons/b-beany.png" width="88" height="31" alt="riolu lover" />
+            <img src="build/assets/buttons/b-sxpn4n.gif" width="84" height="18" alt="" />
+            <img src="build/assets/buttons/b-strip1.webp" width="97" height="18" alt="" />
+            <img src="build/assets/buttons/b-strip2.webp" width="150" height="20" alt="" />
+            <img src="build/assets/buttons/b-strip3.webp" width="114" height="18" alt="" />
+            <img src="build/assets/buttons/b-boobies.gif" width="150" height="20" alt="i love boobies" />
+            <img src="build/assets/buttons/b-wide1.jpg" width="200" height="36" alt="marie" />
+            <img src="build/assets/buttons/b-wide2.jpg" width="200" height="36" alt="callie" />
+            <img src="build/assets/buttons/b-banner1.webp" width="300" height="40" alt="joker" />
+            <img src="build/assets/buttons/b-knife.png" width="99" height="56" alt="knife enthusiast" />
+            <img src="build/assets/buttons/b-stamp1.png" width="100" height="56" alt="stamp" />
+            <img src="build/assets/buttons/b-joker.png" width="99" height="57" alt="pleasant boy" />
+            <img src="build/assets/buttons/b-176.gif" width="100" height="50" alt="stamp" />
+          </div>
+          <div class="webring">⟲ part of the <a href="#">dead-net webring</a> · <a href="#">‹ prev</a> · <a href="#">rand</a> · <a href="#">next ›</a></div>
+        </div>
+      </div>
+
+      <div class="hazard"></div>
+
+      <!-- comments -->
+      <div class="panel" id="comments">
+        <div class="ph red"><span class="blip"></span> guestbook</div>
+        <div class="pc">
+          <div id="cmtList">
+            <div class="cmt"><div class="av"><img src="build/assets/pfp.png" alt="" /></div><div class="bd"><span class="who">xX_signal_Xx</span><span class="when">2:14am</span><p>the cat followed my cursor across the whole sprawl. 10/10 node ▓</p></div></div>
+            <div class="cmt"><div class="av"><img src="build/assets/moe.jpg" alt="" /></div><div class="bd"><span class="who">cactus_operator</span><span class="when">yesterday</span><p>earl grey gang. peripeteia supremacy 🍵</p></div></div>
+          </div>
+          <div class="cmtform"><input class="nm" id="cName" placeholder="handle" /><input class="msg" id="cMsg" placeholder="leave a transmission…" /><button id="cSend">post</button></div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <a href="#about">about</a> · <a href="#project">devlog</a> · <a href="https://github.com/kumuii" target="_blank">github</a> · <a href="mailto:contact@kumuii.dev">contact</a><br>
+        © 19XX–∞ kumuii · all signals reserved · <span style="color:var(--soviet)">★</span> ДИСПУТНАЯ ЗОНА<br>
+        <span class="dis">disclaimer: this is a standalone node and is not affiliated with the Disputed Zone in any way.</span>
+      </div>
     </div>
-</section>
+  </div>
+</div>
 
-
-    <!-- contact -->
-<section id="contact">
-    <div class="container">
-        <h2 class="section-title">Get In Touch</h2>
-        <div class="contact-wrapper">
-            <div class="contact-info">
-                <h3>Let's work together</h3>
-                <p>I'm always interested in hearing about new projects and opportunities.</p>
-                
-                <div class="social-links">
-                    <a href="mailto:contact@kumuii.dev" class="social-icon" aria-label="Email">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                    <a href="https://github.com/kumuii" class="social-icon" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://x.com/CriPerS3" class="social-icon" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="https://discordapp.com/users/524948157591715879" class="social-icon" aria-label="Discord">
-                        <i class="fab fa-discord"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <form id="contact-form" class="contact-form">
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="Your Name" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="email" placeholder="Your Email" required>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-                </div>
-                <button type="submit" class="btn-primary">Send Message</button>
-            </form>
-        </div>
+<!-- music player launcher + window -->
+<div class="amp-launcher" id="ampLauncher"><span class="dot"></span>♫ kumuiiAMP.exe</div>
+<div class="w95" id="ampWin">
+  <div class="tbar" id="ampDrag">
+    <span class="ic">♫</span><span class="tt">kumuiiAMP.exe</span>
+    <button id="ampMin">_</button><button id="ampClose">×</button>
+  </div>
+  <div class="menu"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>O</u>ptions</span><span><u>H</u>elp</span></div>
+  <div class="amp-inner">
+    <div class="amp-head">
+      <div class="disc" id="vinyl"></div>
+      <div class="cover-wrap"><img id="ampCover" src="build/assets/pfp.png" alt="" /></div>
     </div>
-</section>
+    <div class="amp-meta">
+      <div class="ru2">// signal</div>
+      <div class="nm" id="ampNm"><span class="s">— press play —</span></div>
+      <div class="row2"><span id="ampBy">kumuii</span><span id="ampTime">0:00</span></div>
+      <div class="amp-viz" id="ampViz"></div>
+    </div>
+    <div class="amp-ctrls">
+      <button id="ampPrev">|◀</button><button class="play" id="ampPlay">▶</button><button id="ampNext">▶|</button>
+    </div>
+    <div class="amp-pl" id="ampPl"></div>
+    <div class="amp-foot"><span id="ampSub">stopped</span><span>♪ <b>add tracks</b> → build/tracks/</span></div>
+  </div>
+</div>
 
+<!-- lightbox -->
+<div id="lightbox"><img alt="" /></div>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Kumuii. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- anime.js & three.js -->
-    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
-        }
-    }
-    </script>
-    <script type="module" src="src/scene.js"></script>
-    <script type="module" src="src/main.js"></script>
+<script src="build/synth.js"></script>
+<script src="build/oneko.js"></script>
+<script src="build/profile.js"></script>
+<script src="build/cursor-anim.js"></script>
 </body>
 </html>

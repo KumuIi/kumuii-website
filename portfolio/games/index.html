@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kumuii Game Archive - Browse and play games by Kumuii.">
+    <title>GAME ARCHIVE :: KUMUII</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="games.css">
+    <link rel="stylesheet" href="../src/style.css">
+
+    <!-- Inline style to prevent flash on transition -->
+    <style>
+        .transition-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #6366f1;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .transition-cover.active {
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Check if transitioning and show cover immediately -->
+    <script>
+        if (sessionStorage.getItem('playEnterTransition') === 'true') {
+            document.write('<div class="transition-cover active"></div>');
+        }
+    </script>
+</head>
+<body>
+    <div class="tv-static"></div>
+
+    <div class="crt-container">
+        <div class="scanlines"></div>
+        <div class="vignette"></div>
+
+        <div class="tracking-line"></div>
+        <div class="tracking-line"></div>
+
+        <div class="archive-screen">
+            <header class="archive-header">
+                <div class="glitch-title" data-text="[[ GAME ARCHIVE ]]">[[ GAME ARCHIVE ]]</div>
+                <div class="vcr-timestamp">REC ● 1987.12.25 23:59</div>
+                <a href="/portfolio/index.html#my-work" class="exit-btn">◄◄ EXIT ARCHIVE</a>
+            </header>
+
+            <div class="games-gallery">
+                <article class="game-box" data-game="eliteelf">
+                    <div class="tv-frame">
+                        <div class="static-burst active"></div>
+                        <div class="game-thumbnail coming-soon">
+                            <div class="signal-lost">
+                                <div class="bars"></div>
+                                <p>NO SIGNAL</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-label">
+                        <h2 class="game-name">PROJECT ???</h2>
+                        <p class="game-year">19?? • ??????? • ?????</p>
+                        <p class="game-tagline">SIGNAL LOST - PLEASE STAND BY</p>
+                        <button class="enter-btn disabled" disabled>► LOCKED</button>
+                    </div>
+                </article>
+
+                <article class="game-box" data-game="comingsoon">
+                    <div class="tv-frame">
+                        <div class="static-burst active"></div>
+                        <div class="game-thumbnail coming-soon">
+                            <div class="signal-lost">
+                                <div class="bars"></div>
+                                <p>NO SIGNAL</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-label">
+                        <h2 class="game-name">PROJECT ???</h2>
+                        <p class="game-year">19?? • ??????? • ?????</p>
+                        <p class="game-tagline">SIGNAL LOST - PLEASE STAND BY</p>
+                        <button class="enter-btn disabled" disabled>► LOCKED</button>
+                    </div>
+                </article>
+            </div>
+
+            <footer class="archive-footer">
+                <div class="status-bar">
+                    <span class="blink">▌</span>
+                    <span>SYSTEM STATUS: OPERATIONAL</span>
+                    <span class="blink">▐</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+    <script src="games.js"></script>
+    <script type="module" src="../src/transitions-init.js"></script>
+</body>
+</html>

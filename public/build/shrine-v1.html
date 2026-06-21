@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>★ kumuii's room ★</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=VT323&family=Pacifico&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --pixel: 'Pixelify Sans', sans-serif;
+    --mono: 'VT323', monospace;
+    --script: 'Pacifico', cursive;
+    --cute: 'Comic Sans MS', 'Pixelify Sans', sans-serif;
+    --pink: #ff5fcb;
+    --hot: #ff1493;
+    --cyan: #34f5ff;
+    --purple: #9d4bff;
+    --lime: #aaff2a;
+    --ink: #1a0726;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body {
+    width: 1280px; height: 860px; cursor: default; user-select: none;
+    font-family: var(--cute); color: #2a0d3a;
+    background-color: #16001f;
+    background-image:
+      radial-gradient(circle at 12px 12px, rgba(255,95,203,.55) 1.5px, transparent 2px),
+      radial-gradient(circle at 32px 40px, rgba(52,245,255,.5) 1.5px, transparent 2px),
+      radial-gradient(circle at 52px 20px, rgba(170,255,42,.4) 1px, transparent 2px),
+      linear-gradient(135deg, #2a0640 0%, #160024 50%, #2a0640 100%);
+    background-size: 64px 64px, 64px 64px, 64px 64px, 100% 100%;
+  }
+  a { color: var(--cyan); }
+
+  .layout { position: absolute; inset: 0; padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+
+  /* ---- top banner ---- */
+  .banner {
+    border: 3px ridge var(--pink); border-radius: 8px; background: #0c0014;
+    padding: 8px 14px; display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 0 0 2px #16001f, 0 0 22px rgba(255,95,203,.4);
+    position: relative; overflow: hidden;
+  }
+  .banner h1 {
+    margin: 0; font-family: var(--script); font-size: 40px; line-height: 1;
+    background: linear-gradient(90deg, #fff, var(--pink) 30%, var(--cyan) 60%, var(--lime));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(2px 2px 0 #6a0050);
+  }
+  .banner .sub { font-family: var(--pixel); font-weight: 700; color: var(--cyan); font-size: 15px; letter-spacing: 1px; }
+  .banner .star { font-family: var(--pixel); color: var(--lime); font-size: 26px; animation: spin 4s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .marqwrap { font-family: var(--mono); font-size: 22px; color: var(--lime); overflow: hidden; white-space: nowrap; flex: 1; margin: 0 18px; }
+  .marqwrap .m { display: inline-block; padding-left: 100%; animation: marq 16s linear infinite; }
+  @keyframes marq { to { transform: translateX(-100%); } }
+  .marqwrap .m b { color: var(--pink); } .marqwrap .m i { color: var(--cyan); font-style: normal; }
+
+  /* ---- nav buttons ---- */
+  .nav { display: flex; gap: 8px; flex-wrap: wrap; }
+  .navb {
+    font-family: var(--pixel); font-weight: 600; font-size: 16px; color: #1a0726; cursor: pointer;
+    padding: 5px 14px; border: 2px outset #ffa6e6; border-radius: 4px;
+    background: linear-gradient(180deg, #ffd4f3, var(--pink)); text-decoration: none;
+  }
+  .navb:hover { background: linear-gradient(180deg, #fff, var(--cyan)); border-color: var(--cyan); }
+  .navb.cy { background: linear-gradient(180deg, #d4fbff, var(--cyan)); }
+  .navb.li { background: linear-gradient(180deg, #ecffc4, var(--lime)); }
+
+  /* ---- grid ---- */
+  .grid { flex: 1; display: grid; grid-template-columns: 268px 1fr 272px; gap: 10px; min-height: 0; }
+  .col { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+
+  .box { border: 3px ridge var(--purple); border-radius: 7px; background: rgba(255,250,253,.96); overflow: hidden;
+    box-shadow: 0 0 14px rgba(157,75,255,.35); }
+  .box.dk { background: rgba(14,0,22,.92); border-color: var(--cyan); box-shadow: 0 0 14px rgba(52,245,255,.3); }
+  .box > .bh {
+    font-family: var(--pixel); font-weight: 700; font-size: 15px; letter-spacing: .5px; color: #fff;
+    padding: 5px 11px; background: repeating-linear-gradient(45deg, var(--hot) 0 10px, #d80f7e 10px 20px);
+    display: flex; align-items: center; gap: 7px; text-shadow: 1px 1px 0 #6a0050;
+  }
+  .box.dk > .bh { background: repeating-linear-gradient(45deg, var(--purple) 0 10px, #7a2fd6 10px 20px); }
+  .box .bc { padding: 10px 12px; font-size: 14.5px; line-height: 1.5; color: #36123f; }
+  .box.dk .bc { color: #e9d6ff; }
+
+  /* about / pfp */
+  .pfp { width: 100%; height: 122px; border-radius: 6px; display: grid; place-items: center; margin-bottom: 8px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255,95,203,.7), transparent 60%),
+      radial-gradient(circle at 70% 70%, rgba(52,245,255,.7), transparent 60%),
+      linear-gradient(135deg, #2a0640, #16001f);
+    border: 2px dashed var(--pink); font-family: var(--pixel); font-weight: 700; color: #fff; position: relative; overflow: hidden; }
+  .pfp .big { font-size: 60px; filter: drop-shadow(0 0 10px var(--cyan)); }
+  .pfp .tag { position: absolute; bottom: 5px; right: 7px; font-family: var(--mono); font-size: 16px; color: var(--lime); }
+  .stat { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 17px; color: var(--hot); border-bottom: 1px dotted #d6a6e6; padding: 2px 0; }
+  .box.dk .stat { color: var(--cyan); border-color: #4a2a6a; }
+  .stat b { color: #2a0d3a; font-weight: normal; } .box.dk .stat b { color: #e9d6ff; }
+
+  /* winamp player */
+  .amp { background: linear-gradient(180deg, #3a1556, #1a0426); border-radius: 5px; padding: 8px; }
+  .amp .scr { background: #04140a; border: 1px solid #0c3d22; border-radius: 3px; padding: 5px 8px; font-family: var(--mono); }
+  .amp .scr .nm { color: #5fffa0; font-size: 19px; white-space: nowrap; overflow: hidden; }
+  .amp .scr .nm .s { display: inline-block; padding-left: 100%; animation: marq 8s linear infinite; }
+  .amp .scr .meta { color: #2fd47e; font-size: 14px; display: flex; justify-content: space-between; }
+  .viz { display: flex; align-items: flex-end; gap: 2px; height: 26px; margin: 6px 0; }
+  .viz i { flex: 1; background: linear-gradient(180deg, var(--cyan), var(--pink)); height: 8%; }
+  .amp .ctr { display: flex; gap: 5px; }
+  .amp .ctr button { flex: 1; font-family: var(--mono); font-size: 16px; cursor: pointer; color: #fff;
+    background: linear-gradient(180deg, #6a2f96, #3a1556); border: 1px solid #8a4fd6; border-radius: 3px; padding: 2px 0; }
+  .amp .ctr button:hover { background: linear-gradient(180deg, var(--cyan), #1a8a96); color: #04140a; }
+  .pl { margin-top: 6px; max-height: 92px; overflow: hidden; border: 1px solid #4a2a6a; border-radius: 3px; }
+  .pl .t { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 15px; color: #c9a6e6;
+    padding: 2px 7px; cursor: pointer; }
+  .pl .t:hover { background: #2a0d3a; color: #5fffa0; }
+  .pl .t.on { background: #1a3a26; color: #5fffa0; }
+
+  /* blinkies */
+  .blinkies { display: flex; flex-wrap: wrap; gap: 5px; }
+  .blinky { font-family: var(--mono); font-size: 13px; padding: 2px 6px; border: 1px solid; border-radius: 2px; }
+  .blinky.b1 { color: #000; background: var(--lime); border-color: #fff; }
+  .blinky.b2 { color: #fff; background: var(--hot); border-color: var(--cyan); animation: bl 1.2s steps(2) infinite; }
+  .blinky.b3 { color: var(--cyan); background: #0c0014; border-color: var(--cyan); }
+  .blinky.b4 { color: #000; background: var(--cyan); border-color: var(--hot); }
+  @keyframes bl { 50% { opacity: .35; } }
+
+  /* center shrine */
+  .shrine .bc { display: flex; flex-direction: column; gap: 9px; }
+  .shrine-hero { display: flex; gap: 12px; align-items: stretch; }
+  .shrine-img { width: 150px; flex: none; border-radius: 6px; border: 2px solid var(--cyan); overflow: hidden;
+    background: radial-gradient(circle at 50% 30%, #3a1556, #0c0014); display: grid; place-items: center; position: relative; }
+  .shrine-img .em { font-size: 64px; filter: drop-shadow(0 0 12px var(--hot)); }
+  .shrine-img .cap { position: absolute; bottom: 0; left: 0; right: 0; font-family: var(--mono); font-size: 14px; text-align: center;
+    color: var(--lime); background: rgba(0,0,0,.6); }
+  .shrine-txt p { margin: 0 0 7px; font-size: 14px; line-height: 1.5; color: #e9d6ff; }
+  .shrine-txt .hl { color: var(--cyan); } .shrine-txt .hot { color: var(--pink); font-weight: bold; }
+  .quote { font-family: var(--mono); font-size: 18px; color: var(--lime); border-left: 3px solid var(--hot); padding-left: 10px; }
+
+  .projrow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .proj { border: 2px solid var(--pink); border-radius: 5px; padding: 8px 10px; background: rgba(255,250,253,.95); }
+  .proj .em { font-size: 22px; } .proj h5 { margin: 3px 0; font-family: var(--pixel); font-weight: 700; font-size: 14px; color: var(--hot); }
+  .proj p { margin: 0; font-size: 12.5px; color: #5a2a6a; line-height: 1.4; }
+  .proj .wip { font-family: var(--mono); font-size: 13px; color: #fff; background: var(--purple); padding: 0 6px; border-radius: 3px; }
+
+  /* guestbook */
+  .gb .msg { border-bottom: 1px dotted #d6a6e6; padding: 5px 0; font-size: 13px; }
+  .box.dk .gb .msg { border-color: #4a2a6a; }
+  .gb .msg .who { font-family: var(--pixel); font-weight: 700; color: var(--hot); font-size: 13px; }
+  .box.dk .gb .who { color: var(--cyan); }
+  .gb .msg .when { font-family: var(--mono); color: #9a6aba; font-size: 13px; float: right; }
+  .gb .msg p { margin: 2px 0 0; color: #e9d6ff; }
+  .gbform { display: flex; gap: 5px; margin-top: 7px; }
+  .gbform input { flex: 1; font-family: var(--cute); font-size: 13px; padding: 4px 7px; border-radius: 4px;
+    border: 1px solid var(--cyan); background: #1a0426; color: #fff; min-width: 0; }
+  .gbform button { font-family: var(--pixel); font-weight: 700; font-size: 13px; cursor: pointer; color: #1a0726;
+    background: var(--lime); border: 2px outset var(--lime); border-radius: 4px; padding: 0 10px; }
+
+  /* counter / webring */
+  .counter { font-family: var(--mono); font-size: 24px; text-align: center; color: var(--lime); }
+  .counter .digits { display: inline-flex; gap: 2px; }
+  .counter .digits span { background: #04140a; border: 1px solid #0c3d22; padding: 1px 5px; border-radius: 2px; color: #5fffa0; }
+  .webring { display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 16px; color: var(--cyan); }
+  .webring button { font-family: var(--mono); font-size: 16px; cursor: pointer; background: #1a0426; color: var(--cyan);
+    border: 1px solid var(--cyan); border-radius: 3px; padding: 1px 9px; }
+  .webring button:hover { background: var(--cyan); color: #04140a; }
+  .nowon { font-family: var(--mono); font-size: 15px; color: #c9a6e6; line-height: 1.5; }
+  .nowon b { color: var(--lime); }
+
+  .ticker { font-family: var(--mono); font-size: 15px; color: var(--lime); }
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- BANNER -->
+  <div class="banner">
+    <div>
+      <h1>kumuii's room</h1>
+      <div class="sub">⊹ a little corner of the dead internet ⊹</div>
+    </div>
+    <div class="marqwrap"><span class="m"><b>★</b> welcome 2 my site!! <i>turn ur sound on</i> ♫ now building an immersive sim in unity <b>★</b> peripeteia 4 life <i>♡</i> sign my guestbook!!! <b>★</b> best viewed @ 1024×768 w/ ur soul intact <i>♡</i> &nbsp;</span></div>
+    <div class="star">✦</div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <a class="navb" href="#">★ home</a>
+    <a class="navb cy" href="#proj">▸ projects</a>
+    <a class="navb li" href="#shrine">☆ peripeteia shrine</a>
+    <a class="navb" href="mailto:contact@kumuii.dev">✉ email me</a>
+    <a class="navb cy" href="https://github.com/kumuii" target="_blank">⌨ github</a>
+    <a class="navb li" href="https://x.com/CriPerS3" target="_blank">𝕏 twitter</a>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+    <!-- LEFT -->
+    <div class="col">
+      <div class="box">
+        <div class="bh">♡ about me ♡</div>
+        <div class="bc">
+          <div class="pfp"><span class="big">👼</span><span class="tag">.exe</span></div>
+          <div class="stat"><span>name</span><b>christopher (kumuii)</b></div>
+          <div class="stat"><span>class</span><b>game dev + 3D artist</b></div>
+          <div class="stat"><span>tools</span><b>unity · blender · c#</b></div>
+          <div class="stat"><span>mood</span><b>dystopian ♡</b></div>
+          <div class="stat"><span>status</span><b>★ online ★</b></div>
+        </div>
+      </div>
+      <div class="box dk">
+        <div class="bh">♫ now playing ♫</div>
+        <div class="bc">
+          <div class="amp">
+            <div class="scr">
+              <div class="nm" id="ampName"><span class="s">— pick a song ♡ —</span></div>
+              <div class="meta"><span id="ampMeta">stereo ♥ 128k</span><span id="ampTime">0:00</span></div>
+            </div>
+            <div class="viz" id="viz"></div>
+            <div class="ctr"><button id="bPrev">|◀</button><button id="bPlay">▶</button><button id="bNext">▶|</button></div>
+            <div class="pl" id="pl"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="col">
+      <div class="box dk shrine" id="shrine" style="flex:1;">
+        <div class="bh">☆ ✶ MAMA'S SLEEPING ANGEL — a peripeteia shrine ✶ ☆</div>
+        <div class="bc">
+          <div class="shrine-hero">
+            <div class="shrine-img"><span class="em">🌃</span><span class="cap">disputed zone // 19XX</span></div>
+            <div class="shrine-txt">
+              <p>this is the game that <span class="hot">rewired my whole brain.</span> a cold-war-that-never-ended, a metal sprawl on a contested border, <span class="hl">cybernetics with no rules.</span></p>
+              <p>a one-woman army — half machine, drinks earl grey, keeps a <span class="hl">cactus collection.</span> compassion or cruelty, ur choice.</p>
+              <div class="quote">"the year is 19XX." ♡</div>
+            </div>
+          </div>
+          <div class="projrow" id="proj">
+            <div class="proj"><span class="em">🎮</span><h5>untitled immersive sim</h5><p>stealth-action in unity. shadow meter, leaning, 3D-tetris inventory. <span class="wip">WIP</span></p></div>
+            <div class="proj"><span class="em">🗿</span><h5>disputed zone assets</h5><p>brutalist sci-fi props + a cyborg bust in blender. <span class="wip">WIP</span></p></div>
+            <div class="proj"><span class="em">🌐</span><h5>this website ♡</h5><p>handmade y2k hub. no frameworks, just love + chiptune.</p></div>
+            <div class="proj"><span class="em">🎨</span><h5>2D / 3D art dump</h5><p>models, sketches & little guys. always drawing.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+      <div class="box">
+        <div class="bh">✎ sign my guestbook!</div>
+        <div class="bc gb">
+          <div id="gbList">
+            <div class="msg"><span class="who">xX_neon_Xx</span><span class="when">2:14am</span><p>omg this site is so cool ♡♡ the music slaps</p></div>
+            <div class="msg"><span class="who">cactus_lover99</span><span class="when">yesterday</span><p>marie supremacy. earl grey gang 🍵</p></div>
+          </div>
+          <div class="gbform"><input id="gbName" placeholder="name" /><input id="gbMsg" placeholder="say hi ♡" /><button id="gbSend">post</button></div>
+        </div>
+      </div>
+      <div class="box dk">
+        <div class="bh">◷ you are visitor #</div>
+        <div class="bc">
+          <div class="counter"><div class="digits" id="counter"></div></div>
+          <div style="text-align:center; font-family:var(--mono); color:var(--pink); font-size:15px; margin-top:4px;">thanx 4 visiting ♡</div>
+        </div>
+      </div>
+      <div class="box dk">
+        <div class="bh">⟲ webring</div>
+        <div class="bc">
+          <div class="webring"><button id="wPrev">◀ prev</button><span>♡ y2k-core ♡</span><button id="wNext">next ▶</button></div>
+          <div class="nowon" style="margin-top:8px;">
+            <b>♥ status:</b> caffeinated<br>
+            <b>♥ playing:</b> peripeteia (again)<br>
+            <b>♥ listening:</b> see player ←
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="bh">★ blinkies ★</div>
+        <div class="bc">
+          <div class="blinkies">
+            <span class="blinky b1">100% cyborg</span><span class="blinky b2">♥ anime ♥</span>
+            <span class="blinky b3">no AI art</span><span class="blinky b4">unity user</span>
+            <span class="blinky b1">y2k 4ever</span><span class="blinky b3">save ur disks</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="synth.js"></script>
+<script>
+(function () {
+  'use strict';
+  const SONGS = window.CHIP_SONGS;
+  const synth = new ChipSynth(); synth.setVolume(0.7);
+  const order = ['neonDream', 'disputedZone', 'greensleeves', 'odeToJoy', 'canon'];
+  let cur = 0, playing = false, secs = 0, secTimer;
+
+  // playlist
+  const pl = document.getElementById('pl');
+  order.forEach((id, i) => {
+    const s = SONGS[id];
+    const t = document.createElement('div'); t.className = 't';
+    t.innerHTML = '<span>' + String(i + 1).padStart(2, '0') + '. ' + s.name + '</span><span>♥</span>';
+    t.onclick = () => { cur = i; start(); };
+    pl.appendChild(t);
+  });
+  const items = [...pl.children];
+
+  // viz
+  const viz = document.getElementById('viz');
+  for (let i = 0; i < 26; i++) viz.appendChild(document.createElement('i'));
+  const bars = [...viz.children];
+  let vraf;
+  function animViz(on) {
+    clearTimeout(vraf);
+    if (!on) { bars.forEach(b => b.style.height = '8%'); return; }
+    (function loop() { bars.forEach(b => b.style.height = (8 + Math.random() * 92) + '%'); vraf = setTimeout(loop, 95); })();
+  }
+
+  const ampName = document.getElementById('ampName'), ampMeta = document.getElementById('ampMeta');
+  const bPlay = document.getElementById('bPlay');
+  function paint() { items.forEach((it, i) => it.classList.toggle('on', i === cur && playing)); }
+  function setName() {
+    const s = SONGS[order[cur]];
+    ampName.innerHTML = '<span class="s">♪ ' + s.name + ' — ' + s.by + ' &nbsp;&nbsp;</span>';
+    ampMeta.textContent = playing ? '▶ playing ♥' : 'stereo ♥ 128k';
+  }
+  function start() {
+    playing = true; synth.play(order[cur]); bPlay.textContent = '❚❚';
+    setName(); paint(); animViz(true);
+    secs = 0; clearInterval(secTimer);
+    secTimer = setInterval(() => { secs++; document.getElementById('ampTime').textContent = Math.floor(secs / 60) + ':' + String(secs % 60).padStart(2, '0'); }, 1000);
+  }
+  function stop() { playing = false; synth.stop(); bPlay.textContent = '▶'; setName(); paint(); animViz(false); clearInterval(secTimer); }
+  bPlay.onclick = () => playing ? stop() : start();
+  document.getElementById('bNext').onclick = () => { cur = (cur + 1) % order.length; start(); };
+  document.getElementById('bPrev').onclick = () => { cur = (cur - 1 + order.length) % order.length; start(); };
+
+  // counter (persist)
+  let n = parseInt(localStorage.getItem('kumuii_visits') || '13371', 10) + 1;
+  localStorage.setItem('kumuii_visits', n);
+  document.getElementById('counter').innerHTML = String(n).padStart(6, '0').split('').map(d => '<span>' + d + '</span>').join('');
+
+  // guestbook
+  const gbList = document.getElementById('gbList');
+  function loadGB() {
+    const saved = JSON.parse(localStorage.getItem('kumuii_gb') || '[]');
+    saved.forEach(addMsg);
+  }
+  function addMsg(m) {
+    const d = document.createElement('div'); d.className = 'msg';
+    d.innerHTML = '<span class="who">' + esc(m.who) + '</span><span class="when">just now</span><p>' + esc(m.msg) + '</p>';
+    gbList.appendChild(d);
+  }
+  function esc(s) { return String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])); }
+  document.getElementById('gbSend').onclick = () => {
+    const who = document.getElementById('gbName').value.trim() || 'anon';
+    const msg = document.getElementById('gbMsg').value.trim();
+    if (!msg) return;
+    addMsg({ who, msg });
+    const saved = JSON.parse(localStorage.getItem('kumuii_gb') || '[]');
+    saved.push({ who, msg }); localStorage.setItem('kumuii_gb', JSON.stringify(saved));
+    document.getElementById('gbMsg').value = ''; document.getElementById('gbName').value = '';
+  };
+  loadGB();
+
+  // webring (cosmetic)
+  const rings = ['y2k-core', 'cyber-dreams', 'anime-webring', 'gamedev-ring', 'dollz-ring'];
+  let ri = 0;
+  document.getElementById('wNext').onclick = () => { ri = (ri + 1) % rings.length; updRing(); };
+  document.getElementById('wPrev').onclick = () => { ri = (ri - 1 + rings.length) % rings.length; updRing(); };
+  function updRing() { document.querySelector('.webring span').textContent = '♡ ' + rings[ri] + ' ♡'; }
+})();
+</script>
+</body>
+</html>

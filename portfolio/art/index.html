@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kumuii Art Gallery - Browse digital art and character illustrations.">
+    <title>Art Gallery - Kumuii</title>
+
+    <link rel="icon" type="image/png" href="../../public/images/logo.png">
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="art.css">
+    <link rel="stylesheet" href="../src/style.css">
+
+    <!-- Inline style to prevent flash on transition -->
+    <style>
+        .transition-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #6366f1;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .transition-cover.active {
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Check if transitioning and show cover immediately -->
+    <script>
+        if (sessionStorage.getItem('playEnterTransition') === 'true') {
+            document.write('<div class="transition-cover active"></div>');
+        }
+    </script>
+</head>
+<body>
+
+    <div class="logo">KUMUII GALLERY</div>
+
+    <div id="canvas-container"></div>
+
+    <div id="ui-layer">
+
+        <div class="slide-content" id="slide-0">
+            <span class="catalogue-number">01 / Collection</span>
+            <h1>Demon <br>Girl</h1>
+            <div class="description">
+                One of my character designs exploring the contrast between cute and edgy aesthetics. I wanted to experiment with horns and darker themes while keeping a friendly expression. Still learning how to balance these elements, but I'm happy with how the colors turned out.
+            </div>
+            <div class="meta-grid">
+                <span class="meta-label">Artist</span> <span class="meta-value">Kumuii</span>
+                <span class="meta-label">Year</span> <span class="meta-value">2025</span>
+                <span class="meta-label">Medium</span> <span class="meta-value">Digital Art</span>
+            </div>
+        </div>
+
+        <div class="slide-content" id="slide-1">
+            <span class="catalogue-number">02 / Collection</span>
+            <h1>Original <br>Character</h1>
+            <div class="description">
+                My first original character design that I'm really proud of. I spent a lot of time refining the clothing details and pose. This was a big step forward in developing my own art style and learning to create characters from scratch rather than following references.
+            </div>
+            <div class="meta-grid">
+                <span class="meta-label">Artist</span> <span class="meta-value">Kumuii</span>
+                <span class="meta-label">Year</span> <span class="meta-value">2026</span>
+                <span class="meta-label">Medium</span> <span class="meta-value">Digital Art</span>
+            </div>
+        </div>
+
+        <div class="slide-content" id="slide-2">
+            <span class="catalogue-number">03 / Collection</span>
+            <h1>Girl <br>Sketch</h1>
+            <div class="description">
+                Just a quick sketch I did to practice facial features and expressions. I've been trying to get better at loose sketching without overthinking every line. It's rough around the edges, but that's part of the learning process and capturing spontaneous ideas.
+            </div>
+            <div class="meta-grid">
+                <span class="meta-label">Artist</span> <span class="meta-value">Kumuii</span>
+                <span class="meta-label">Year</span> <span class="meta-value">2025</span>
+                <span class="meta-label">Medium</span> <span class="meta-value">Digital Sketch</span>
+            </div>
+        </div>
+
+        <div class="slide-content" id="slide-3">
+            <span class="catalogue-number">04 / Collection</span>
+            <h1>Red Ribbon <br>Girl</h1>
+            <div class="description">
+                I really enjoyed working on this one, especially the ribbon flow and how it frames the character. Been practicing fabric and clothing physics, and trying to add more dynamic elements to my compositions. The red accent helps draw the eye where I want it to go.
+            </div>
+            <div class="meta-grid">
+                <span class="meta-label">Artist</span> <span class="meta-value">Kumuii</span>
+                <span class="meta-label">Year</span> <span class="meta-value">2025</span>
+                <span class="meta-label">Medium</span> <span class="meta-value">Digital Art</span>
+            </div>
+        </div>
+
+        <div class="slide-content" id="slide-4">
+            <span class="catalogue-number">05 / Collection</span>
+            <h1>Character <br>Study</h1>
+            <div class="description">
+                A character study where I focused on anatomy and proportions. I'm always trying to improve my understanding of form and structure. These practice pieces help me develop my skills, even if they're not as polished as my finished work.
+            </div>
+            <div class="meta-grid">
+                <span class="meta-label">Artist</span> <span class="meta-value">Kumuii</span>
+                <span class="meta-label">Year</span> <span class="meta-value">2025</span>
+                <span class="meta-label">Medium</span> <span class="meta-value">Digital Sketch</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="scroll-hint">Scroll to explore</div>
+
+    <a href="/portfolio/index.html#my-work" class="exit-btn">← Back to Portfolio</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="module" src="./art.js"></script>
+    <script type="module" src="../src/transitions-init.js"></script>
+</body>
+</html>

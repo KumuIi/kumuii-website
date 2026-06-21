@@ -6,10 +6,11 @@ export default defineConfig({
     build: {
         rollupOptions: {
             input: {
-                main: resolve(__dirname, 'index.html'),
-                games: resolve(__dirname, 'src/pages/games/games.html'),
-                art: resolve(__dirname, 'src/pages/art/art.html'),
-                threeDart: resolve(__dirname, 'src/pages/models/models.html'),
+                main: resolve(__dirname, 'index.html'),                       // personal page (/)
+                portfolio: resolve(__dirname, 'portfolio/index.html'),         // professional portfolio (/portfolio/)
+                games: resolve(__dirname, 'portfolio/games/index.html'),       // /portfolio/games/
+                art: resolve(__dirname, 'portfolio/art/index.html'),           // /portfolio/art/
+                threeDart: resolve(__dirname, 'portfolio/models/index.html'),  // /portfolio/models/
             },
             output: {
                 entryFileNames: `assets/[name]-[hash].js`,

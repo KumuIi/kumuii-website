@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "gallery": "node scripts/gen-gallery.mjs",
+    "tracks": "node scripts/gen-tracks.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/gen-gallery.mjs",
+    "prebuild": "node scripts/gen-gallery.mjs && node scripts/gen-tracks.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"

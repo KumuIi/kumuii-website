@@ -258,7 +258,7 @@
   .amp-head { display: flex; gap: 0; align-items: center; position: relative; height: 116px; }
   .disc { position: absolute; left: 50px; top: 50%; transform: translateY(-50%); width: 100px; height: 100px; border-radius: 50%; z-index: 1;
     background: repeating-radial-gradient(circle at 50% 50%, #0a0a0a 0 2px, #161616 2px 4px); border: 1px solid #000; box-shadow: 0 4px 12px rgba(0,0,0,0.6); }
-  .disc::after { content: ''; position: absolute; inset: 24px; border-radius: 50%; background: url('build/assets/album-cover.png') center/cover, #1c9c4d; border: 1px solid #0a120d; box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 6px rgba(0,0,0,0.5); }
+  .disc::after { content: ''; position: absolute; inset: 24px; border-radius: 50%; background: var(--disc-cover, url('build/assets/album-cover.png')) center/cover, #1c9c4d; border: 1px solid #0a120d; box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 6px rgba(0,0,0,0.5); }
   .disc.spin { animation: spin 2.6s linear infinite; } @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
   .cover-wrap { position: relative; z-index: 2; width: 104px; height: 104px; border: 2px solid; border-color: var(--w95-d) var(--w95-l) var(--w95-l) var(--w95-d); background: #000; overflow: hidden; }
   .cover-wrap img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(1.05); }
@@ -377,7 +377,7 @@
         <div class="pc" style="padding:0;">
           <table class="int">
             <tr><td class="k">General</td><td>dystopian everything, liminal spaces, abandoned places, soviet/brutalist vibes... n moths (yes moths)</td></tr>
-            <tr><td class="k">Games</td><td><span style="color:var(--green-bright)">Peripeteia</span> (my goat), Persona series (P4 rn), S.T.A.L.K.E.R. series, DDLC, Cruelty Squad, System Shock, Armored Core 6, Song of Saya, Alice Madness Returns, Lunacid, Needy Streamer Overload, Mamas Sleeping Angels, The Citadel, Disillusion ST, Deepwoken, Beyond Citadel, Outward, Risk of Rain 2, Terraria, Project Zomboid, Rabbit and Steel, Your Only Move Is HUSTLE, iRacing, Chivalry. old jank &gt; new</td></tr>
+            <tr><td class="k">Games</td><td><span style="color:var(--green-bright)">Peripeteia</span> (my goat), Persona series (P4 rn), S.T.A.L.K.E.R. series, DDLC,Deus Ex, Spore, Cruelty Squad, System Shock, Armored Core 6, Song of Saya, Alice Madness Returns, Lunacid, Needy Streamer Overload, Mamas Sleeping Angels, The Citadel, Disillusion ST, Deepwoken, Beyond Citadel, Outward, Risk of Rain 2, Terraria, Dishonored,  Project Zomboid, We Were Here Series, re6, Prey, Rust, Undertale, The Forest/Sons of the Forest, Craftopia, Cry of Fear, Ninja STORM, GTA5, Dont Starve Together, BloonsTD, Elden Ring, Sekiro,  Half Life 2,  Rabbit and Steel, Your Only Move Is HUSTLE, iRacing, Chivalry. old jank > new. Also some games i defenetly wanna get into: Kenshi, Metro series, Kingdom Come, Cyberpunk 2077, Fallout series  &gt;</td></tr>
             <tr><td class="k">Anime+LN</td><td><span style="color:var(--green-bright)">Mushoku Tensei</span> (read the whole LN), Monogatari, Madoka Magica, FLCL, Re:Zero, Sonny Boy, Kokoro Connect, Gachiakuta, To Your Eternity, Chainsaw Man, Pupa, Sankarea, Make a Girl</td></tr>
             <tr><td class="k">Music</td><td>russian post-punk + breakcore + shoegaze mush. comfort song: <span style="color:var(--green-bright)">засыпай (inkstreet101)</span>.<br>the pile: Poshlaya Molly, inkstreet101, cupsize, ssshhhiiittt, Valentin Strykalo, Kino, ЗоХа, T3Y0ID, Basement, xela fella, Clarion, Panchiko, Циркониевый Браслет, Второй Ка, Pierce The Veil, LONGMAN, Porch Light, жанна орешкина, Metric, Yaibai The Maid, Yakui The Maid, Chikoi The Maid, kyNZai, Chevelle, ivri, Violent Vira, Radiohead, аллергия на котов, Yorli, emosl4t696, темный принц, HIM, Evanescence, Red Hot Chili Peppers, Grechka, Mirele, zhanulka, две тысячи ярдов, нзнси холод, IOWA, Zdob si Zdub, плм, кариолемма, hermaeusmora, sewerslvt, mad1kid, alexsucks, Brandy Senki, MASS OF THE FERMENTING DREGS, Сова, Ada Rook, NESYA... (prob forgot some)</td></tr>
             <tr><td class="k">Hobbies</td><td>learning to draw (amateur, getting there), collecting knives + figures, urbex / exploring decay, guitar (on n off), 3d modeling, programming, writing</td></tr>
@@ -633,6 +633,7 @@
 
 <script src="build/synth.js"></script>
 <script src="build/oneko.js"></script>
+<script src="build/tracks.js"></script>
 <script src="build/profile.js"></script>
 <script src="build/cursor-anim.js"></script>
 </body>

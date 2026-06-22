@@ -76,11 +76,14 @@
 
   /* ====================================================================
      MUSIC PLAYER  (draggable Win95 window, vinyl, synth + your tracks)
-     To add YOUR tracks: drop audio in build/tracks/ and add entries:
-        { name:'My Track', by:'kumuii', src:'build/tracks/mytrack.mp3', cover:'build/assets/pfp.png' }
+     Playlist is AUTO-BUILT from public/build/assets/songs/ by
+     scripts/gen-tracks.mjs (window.KUMUII_TRACKS, loaded via build/tracks.js).
+     To add a song: drop "Artist - Title.mp3" in songs/, optional cover with
+     the same name in songs/covers/, then run `npm run tracks`.
+     The fallback below is only used if tracks.js hasn't been generated yet.
      ==================================================================== */
-  const PLAYLIST = [
-    { name: 'Mr. Kill Myself', by: 'Sewerslvt', src: 'build/assets/sewerslvt-draining-love-story-08.mp3', cover: 'build/assets/album-cover.png' },
+  const PLAYLIST = (window.KUMUII_TRACKS && window.KUMUII_TRACKS.length) ? window.KUMUII_TRACKS : [
+    { name: 'Mr. Kill Myself', by: 'Sewerslvt', src: 'build/assets/songs/sewerslvt - Mr. Kill Myself.mp3', cover: 'build/assets/album-cover.png' },
   ];
   const DEFAULT_COVER = 'build/assets/album-cover.png';
   let BG_VOLUME = 0.25;
@@ -149,7 +152,9 @@
     const t = PLAYLIST[cur];
     nm.innerHTML = '<span class="s">' + t.name + '</span>';
     by.textContent = t.by || 'kumuii';
-    cover.src = t.cover || DEFAULT_COVER;
+    const art = t.cover || DEFAULT_COVER;
+    cover.src = art;
+    vinyl.style.setProperty('--disc-cover', 'url("' + art + '")'); // spinning vinyl shows the same cover
     sub.textContent = playing ? (t.src ? 'playing · audio' : 'playing · synth') : 'stopped';
   }
   function uiPlaying() {

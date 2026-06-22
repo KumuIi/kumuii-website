@@ -94,9 +94,14 @@
   audio.muted = false; // background music audible (starts on first interaction due to autoplay rules)
   let cur = 0, playing = false, userPaused = false, secs = 0, secTimer = null;
 
-  // resume background track where it left off
+  // resume background track where it left off — only for the FIRST track on
+  // page load. Once we've auto-advanced to another song, each track should
+  // start from 0, not jump to the previous track's timestamp.
   const POS_KEY = 'kumuii_track_pos';
+  let resumeArmed = true;
   audio.addEventListener('loadedmetadata', () => {
+    if (!resumeArmed) return;
+    resumeArmed = false;
     const saved = parseFloat(localStorage.getItem(POS_KEY) || '0');
     if (saved && isFinite(saved) && saved < audio.duration - 0.5) { try { audio.currentTime = saved; } catch (e) {} }
   });
@@ -170,7 +175,7 @@
     const t = PLAYLIST[cur];
     if (t.src) {
       if (audio.src.indexOf(t.src) === -1) audio.src = t.src;
-      audio.loop = true; audio.volume = BG_VOLUME;
+      audio.loop = false; audio.volume = BG_VOLUME; // advance to next track on end (see 'ended' handler)
       const pr = audio.play();
       if (pr && pr.then) pr.then(uiPlaying).catch(() => { /* autoplay blocked — waits for interaction */ });
       else uiPlaying();

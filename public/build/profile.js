@@ -183,15 +183,21 @@
   audio.addEventListener('ended', () => { cur = (cur + 1) % PLAYLIST.length; start(); });
   setInfo();
 
-  // ---- background music: low-volume autostart, retry once on first interaction ----
+  // ---- background music: autostart on load, retry on the very first page interaction ----
+  // (browsers block audio until the user interacts, so we listen for the earliest
+  //  possible gesture anywhere on the page, not just opening the player)
+  const KICK_EVENTS = ['pointerdown', 'mousemove', 'keydown', 'touchstart', 'scroll', 'click', 'wheel'];
   start();
   let bgKicked = false;
   function bgKick() {
-    if (bgKicked) return; bgKicked = true;
+    if (bgKicked) return;
     if (audio.paused && !userPaused) start();
-    ['pointerdown', 'keydown', 'touchstart'].forEach(ev => window.removeEventListener(ev, bgKick));
+    if (!audio.paused) {
+      bgKicked = true;
+      KICK_EVENTS.forEach(ev => window.removeEventListener(ev, bgKick));
+    }
   }
-  ['pointerdown', 'keydown', 'touchstart'].forEach(ev => window.addEventListener(ev, bgKick));
+  KICK_EVENTS.forEach(ev => window.addEventListener(ev, bgKick, { passive: true }));
 
   // open / minimize / close
   function openWin() { win.style.display = 'block'; launcher.style.display = 'none'; }
